@@ -14,7 +14,7 @@ CREATE TABLE Trainee(
 	UNIQUE(email)
 );
 
-/* Ajout d'une clé artificielle pour les performances */
+-- /* Ajout d'une clé artificielle pour les performances */
 
 CREATE TABLE SuperUser(
 	id INT,
@@ -30,16 +30,16 @@ CREATE TABLE SuperUser(
 	UNIQUE(email)
 );
 
-/* Ajout d'une clé artificielle pour les performances */
+-- /* Ajout d'une clé artificielle pour les performances */
 
------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Topic(
 	name VARCHAR(50),
 	PRIMARY KEY(name)
 );
 
------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Questionnaire(
 	id INT,
@@ -51,9 +51,9 @@ CREATE TABLE Questionnaire(
 	FOREIGN KEY(topic) REFERENCES Topic(name)
 );
 
-/* Ajout d'une clé artificielle pour les performances */
+-- /* Ajout d'une clé artificielle pour les performances */
 
------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Attempt(
 	id INT,
@@ -68,9 +68,9 @@ CREATE TABLE Attempt(
 	FOREIGN KEY(questionnaire) REFERENCES Questionnaire(id)
 );
 
-/* Ajout d'une clé artificielle pour les performances */
+-- /* Ajout d'une clé artificielle pour les performances */
 
------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Question(
 	id INT,
@@ -83,9 +83,9 @@ CREATE TABLE Question(
 	FOREIGN KEY(questionnaire) REFERENCES Questionnaire(id)
 );
 
-/* Ajout d'une clé artificielle pour les performances */
+-- /* Ajout d'une clé artificielle pour les performances */
 
------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Answer(
 	id INT,
@@ -97,27 +97,29 @@ CREATE TABLE Answer(
 	PRIMARY KEY(id),
 	UNIQUE(question, orderNumber),
 	FOREIGN KEY(question) REFERENCES Question(id),
-	CHECK(t) IN ('GoodAnswer', 'BadAnswer')
+	CHECK(t like 'GoodAnswer' or t like 'BadAnswer')
 );
 
-/* Ajout d'une clé artificielle pour les performances */
+-- /* Ajout d'une clé artificielle pour les performances */
 
 
-CREATE VIEW vGoodAnswer
-AS
-SELECT A.question, A.orderNumber, A.value, A.active
-FROM Answer A
-WHERE A.t='GoodAnswer';
+--CREATE VIEW vGoodAnswer
+--AS
+--SELECT A.question, A.orderNumber, A.value, A.active
+--FROM Answer A
+--WHERE A.t='GoodAnswer';
 
-CREATE VIEW vBadAnswer
-AS
-SELECT A.question, A.orderNumber, A.value, A.active
-FROM Answer A
-WHERE A.t='BadAnswer';
+--CREATE VIEW vBadAnswer
+--AS
+--SELECT A.question, A.orderNumber, A.value, A.active
+--FROM Answer A
+--WHERE A.t='BadAnswer';
 
------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE AttemptAnswer(
+	attempt INT,
+	answer INT,
 	PRIMARY KEY(attempt, answer),
 	FOREIGN KEY(attempt) REFERENCES Attempt(id),
 	FOREIGN KEY(answer) REFERENCES Answer(id)
