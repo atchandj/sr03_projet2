@@ -1,7 +1,7 @@
 -- ======================================== Modèle Logique de Données ========================================
 
 CREATE TABLE Trainee(
-	id INT,
+	id INT AUTO_INCREMENT,
 	email VARCHAR(30) NOT NULL,
 	surname VARCHAR(40) NOT NULL,
 	name VARCHAR(30) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE Trainee(
 -- /* Ajout d'une clé artificielle pour les performances */
 
 CREATE TABLE SuperUser(
-	id INT,
+	id INT AUTO_INCREMENT,
 	email VARCHAR(30) NOT NULL,
 	surname VARCHAR(40) NOT NULL,
 	name VARCHAR(30) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE Topic(
 -- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Questionnaire(
-	id INT,
+	id INT AUTO_INCREMENT,
 	topic VARCHAR(50) NOT NULL,
 	name VARCHAR(50) NOT NULL,
 	active BOOLEAN NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE Questionnaire(
 -- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Attempt(
-	id INT,
+	id INT AUTO_INCREMENT,
 	trainee INT NOT NULL,
 	questionnaire INT NOT NULL,
 	score FLOAT NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE Attempt(
 -- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Question(
-	id INT,
+	id INT AUTO_INCREMENT,
 	questionnaire INT NOT NULL,
 	orderNumber INT NOT NULL,
 	value VARCHAR(1000) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE Question(
 -- -----------------------------------------------------------------------------------------------
 
 CREATE TABLE Answer(
-	id INT,
+	id INT AUTO_INCREMENT,
 	question INT NOT NULL,
 	orderNumber INT NOT NULL,
 	value VARCHAR(1000) NOT NULL, 
@@ -103,17 +103,17 @@ CREATE TABLE Answer(
 -- /* Ajout d'une clé artificielle pour les performances */
 
 
---CREATE VIEW vGoodAnswer
---AS
---SELECT A.question, A.orderNumber, A.value, A.active
---FROM Answer A
---WHERE A.t='GoodAnswer';
+-- CREATE VIEW vGoodAnswer
+-- AS
+-- SELECT A.question, A.orderNumber, A.value, A.active
+-- FROM Answer A
+-- WHERE A.t='GoodAnswer';
 
---CREATE VIEW vBadAnswer
---AS
---SELECT A.question, A.orderNumber, A.value, A.active
---FROM Answer A
---WHERE A.t='BadAnswer';
+-- CREATE VIEW vBadAnswer
+-- AS
+-- SELECT A.question, A.orderNumber, A.value, A.active
+-- FROM Answer A
+-- WHERE A.t='BadAnswer';
 
 -- -----------------------------------------------------------------------------------------------
 
