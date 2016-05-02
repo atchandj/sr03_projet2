@@ -1,0 +1,285 @@
+======================================== Modèle Logique de Données ========================================
+
+/* Transformation de la relation d'héritage entre User et (Trainee, SuperUser) par les classes filles car:
+	- Héritage exclusif
+	- Héritage non complet
+	- Classe mère abstraite 
+	- Pas d'association avec la classe mère */
+
+Trainee(
+	#id: INT,
+	email: VARCHAR(30),
+	surname: VARCHAR(40),
+	name: VARCHAR(30),
+	password: VARCHAR(50),
+	phone: INT(10),
+	company: VARCHAR(30),
+	accountCreation: DATE,
+	accountStatus: BOOLEAN
+) avec KEY(email) et surname, name, password, phone, company, accountCreation, accountStatus NOT NULL
+
+/* Ajout d'une clé artificielle pour les performances */
+
+F+ = {
+	id -> email;
+	id -> surname; 
+	id -> name; 
+	id -> password; 
+	id -> phone;  
+	id -> company; 
+	id -> accountCreation; 
+	id -> accountStatus;
+	email -> id;
+	email -> surname; 
+	email -> name; 
+	email -> password; 
+	email -> phone;  
+	email -> company; 
+	email -> accountCreation; 
+	email -> accountStatus
+}
+
+/* La relation Trainee est en 1NF car elle possède une clé et tous ses attributs sont atomiques.
+La relation Trainee est en 2NF car elle est en 1NF et que tout attribut n'appartenant pas à une clé ne dépend 
+pas seulement d'une partie d'une clé (ou encore que toutes les DF issues d'une clé sont élémentaires).
+La relation Trainee est en 3NF car elle est en 2NF et que tout attribut n'appartenant pas à une clé ne dépend pas d'un
+autre attribut n'appartenant pas à une clé (ou encore que toutes les DFE vers des attributs n'appartenant pas à une 
+clé, sont issues d'une clé).  
+La relation Trainee est en BCNF car elle est en 3NF et que tout attribut n'appartenant pas à une clé n'est pas source 
+d'une DF vers une partie d'une clé (ou encore toutes les DFE, celles dans F+, ont la forme K -> A
+où K est une clé et A un attribut n'appartenant pas à une clé). */
+
+
+SuperUser(
+	#id: INT,
+	email: VARCHAR(30),
+	surname: VARCHAR(40),
+	name: VARCHAR(30),
+	password: VARCHAR(50),
+	phone: INT(10),
+	company: VARCHAR(30),
+	accountCreation: DATE,
+	accountStatus: BOOLEAN
+) avec KEY(email) et surname, name, password, phone, company, accountCreation, accountStatus NOT NULL
+
+/* Ajout d'une clé artificielle pour les performances */
+
+F+ = {
+	id -> email;
+	id -> surname; 
+	id -> name; 
+	id -> password; 
+	id -> phone;  
+	id -> company; 
+	id -> accountCreation; 
+	id -> accountStatus;
+	email -> id;
+	email -> surname; 
+	email -> name; 
+	email -> password; 
+	email -> phone;  
+	email -> company; 
+	email -> accountCreation; 
+	email -> accountStatus
+} 
+
+/* La relation SuperUser est en 1NF car elle possède une clé et tous ses attributs sont atomiques.
+La relation SuperUser est en 2NF car elle est en 1NF et que tout attribut n'appartenant pas à une clé ne dépend 
+pas seulement d'une partie d'une clé (ou encore que toutes les DF issues d'une clé sont élémentaires).
+La relation SuperUser est en 3NF car elle est en 2NF et que tout attribut n'appartenant pas à une clé ne dépend pas d'un
+autre attribut n'appartenant pas à une clé (ou encore que toutes les DFE vers des attributs n'appartenant pas à une 
+clé, sont issues d'une clé).  
+La relation SuperUser est en BCNF car elle est en 3NF et que tout attribut n'appartenant pas à une clé n'est pas source 
+d'une DF vers une partie d'une clé (ou encore toutes les DFE, celles dans F+, ont la forme K -> A
+où K est une clé et A un attribut n'appartenant pas à une clé). */
+
+-----------------------------------------------------------------------------------------------
+
+Topic(
+	#name: VARCHAR(50)
+)
+
+/* La relation Topic est en 1NF car elle possède une clé et tous ses attributs sont atomiques.
+La relation Topic est en 2NF car elle est en 1NF et que tout attribut n'appartenant pas à une clé ne dépend 
+pas seulement d'une partie d'une clé (ou encore que toutes les DF issues d'une clé sont élémentaires).
+La relation Topic est en 3NF car elle est en 2NF et que tout attribut n'appartenant pas à une clé ne dépend pas d'un
+autre attribut n'appartenant pas à une clé (ou encore que toutes les DFE vers des attributs n'appartenant pas à une 
+clé, sont issues d'une clé).  
+La relation Topic est en BCNF car elle est en 3NF et que tout attribut n'appartenant pas à une clé n'est pas source 
+d'une DF vers une partie d'une clé (ou encore toutes les DFE, celles dans F+, ont la forme K -> A
+où K est une clé et A un attribut n'appartenant pas à une clé). */
+
+-----------------------------------------------------------------------------------------------
+
+Questionnaire(
+	#id: INT,
+	topic=>Topic
+	name: VARCHAR(50)
+	active: BOOLEAN
+) avec KEY(topic, name) et active NOT NULL
+
+/* Ajout d'une clé artificielle pour les performances */
+
+F+ = {
+	id -> topic;
+	id -> name;
+	id -> active;
+	(topic, name) -> id;
+	(topic, name) -> active
+}
+
+/* La relation Topic est en 1NF car elle possède une clé et tous ses attributs sont atomiques.
+La relation Topic est en 2NF car elle est en 1NF et que tout attribut n'appartenant pas à une clé ne dépend 
+pas seulement d'une partie d'une clé (ou encore que toutes les DF issues d'une clé sont élémentaires).
+La relation Topic est en 3NF car elle est en 2NF et que tout attribut n'appartenant pas à une clé ne dépend pas d'un
+autre attribut n'appartenant pas à une clé (ou encore que toutes les DFE vers des attributs n'appartenant pas à une 
+clé, sont issues d'une clé).  
+La relation Topic est en BCNF car elle est en 3NF et que tout attribut n'appartenant pas à une clé n'est pas source 
+d'une DF vers une partie d'une clé (ou encore toutes les DFE, celles dans F+, ont la forme K -> A
+où K est une clé et A un attribut n'appartenant pas à une clé */
+
+-----------------------------------------------------------------------------------------------
+
+Attempt(
+	#id: INT,
+	trainee=>Trainee,
+	questionnaire=>Questionnaire,
+	score: FLOAT,
+	beginning: DATE,
+	end: DATE
+) avec KEY(trainee, questionnaire) et score, beginning, end NOT NULL
+
+/* Ajout d'une clé artificielle pour les performances */
+
+F+ = {
+	id -> trainee;
+	id -> questionnaire;
+	id -> score;
+	id -> beginning;
+	id -> end;
+	(trainee, questionnaire) -> id;
+	(trainee, questionnaire) -> score;
+	(trainee, questionnaire) -> beginning;
+	(trainee, questionnaire) -> end
+}
+
+/* La relation Attempt est en 1NF car elle possède une clé et tous ses attributs sont atomiques.
+La relation Attempt est en 2NF car elle est en 1NF et que tout attribut n'appartenant pas à une clé ne dépend 
+pas seulement d'une partie d'une clé (ou encore que toutes les DF issues d'une clé sont élémentaires).
+La relation Attempt est en 3NF car elle est en 2NF et que tout attribut n'appartenant pas à une clé ne dépend pas d'un
+autre attribut n'appartenant pas à une clé (ou encore que toutes les DFE vers des attributs n'appartenant pas à une 
+clé, sont issues d'une clé).  
+La relation Attempt est en BCNF car elle est en 3NF et que tout attribut n'appartenant pas à une clé n'est pas source 
+d'une DF vers une partie d'une clé (ou encore toutes les DFE, celles dans F+, ont la forme K -> A
+où K est une clé et A un attribut n'appartenant pas à une clé). */
+
+-----------------------------------------------------------------------------------------------
+
+Question(	
+	#id: INT,
+	questionnaire=>Questionnaire
+	orderNumber: INT
+	value: VARCHAR(1000),
+	active: BOOLEAN
+) avec KEY(questionnaire, orderNumber) value, active NOT NULL
+
+/* Ajout d'une clé artificielle pour les performances */
+
+F+ = {
+	id -> questionnaire;
+	id -> orderNumber;
+	id -> value;
+	id -> active;
+	(questionnaire, orderNumber) -> id;
+	(questionnaire, orderNumber) -> value;
+	(questionnaire, orderNumber) -> active
+}
+
+/* La relation Question est en 1NF car elle possède une clé et tous ses attributs sont atomiques.
+La relation Question est en 2NF car elle est en 1NF et que tout attribut n'appartenant pas à une clé ne dépend 
+pas seulement d'une partie d'une clé (ou encore que toutes les DF issues d'une clé sont élémentaires).
+La relation Question est en 3NF car elle est en 2NF et que tout attribut n'appartenant pas à une clé ne dépend pas d'un
+autre attribut n'appartenant pas à une clé (ou encore que toutes les DFE vers des attributs n'appartenant pas à une 
+clé, sont issues d'une clé).  
+La relation Question est en BCNF car elle est en 3NF et que tout attribut n'appartenant pas à une clé n'est pas source 
+d'une DF vers une partie d'une clé (ou encore toutes les DFE, celles dans F+, ont la forme K -> A
+où K est une clé et A un attribut n'appartenant pas à une clé). */
+
+-----------------------------------------------------------------------------------------------
+
+/* Transformation de la relation d'héritage entre Answer et (GoodAnswer, BadAnswer) par la classe mère car:
+	- Héritage exclusif
+	- Héritage complet
+	- Classe mère abstraite 
+	- Association avec classe mère */
+
+Answer(
+	#id: INT, 
+	question=>Question,
+	orderNumber: INT, 
+	value: VARCHAR(1000), 
+	active: BOOLEAN,
+	t: {GoodAnswer, BadAnswer}
+) avec KEY(question, orderNumber) et value, active, t NOT NULL
+
+/* Ajout d'une clé artificielle pour les performances */
+
+F+ = {
+	id -> question;
+	id -> orderNumber;
+	id -> value;
+	id -> active;
+	id -> t
+	(question, orderNumber) -> id;
+	(question, orderNumber) -> value;
+	(question, orderNumber) -> active;
+	(question, orderNumber) -> t
+}
+
+/* La relation Answer est en 1NF car elle possède une clé et tous ses attributs sont atomiques.
+La relation Answer est en 2NF car elle est en 1NF et que tout attribut n'appartenant pas à une clé ne dépend 
+pas seulement d'une partie d'une clé (ou encore que toutes les DF issues d'une clé sont élémentaires).
+La relation Answer est en 3NF car elle est en 2NF et que tout attribut n'appartenant pas à une clé ne dépend pas d'un
+autre attribut n'appartenant pas à une clé (ou encore que toutes les DFE vers des attributs n'appartenant pas à une 
+clé, sont issues d'une clé).  
+La relation Answer est en BCNF car elle est en 3NF et que tout attribut n'appartenant pas à une clé n'est pas source 
+d'une DF vers une partie d'une clé (ou encore toutes les DFE, celles dans F+, ont la forme K -> A
+où K est une clé et A un attribut n'appartenant pas à une clé). */
+
+vGoodAnswer = PROJECTION(
+	RESTRICTION(Answer, t = GoodAnswer), 
+	question,
+	orderNumber, 
+	value, 
+	active
+)
+
+vBadAnswer = PROJECTION(
+	RESTRICTION(Answer, t = BadAnswer), 
+	question,
+	orderNumber, 
+	value, 
+	active
+)
+
+-----------------------------------------------------------------------------------------------
+
+AttemptAnswer(
+	#attempt=>Attempt,
+	#answer=>Answer
+)
+
+/* La relation AttemptAnswer est en 1NF car elle possède une clé et tous ses attributs sont atomiques.
+La relation AttemptAnswer est en 2NF car elle est en 1NF et que tout attribut n'appartenant pas à une clé ne dépend 
+pas seulement d'une partie d'une clé (ou encore que toutes les DF issues d'une clé sont élémentaires).
+La relation AttemptAnswer est en 3NF car elle est en 2NF et que tout attribut n'appartenant pas à une clé ne dépend pas d'un
+autre attribut n'appartenant pas à une clé (ou encore que toutes les DFE vers des attributs n'appartenant pas à une 
+clé, sont issues d'une clé).  
+La relation AttemptAnswer est en BCNF car elle est en 3NF et que tout attribut n'appartenant pas à une clé n'est pas source 
+d'une DF vers une partie d'une clé (ou encore toutes les DFE, celles dans F+, ont la forme K -> A
+où K est une clé et A un attribut n'appartenant pas à une clé). */
+
+
+======================================== Remarque ========================================
+
+/* Toutes les relations du Modèle Logique de Données sont en BCNF (Boyce-Codd Normal Form). */
