@@ -1,6 +1,7 @@
 package beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class User {
 	private String email;
@@ -8,7 +9,8 @@ public class User {
 	private String name;
 	private String phone;
 	private String company;
-	private Date accountCreation;
+	private Timestamp accountCreation;
+	private boolean accountStatus;
 	
 	public String getEmail() {
 		return email;
@@ -40,18 +42,21 @@ public class User {
 	public void setCompany(String company) {
 		this.company = company;
 	}
-	public Date getAccountCreation() {
-		return accountCreation;
+	public String getAccountCreation() {
+		String formattedAccountCreation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(this.accountCreation);
+		return formattedAccountCreation;
 	}
-	public void setAccountCreation(Date accountCreation) {
+	public void setAccountCreation(Timestamp accountCreation) {
 		this.accountCreation = accountCreation;
 	}
-	public boolean isAccountStatus() {
-		return accountStatus;
+	public String getAccountStatus() {
+		if(accountStatus){
+			return "Le compte est activé";
+		}else{
+			return "Le compte n'est pas activé";
+		}
 	}
 	public void setAccountStatus(boolean accountStatus) {
 		this.accountStatus = accountStatus;
 	}
-	private boolean accountStatus;
 }
- 

@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -26,7 +27,6 @@ public class UserDaoImpl implements UserDao {
         try{
             connexion = daoFactory.getConnection();
        	
-            System.out.println("SELECT surname, name, phone, company, accountCreation, accountStatus FROM Trainee WHERE email= "+ tempUser.getEmail() + " AND surname="+ tempUser.getPassword() +";");
             preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT surname, name, password, phone, company, accountCreation, accountStatus FROM Trainee WHERE email=? AND password=?;");
             preparedStatement.setString(1, tempUser.getEmail());
             preparedStatement.setString(2, tempUser.getPassword());
@@ -37,6 +37,7 @@ public class UserDaoImpl implements UserDao {
                 String name = result.getString("name");
                 String phone = result.getString("phone");
                 String company = result.getString("company");
+                Timestamp accountCreation = result.getTimestamp("accountCreation");
                 boolean accountStatus = result.getBoolean("accountStatus");
 
                 trainee.setEmail(email);
@@ -44,6 +45,7 @@ public class UserDaoImpl implements UserDao {
                 trainee.setName(name);
                 trainee.setPhone(phone);
                 trainee.setCompany(company);
+                trainee.setAccountCreation(accountCreation);
                 trainee.setAccountStatus(accountStatus);
             }else{
             	throw new DaoException("Not a trainee.");
@@ -72,8 +74,7 @@ public class UserDaoImpl implements UserDao {
         try{
             connexion = daoFactory.getConnection();
        	
-            System.out.println("SELECT surname, name, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email= "+ tempUser.getEmail() + " AND surname="+ tempUser.getPassword() +";");
-            preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT surname, name, password, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email=? AND password=?;");
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT surname, name, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email=? AND password=?;");
             preparedStatement.setString(1, tempUser.getEmail());
             preparedStatement.setString(2, tempUser.getPassword());
             ResultSet result = preparedStatement.executeQuery();         
@@ -82,13 +83,16 @@ public class UserDaoImpl implements UserDao {
                 String surname = result.getString("surname");
                 String name = result.getString("name");
                 String phone = result.getString("phone");
-                String company = result.getString("company");                
+                String company = result.getString("company");  
+                Timestamp accountCreation = result.getTimestamp("accountCreation");
                 boolean accountStatus = result.getBoolean("accountStatus");
+                
                 superUser.setEmail(email);
                 superUser.setSurname(surname);
                 superUser.setName(name);
                 superUser.setPhone(phone);
                 superUser.setCompany(company);
+                superUser.setAccountCreation(accountCreation);
                 superUser.setAccountStatus(accountStatus);
             }else{
             	throw new DaoException("Not a super user.");

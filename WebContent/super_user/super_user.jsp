@@ -12,6 +12,8 @@
 		    	<p>Mail : <c:out value="${sessionScope.superUser.email}" /></p>
 		    	<p>Phone : <c:out value="${sessionScope.superUser.phone}" /></p>
 		    	<p>Company : <c:out value="${sessionScope.superUser.company}" /></p>
+		    	<p>Data de création : <c:out value="${sessionScope.superUser.accountCreation}" /></p>
+		    	<p>Etat : <c:out value="${sessionScope.superUser.accountStatus}" /></p>
 	    	</section>
 	    </c:if>
 	    <%@ include file="../footer.jsp" %>

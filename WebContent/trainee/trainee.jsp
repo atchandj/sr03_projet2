@@ -12,6 +12,8 @@
 		    	<p>Mail : <c:out value="${sessionScope.trainee.email}" /></p>
 		    	<p>Phone : <c:out value="${sessionScope.trainee.phone}" /></p>
 		    	<p>Company : <c:out value="${sessionScope.trainee.company}" /></p>
+		    	<p>Data de création : <c:out value="${sessionScope.trainee.accountCreation}" /></p>
+		    	<p>Etat : <c:out value="${sessionScope.trainee.accountStatus}" /></p>
 	    	</section>
 	    </c:if>
  	    <%@ include file="../footer.jsp" %>
