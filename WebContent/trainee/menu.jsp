@@ -4,5 +4,6 @@
 	<ul>
  		<li><a href="#" title="Vers la liste des questionnaires">Liste des questionnaires</a></li>
  		<li><a href="#" title="Vers les résultats obtenus">Résultats obtenus</a></li>
+ 		<li><a href="./deconnection" title="Vers le formulaire de connexion">Déconnexion</a></li>
 	</ul>
 </nav>
