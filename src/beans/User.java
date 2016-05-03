@@ -6,8 +6,7 @@ public class User {
 	private String email;
 	private String surname;
 	private String name;
-	private String password;
-	private int phone;
+	private String phone;
 	private String company;
 	private Date accountCreation;
 	
@@ -29,16 +28,10 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public String getCompany() {

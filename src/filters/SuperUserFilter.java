@@ -12,10 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.SuperUser;
+
 public class SuperUserFilter implements Filter {
-    public static final String CONNECTION_PAGE = "/";
-    public static final String ATT_SESSION_SUPERUSER_SURNAME = "superUserSurname";
-    public static final String ATT_SESSION_SUPERUSER_NAME = "superUserName";
+	private static final String CONNECTION_PAGE = "/connection";
+    private static final String ATT_SESSION_SUPERUSER = "superUser";
     
 	@Override
 	public void destroy() {
@@ -30,10 +31,9 @@ public class SuperUserFilter implements Filter {
 
         // Initiation of the session engine
         HttpSession session = request.getSession();
-		String superUserSurname = (String) session.getAttribute(ATT_SESSION_SUPERUSER_SURNAME);
-		String superUserName = (String) session.getAttribute(ATT_SESSION_SUPERUSER_NAME);
+        SuperUser superUser = (SuperUser) session.getAttribute(ATT_SESSION_SUPERUSER);
 
-        if ( (superUserSurname != null) && (superUserName == null) ) {
+        if (superUser != null) {
             /* We display the hidden page. */
             chain.doFilter( request, response );
         } else {

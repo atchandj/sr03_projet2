@@ -12,10 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Trainee;
+
 public class TraineeFilter implements Filter {
-    public static final String CONNECTION_PAGE = "/";
-    public static final String ATT_SESSION_TRAINEE_SURNAME = "traineeSurname";
-    public static final String ATT_SESSION_TRAINEE_NAME = "traineeName";
+	private static final String CONNECTION_PAGE = "/connection";
+    private static final String ATT_SESSION_TRAINEE = "trainee";
     
 	@Override
 	public void destroy() {
@@ -30,10 +31,9 @@ public class TraineeFilter implements Filter {
 
         // Initiation of the session engine
         HttpSession session = request.getSession();
-		String traineeSurname = (String) session.getAttribute(ATT_SESSION_TRAINEE_SURNAME);
-		String traineeName = (String) session.getAttribute(ATT_SESSION_TRAINEE_NAME);
+        Trainee trainee = (Trainee) session.getAttribute(ATT_SESSION_TRAINEE);
 
-		if( (traineeSurname != null) && (traineeName != null) ){
+		if(trainee != null){
             /* We display the hidden page. */
             chain.doFilter( request, response );
 		}else{

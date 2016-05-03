@@ -17,8 +17,12 @@ import beans.Trainee;
 
 public class Connection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    public static final String TRAINEE_PAGE = "/trainee";
-    public static final String SUPER_USER_PAGE = "/super_user";
+    private static final String CONNECTION_JSP = "/connection.jsp";
+    private static final String TRAINEE_PAGE = "/trainee";
+    private static final String SUPER_USER_PAGE = "/super_user";
+    private static final String ATT_SESSION_TRAINEE = "trainee";
+    private static final String ATT_SESSION_SUPERUSER = "superUser";
+
     private UserDao userDao;
     
     public Connection() {
@@ -38,20 +42,18 @@ public class Connection extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		String traineeSurname = (String) session.getAttribute("traineeSurname");
-		String traineeName = (String) session.getAttribute("traineeName");
+		Trainee trainee = (Trainee) session.getAttribute(ATT_SESSION_TRAINEE);
 		
-		String superUserSurname = (String) session.getAttribute("superUserSurname");
-		String superUserName = (String) session.getAttribute("superUserName");
+		SuperUser superUser = (SuperUser) session.getAttribute(ATT_SESSION_SUPERUSER);
 		
-		if((traineeSurname != null && traineeName != null) || (superUserSurname != null && superUserName != null)){
-			if(traineeSurname != null && traineeName != null){
+		if( trainee != null || superUser != null ){
+			if(trainee != null){
 	            request.getRequestDispatcher( TRAINEE_PAGE ).forward( request, response );
 			}else{
 	            request.getRequestDispatcher( SUPER_USER_PAGE ).forward( request, response );
 			}			
 		}else{
-			this.getServletContext().getRequestDispatcher("/connection.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher(CONNECTION_JSP).forward(request, response);
 		}
 	}
 
@@ -64,8 +66,7 @@ public class Connection extends HttpServlet {
 			Trainee trainee = this.userDao.getTrainee(tempUser);
 			
 			HttpSession session = request.getSession(); // Initiation of the session engine					
-			session.setAttribute("traineeSurname", trainee.getSurname()); // Creation of a session variable
-			session.setAttribute("traineeName", trainee.getName()); // Creation of a session variable
+			session.setAttribute(ATT_SESSION_TRAINEE, trainee); // Creation of a session variable
 			
 			response.sendRedirect( request.getContextPath() + TRAINEE_PAGE ); // Redirection
 		} catch (DaoException e) {
@@ -75,8 +76,7 @@ public class Connection extends HttpServlet {
 					superUser = this.userDao.getSuperUser(tempUser);
 					
 					HttpSession session = request.getSession(); // Initiation of the session engine					
-					session.setAttribute("superUserSurname", superUser.getSurname()); // Creation of a session variable
-					session.setAttribute("superUserName", superUser.getName()); // Creation of a session variable
+					session.setAttribute(ATT_SESSION_SUPERUSER, superUser); // Creation of a session variable
 					
 					response.sendRedirect( request.getContextPath() + SUPER_USER_PAGE ); // Redirection
 				} catch (DaoException e1) {
@@ -86,7 +86,7 @@ public class Connection extends HttpServlet {
 					}else{
 						request.setAttribute("errorMessage", errorMessage);
 					}
-					this.getServletContext().getRequestDispatcher("/connection.jsp").forward(request, response);
+					this.getServletContext().getRequestDispatcher(CONNECTION_JSP).forward(request, response);
 				}				
 			}			
 		}		

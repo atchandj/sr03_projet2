@@ -5,14 +5,15 @@
 		<title>Connection</title>
 	</head>
 	<body>
-	    <c:if test="${ !empty sessionScope.superUserSurname && !empty sessionScope.superUserName }">
-	        <p>Vous êtes l'administrateur : ${ sessionScope.superUserName } ${ sessionScope.superUserSurname } !</p>
+		<%@ include file="./menu.jsp" %>
+	    <c:if test="${ !empty sessionScope.superUser }">
+	        <section>
+		        <p>Vous êtes l'administrateur : ${ sessionScope.superUser.name } ${ sessionScope.superUser.surname } !</p>
+		    	<p>Mail : <c:out value="${sessionScope.superUser.email}" /></p>
+		    	<p>Phone : <c:out value="${sessionScope.superUser.phone}" /></p>
+		    	<p>Company : <c:out value="${sessionScope.superUser.company}" /></p>
+	    	</section>
 	    </c:if>
-	    <nav>
-	   	    <ul>
-		    	<li><a href="#" title="Vers la gestion des utilisateurs">Gestion des utilisateurs</a></li>
-		    	<li><a href="#" title="Vers la gestion des questionnaires">Gestion des questionnaires</a></li>
-		    </ul>
-	    </nav>
+	    <%@ include file="../footer.jsp" %>
 	</body>
 </html>

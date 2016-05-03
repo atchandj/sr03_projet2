@@ -8,16 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 
 public class TraineeMenu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String TRAINEE_JSP = "/trainee/trainee.jsp";
 
     public TraineeMenu() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher("/trainee/menu.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher(TRAINEE_JSP).forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher("/trainee/menu.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher(TRAINEE_JSP).forward(request, response);
 	}
 }

@@ -5,14 +5,15 @@
 		<title>Connection</title>
 	</head>
 	<body>
-	    <c:if test="${ !empty sessionScope.traineeSurname && !empty sessionScope.traineeName }">
-	        <p>Vous êtes le stagiaire : ${ sessionScope.traineeUserName } ${ sessionScope.traineeSurname } !</p>
-	    </c:if>  
-	    <nav>
-	   	    <ul>
-		    	<li><a href="#" title="Vers la liste des questionnaires">Liste des questionnaires</a></li>
-		    	<li><a href="#" title="Vers les résultats obtenus">Résultats obtenus</a></li>
-		    </ul>
-	    </nav>
+		<%@ include file="./menu.jsp" %>
+	    <c:if test="${ !empty sessionScope.trainee }">
+		    <section>
+		        <p>Vous êtes le stagiaire : ${ sessionScope.trainee.name } ${ sessionScope.trainee.surname } !</p>
+		    	<p>Mail : <c:out value="${sessionScope.trainee.email}" /></p>
+		    	<p>Phone : <c:out value="${sessionScope.trainee.phone}" /></p>
+		    	<p>Company : <c:out value="${sessionScope.trainee.company}" /></p>
+	    	</section>
+	    </c:if>
+ 	    <%@ include file="../footer.jsp" %>
 	</body>
 </html>
