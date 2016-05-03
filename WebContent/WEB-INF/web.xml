@@ -2,15 +2,18 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Projet 2 en SR03</display-name>
   <description>Evaluation de stagiaire</description>
+  
   <welcome-file-list>
     <welcome-file>connection</welcome-file>
   </welcome-file-list>
+  
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
       <include-prelude>/WEB-INF/taglibs.jsp</include-prelude>
     </jsp-property-group>
   </jsp-config>
+  
   <servlet>
     <servlet-name>Deconnection</servlet-name>
     <servlet-class>servlets.Deconnection</servlet-class>
@@ -28,24 +31,25 @@
     <url-pattern>/connection</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>TraineeMenu</servlet-name>
-    <servlet-class>servlets.TraineeMenu</servlet-class>
+    <servlet-name>TraineeHome</servlet-name>
+    <servlet-class>servlets.trainee.TraineeHome</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>TraineeMenu</servlet-name>
+    <servlet-name>TraineeHome</servlet-name>
     <url-pattern>/trainee</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>SuperUserMenu</servlet-name>
-    <servlet-class>servlets.SuperUserMenu</servlet-class>
+    <servlet-name>SuperUserHome</servlet-name>
+    <servlet-class>servlets.super_user.SuperUserHome</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SuperUserMenu</servlet-name>
+    <servlet-name>SuperUserHome</servlet-name>
     <url-pattern>/super_user</url-pattern>
   </servlet-mapping>
+  
   <filter>
     <filter-name>TraineeFilter</filter-name>
-    <filter-class>filters.TraineeFilter</filter-class>
+    <filter-class>filters.trainee.TraineeFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>TraineeFilter</filter-name>
@@ -53,7 +57,7 @@
   </filter-mapping>
   <filter>
     <filter-name>SuperUserFilter</filter-name>
-    <filter-class>filters.SuperUserFilter</filter-class>
+    <filter-class>filters.super_user.SuperUserFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>SuperUserFilter</filter-name>

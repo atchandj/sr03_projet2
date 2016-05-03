@@ -7,9 +7,9 @@ import java.sql.Timestamp;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-import beans.SuperUser;
 import beans.TemporaryUser;
-import beans.Trainee;
+import beans.super_user.SuperUser;
+import beans.trainee.Trainee;
 
 public class UserDaoImpl implements UserDao {
     private DaoFactory daoFactory;

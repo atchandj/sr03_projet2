@@ -9,11 +9,11 @@ import java.util.Properties;
 import com.mysql.jdbc.Connection;
 
 public class DaoFactory {
-    private static final String FILE_PROPERTIES       = "/dao/dao.properties";
-    private static final String PROPERTY_URL             = "url";
-    private static final String PROPERTY_DRIVER          = "driver";
+    private static final String FILE_PROPERTIES = "/dao/dao.properties";
+    private static final String PROPERTY_URL = "url";
+    private static final String PROPERTY_DRIVER = "driver";
     private static final String PROPERTY_USER_NAME = "username";
-    private static final String PROPERTY_PASSWORD    = "password";
+    private static final String PROPERTY_PASSWORD = "password";
 	
 	private String url;
 	private String username;

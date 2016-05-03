@@ -1,8 +1,8 @@
 package dao;
 
-import beans.SuperUser;
 import beans.TemporaryUser;
-import beans.Trainee;
+import beans.super_user.SuperUser;
+import beans.trainee.Trainee;
 
 public interface UserDao {
 	Trainee getTrainee(TemporaryUser tempUser) throws DaoException;

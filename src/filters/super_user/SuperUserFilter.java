@@ -1,4 +1,4 @@
-package filters;
+package filters.super_user;
 
 import java.io.IOException;
 
@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Trainee;
+import beans.super_user.SuperUser;
 
-public class TraineeFilter implements Filter {
+public class SuperUserFilter implements Filter {
 	private static final String CONNECTION_PAGE = "/connection";
-    private static final String ATT_SESSION_TRAINEE = "trainee";
+    private static final String ATT_SESSION_SUPERUSER = "superUser";
     
 	@Override
 	public void destroy() {
@@ -31,15 +31,15 @@ public class TraineeFilter implements Filter {
 
         // Initiation of the session engine
         HttpSession session = request.getSession();
-        Trainee trainee = (Trainee) session.getAttribute(ATT_SESSION_TRAINEE);
+        SuperUser superUser = (SuperUser) session.getAttribute(ATT_SESSION_SUPERUSER);
 
-		if(trainee != null){
+        if (superUser != null) {
             /* We display the hidden page. */
             chain.doFilter( request, response );
-		}else{
+        } else {
             /* Redirection to the connection page */
-			response.sendRedirect( request.getContextPath() + CONNECTION_PAGE );
-		}
+        	response.sendRedirect( request.getContextPath() + CONNECTION_PAGE );
+        }
     }
 
 	@Override

@@ -11,9 +11,9 @@ import dao.UserDao;
 import dao.DAOConfigurationException;
 import dao.DaoException;
 import dao.DaoFactory;
-import beans.SuperUser;
 import beans.TemporaryUser;
-import beans.Trainee;
+import beans.super_user.SuperUser;
+import beans.trainee.Trainee;
 
 public class Connection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
