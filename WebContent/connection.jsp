@@ -5,7 +5,6 @@
 		<title>Connection</title>
 	</head>
 	<body>
-    	<c:if test="${ !empty surname }"><p style="color:green;"><c:out value="${ surname }" /></p></c:if>
   	    <c:if test="${ !empty errorMessage }"><p style="color:red;"><c:out value="${ errorMessage }" /></p></c:if>
 	    <form method="post" action=".">
 		<p>

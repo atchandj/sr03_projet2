@@ -6,7 +6,6 @@
       <include-prelude>/WEB-INF/taglibs.jsp</include-prelude>
     </jsp-property-group>
   </jsp-config>
-  
   <servlet>
     <servlet-name>Connection</servlet-name>
     <servlet-class>servlets.Connection</servlet-class>
@@ -15,4 +14,36 @@
     <servlet-name>Connection</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>TraineeMenu</servlet-name>
+    <servlet-class>servlets.TraineeMenu</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TraineeMenu</servlet-name>
+    <url-pattern>/trainee</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>SuperUserMenu</servlet-name>
+    <servlet-class>servlets.SuperUserMenu</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SuperUserMenu</servlet-name>
+    <url-pattern>/super_user</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <filter-name>TraineeFilter</filter-name>
+    <filter-class>filters.TraineeFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>TraineeFilter</filter-name>
+    <url-pattern>/trainee/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>SuperUserFilter</filter-name>
+    <filter-class>filters.SuperUserFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SuperUserFilter</filter-name>
+    <url-pattern>/super_user/*</url-pattern>
+  </filter-mapping>
 </web-app>
