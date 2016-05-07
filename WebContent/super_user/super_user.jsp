@@ -5,6 +5,7 @@
 		<title>Connection</title>
 	</head>
 	<body>
+	    <%@ include file="../header.jsp" %>   
 		<%@ include file="./menu.jsp" %>
 	    <c:if test="${ !empty sessionScope.superUser }">
 	        <section>

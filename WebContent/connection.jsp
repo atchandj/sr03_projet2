@@ -5,6 +5,7 @@
 		<title>Connection</title>
 	</head>
 	<body>
+	    <%@ include file="../header.jsp" %>   
   	    <c:if test="${ !empty errorMessage }"><p style="color:red;"><c:out value="${ errorMessage }" /></p></c:if>
 	    <form method="post" action="./connection">
 			<p>
@@ -16,6 +17,7 @@
 				<input type="password" id="password" name="password"/>
 			</p>
 			<input type="submit" value="envoyer"/>
-	    </form>	    
+	    </form>	 
+	    <%@ include file="../footer.jsp" %>   
 	</body>
 </html>
