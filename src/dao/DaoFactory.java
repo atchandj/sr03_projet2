@@ -8,6 +8,9 @@ import java.util.Properties;
 
 import com.mysql.jdbc.Connection;
 
+import dao.super_user.UsersManagementDao;
+import dao.super_user.UsersManagementDaoImpl;
+
 public class DaoFactory {
     private static final String FILE_PROPERTIES = "/dao/dao.properties";
     private static final String PROPERTY_URL = "url";
@@ -68,5 +71,9 @@ public class DaoFactory {
 
     public UserDao getUserDao() {
         return new UserDaoImpl(this);
+    }
+    
+    public UsersManagementDao getUsersManagamentDao() {
+        return new UsersManagementDaoImpl(this);
     }
 }

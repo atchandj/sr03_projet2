@@ -64,13 +64,13 @@ public class Connection extends HttpServlet {
 		String errorMessage;
 		try {
 			Trainee trainee = this.userDao.getTrainee(tempUser);
-			
 			HttpSession session = request.getSession(); // Initiation of the session engine					
 			session.setAttribute(ATT_SESSION_TRAINEE, trainee); // Creation of a session variable
 			
 			response.sendRedirect( request.getContextPath() + TRAINEE_PAGE ); // Redirection
 		} catch (DaoException e) {
-			if(e.getMessage().equals("Not a trainee.")){
+			errorMessage = e.getMessage();
+			if(errorMessage.equals("Not a trainee.")){
 				SuperUser superUser;
 				try {
 					superUser = this.userDao.getSuperUser(tempUser);
@@ -87,8 +87,11 @@ public class Connection extends HttpServlet {
 						request.setAttribute("errorMessage", errorMessage);
 					}
 					this.getServletContext().getRequestDispatcher(CONNECTION_JSP).forward(request, response);
-				}				
-			}			
+				}
+			}else{
+				request.setAttribute("errorMessage", errorMessage);
+				this.getServletContext().getRequestDispatcher(CONNECTION_JSP).forward(request, response);
+			}
 		}		
 	}
 }

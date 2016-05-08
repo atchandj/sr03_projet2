@@ -18,6 +18,11 @@ footer{
 	color: #bdbdbd;	
 }
 
+thead{
+	background: #2d2d30;
+	color: #bdbdbd;
+}
+
 .panel-default > .panel-heading{
 	background: #2d2d30;
 	color: #bdbdbd;
