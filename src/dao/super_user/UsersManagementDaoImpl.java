@@ -30,7 +30,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         String superUserEmail = superUser.getEmail();        
         try{
             connexion = daoFactory.getConnection();
-            System.out.println("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email <> ?;");
+            // System.out.println("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email <> ?;");
             preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email <> ?;");
             preparedStatement.setString(1, superUserEmail);
             ResultSet result = preparedStatement.executeQuery();
@@ -53,9 +53,9 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
                 tmpSuperUser.setAccountCreation(accountCreation);
                 tmpSuperUser.setAccountStatus(accountStatus);
                 
-                System.out.println(tmpSuperUser.getEmail());
-                System.out.println(tmpSuperUser.getSurname());
-                System.out.println(tmpSuperUser.getName());
+                // System.out.println(tmpSuperUser.getEmail()); // Test
+                // System.out.println(tmpSuperUser.getSurname()); // Test
+                // System.out.println(tmpSuperUser.getName()); // Test
                 
                 superUsers.add(tmpSuperUser);
             }
@@ -75,13 +75,75 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     }    
     
     @Override
+	public void dropTrainee(String email) throws DaoException{
+    	// System.out.println("Supprimer stagiaire"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println("DELETE FROM Trainee WHERE email =  ?;"); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("DELETE FROM Trainee WHERE email =  ?;");
+            preparedStatement.setString(1, email);
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println("Stagiaire à supprimer inconnu."); // Test
+            	throw new DaoException("Stagiaire à supprimer inconnu.");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données");
+            }
+        }
+    }
+    
+    @Override
+	public void dropSuperSuper(String email) throws DaoException{
+    	// System.out.println("Supprimer administrateur");
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println("DELETE FROM SuperUser WHERE email =  ?;");
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("DELETE FROM SuperUser WHERE email =  ?;");
+            preparedStatement.setString(1, email);
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result);
+            if(result == 0){
+            	// System.out.println("Administrateur à supprimer inconnu.");
+            	throw new DaoException("Administrateur à supprimer inconnu.");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données");
+            }
+        }
+    }
+    
+    @Override
 	public List<Trainee> getTrainees() throws DaoException{
         List<Trainee> trainees = new ArrayList<Trainee>();
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         try{
             connexion = daoFactory.getConnection();
-            System.out.println("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
+            // System.out.println("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
             preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
@@ -103,9 +165,9 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
                 tmpTrainee.setAccountCreation(accountCreation);
                 tmpTrainee.setAccountStatus(accountStatus);
                 
-                System.out.println(tmpTrainee.getEmail());
-                System.out.println(tmpTrainee.getSurname());
-                System.out.println(tmpTrainee.getName());
+                // System.out.println(tmpTrainee.getEmail()); // Test
+                // System.out.println(tmpTrainee.getSurname()); // Test
+                // System.out.println(tmpTrainee.getName()); // Test
                 
                 trainees.add(tmpTrainee);
             }

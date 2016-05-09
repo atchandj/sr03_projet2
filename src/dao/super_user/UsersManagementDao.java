@@ -9,4 +9,6 @@ import dao.DaoException;
 public interface UsersManagementDao {
     List<SuperUser> getSuperUsers(SuperUser superUser) throws DaoException;
     List<Trainee> getTrainees() throws DaoException;
+    void dropTrainee(String email) throws DaoException;
+    void dropSuperSuper(String email) throws DaoException;
 }

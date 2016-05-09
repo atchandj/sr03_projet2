@@ -16,18 +16,20 @@
 		<div class="container-fluid">
 	    <c:if test="${ !empty sessionScope.superUser }">
 	        <section>
-				<c:if test="${! empty superUsers}">
+				<c:if test="${! empty superUsers}">					
 					<div class="row">
+					<h1>Administrateur</h1>					
 					<div class="table-responsive"> 
 					<table class="table table-hover table-bordered table-striped">
 			        	<colgroup>
 				            <col class="col-md-2">
 				            <col class="col-md-2">
-				            <col class="col-md-2">
 				            <col class="col-md-1">
 				            <col class="col-md-1">
+				            <col class="col-md-1">
 				            <col class="col-md-2">
 				            <col class="col-md-2">
+				            <col class="col-md-1">
         				</colgroup>
 						<thead>
 							<tr>
@@ -38,6 +40,7 @@
 								<th>Entreprise</th>
 								<th>Date de création de compte</th>
 								<th>Statut</th>
+								<th>Suppression compte</th>
 							</tr>
 						</thead>
 				        <c:forEach var="superUser" items="${ superUsers }">
@@ -50,26 +53,30 @@
 					        		<td><c:out value="${ superUser.company }" /></td>
 					        		<td><c:out value="${ superUser.accountCreation }" /></td>
 					        		<td><c:out value="${ superUser.accountStatus }" /></td>
+					        		<td><a href="<c:url value="/super_user/users_management?action=delete&email=${ superUser.email }&user_type=super_user"/>">Supprimer</a></td> 
 					        	</tr>
 				        	</tbody>
 				        </c:forEach>						
 			        </table>
 			        </div>
+			        <p><a href="<c:url value="/super_user/users_management?action=add&user_type=super_user"/>">Ajouter un administrateur</a></p>
 			        </div>
 		        </c:if>
 		        
     			<c:if test="${! empty trainees}">
     				<div class="row">
+    				<h1>Utilisateur</h1>
 					<div class="table-responsive"> 
 					<table class="table table-hover table-bordered table-striped">
 			        	<colgroup>
 				            <col class="col-md-2">
 				            <col class="col-md-2">
-				            <col class="col-md-2">
 				            <col class="col-md-1">
 				            <col class="col-md-1">
+				            <col class="col-md-1">
 				            <col class="col-md-2">
 				            <col class="col-md-2">
+				            <col class="col-md-1">
         				</colgroup>
 						<thead>
 							<tr>
@@ -80,6 +87,7 @@
 								<th>Entreprise</th>
 								<th>Date de création de compte</th>
 								<th>Statut</th>
+								<th>Suppression compte</th>
 							</tr>
 						</thead>
 				        <c:forEach var="trainee" items="${ trainees }">
@@ -92,11 +100,13 @@
 					        		<td><c:out value="${ trainee.company }" /></td>
 					        		<td><c:out value="${ trainee.accountCreation }" /></td>
 					        		<td><c:out value="${ trainee.accountStatus }" /></td>
+					        		<td><a href="<c:url value="/super_user/users_management?action=delete&email=${ trainee.email }&user_type=trainee"/>">Supprimer</a></td> 
 					        	</tr>
 				        	</tbody>
 				        </c:forEach>						
 			        </table>
 			        </div>
+			        <p><a href="<c:url value="/super_user/users_management?action=add&user_type=trainee"/>">Ajouter un stagiaire</a></p>
 			        </div>
 		        </c:if>
 	    	</section>

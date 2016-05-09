@@ -41,6 +41,42 @@ public class UsersManagement extends HttpServlet {
 		HttpSession session = request.getSession(); // Initiation of the session engine					
 		SuperUser superUser = (SuperUser) session.getAttribute(ATT_SESSION_SUPERUSER); // Creation of a session variable
 		String errorMessage;
+		
+		String action =  request.getParameter("action");
+		if(action != null){
+			switch (action) {
+			case "delete":	
+				System.out.println("Supprimer");
+				String userType =  request.getParameter("user_type");
+				String userEmail =  request.getParameter("email");	
+				System.out.println(userType);
+				System.out.println(userEmail);
+				if(userType.equals("super_user")){
+					try {
+						System.out.println("Supprimer admin");
+						this.usersManagementDao.dropSuperSuper(userEmail);
+					} catch (DaoException e) {
+						// TODO Auto-generated catch block
+						errorMessage = e.getMessage();
+						request.setAttribute("errorMessage", errorMessage);
+					}
+				}else if(userType.equals("trainee")){				
+					try {
+						System.out.println("Supprimer stagiaire");
+						this.usersManagementDao.dropTrainee(userEmail);
+					} catch (DaoException e) {
+						errorMessage = e.getMessage();
+						request.setAttribute("errorMessage", errorMessage);
+					}
+				}
+				break;
+			case "add":			
+				break;
+			default:
+				break;
+			}
+		}
+
 		try {
 			request.setAttribute("superUsers", this.usersManagementDao.getSuperUsers(superUser));
 			request.setAttribute("trainees", this.usersManagementDao.getTrainees());
