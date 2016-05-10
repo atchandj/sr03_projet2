@@ -17,6 +17,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 import beans.EmailAccount;
+import beans.User;
 import beans.super_user.SuperUser;
 import beans.trainee.Trainee;
 import dao.DAOConfigurationException;
@@ -227,6 +228,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     	// System.out.println("Ajouter stagiaire"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
+        String message = null;
         try{
             connexion = daoFactory.getConnection();
             // System.out.println("INSERT INTO Trainee (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);"); // Test
@@ -245,7 +247,17 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             	// System.out.println("Stagiaire impossible à ajouter."); // Test
             	throw new DaoException("Stagiaire impossible à ajouter.");
             }else{
-            	
+        		message = "Bonjour Madame, Monsieur,\n\nUn compte stagiaire vient d'être créé en votre nom sur le site d'évaluation des stagiaires. " +
+        		"Votre identifiant est : '" + trainee.getEmail() +"' et votre mot de passe est : '" + 
+        		trainee.getPassword() + "'. ";
+            	if(trainee.isActive()){
+            		message += "Votre compte stagiaire est actif : vous pouvez dès à présent vous connecter et profiter des fonctionnalités du site,\n\n";    				
+            	}else{
+            		message += "Votre compte stagiaire est inactif : vous recevrez ultérieurement un message vous autorisant à vous connecter "+
+            		"et à profiter des fonctionnalités du site,\n\n";
+            	}
+            	message += "Les administrateurs du site d'évaluation des stagiaires";
+            	this.sendAnEmail("Création de compte stagiaire", message, trainee);
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
@@ -295,25 +307,11 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             		"et à profiter des fonctionnalités du site,\n\n";
             	}
             	message += "Les administrateurs du site d'évaluation des stagiaires";
-				Email email = new SimpleEmail();
-				email.setHostName(HOST_NAME);
-				email.setSmtpPort(SMTP_PORT);
-
-				email.setAuthentication(this.emailAccount.getLogin(), this.emailAccount.getPassword());
-				email.setDebug(true);
-				email.setSSLOnConnect(true);
-				email.setStartTLSEnabled(true);
-				email.setFrom(this.emailAccount.getLogin());
-				email.setSubject("Création de compte administrateur");
-				email.setMsg(message);
-				email.addTo(superUser.getEmail());
-				email.send();
+            	this.sendAnEmail("Création de compte administrateur", message, superUser);
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
-        } catch (EmailException e) {
-        	throw new DaoException("Impossible d'envoyer le mail : " + e.getMessage());
-		}
+        }
         finally {
             try {
                 if (connexion != null) {
@@ -323,5 +321,25 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
                 throw new DaoException("Impossible de communiquer avec la base de données");
             }
         }
+    }
+    
+    private void sendAnEmail(String subject, String message, User user) throws DaoException{
+		Email email = new SimpleEmail();
+		email.setHostName(HOST_NAME);
+		email.setSmtpPort(SMTP_PORT);    	
+		email.setAuthentication(this.emailAccount.getLogin(), this.emailAccount.getPassword());
+		email.setDebug(true);
+		email.setSSLOnConnect(true);
+		email.setStartTLSEnabled(true);
+		try {
+			email.setFrom(this.emailAccount.getLogin());
+			email.setSubject(subject);
+			email.setMsg(message);
+			email.addTo(user.getEmail());
+			email.send();
+		} catch (EmailException e) {
+        	throw new DaoException("Impossible d'envoyer le mail : " + e.getMessage());
+		}
+
     }
 }
