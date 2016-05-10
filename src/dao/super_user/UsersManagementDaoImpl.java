@@ -1,25 +1,61 @@
 package dao.super_user;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
+import beans.EmailAccount;
 import beans.super_user.SuperUser;
 import beans.trainee.Trainee;
+import dao.DAOConfigurationException;
 import dao.DaoException;
 import dao.DaoFactory;
 
 public class UsersManagementDaoImpl implements UsersManagementDao{
 	
-    private DaoFactory daoFactory;
+	private static final String FILE_PROPERTIES = "/dao/email_account.properties";
+	private static final String PROPERTY_LOGIN = "login";
+	private static final String PROPERTY_PASSWORD = "password";
+	private static final String HOST_NAME = "smtp.googlemail.com";
+	private static final int SMTP_PORT = 465;
+	
+	private DaoFactory daoFactory;
+    private EmailAccount emailAccount;
 
-    public UsersManagementDaoImpl(DaoFactory daoFactory) {
+    public UsersManagementDaoImpl(DaoFactory daoFactory) throws DAOConfigurationException {
         this.daoFactory = daoFactory;
+        
+    	Properties properties = new Properties();
+        String login = null;
+        String password = null;
+        
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream fileProperties = classLoader.getResourceAsStream(FILE_PROPERTIES);
+
+        if ( fileProperties == null ) {
+            throw new DAOConfigurationException("Le fichier properties " + FILE_PROPERTIES + " est introuvable." );
+        }
+
+        try {
+            properties.load( fileProperties );
+            login = properties.getProperty( PROPERTY_LOGIN );
+            password = properties.getProperty( PROPERTY_PASSWORD );
+        } catch ( IOException e ) {
+            throw new DAOConfigurationException( "Impossible de charger le fichier properties " + FILE_PROPERTIES + ".");
+        }
+        this.emailAccount = new EmailAccount(login, password);
     }
     
     @Override
@@ -208,6 +244,8 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             if(result == 0){
             	// System.out.println("Stagiaire impossible à ajouter."); // Test
             	throw new DaoException("Stagiaire impossible à ajouter.");
+            }else{
+            	
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
@@ -228,6 +266,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     	// System.out.println("Ajouter administrateur"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
+        String message = null;
         try{
             connexion = daoFactory.getConnection();
             // System.out.println("INSERT INTO SuperUser (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);"); // Test
@@ -245,10 +284,36 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             if(result == 0){
             	// System.out.println("Administrateur impossible à ajouter."); // Test
             	throw new DaoException("Administrateur impossible à ajouter.");
+            }else{
+        		message = "Bonjour Madame, Monsieur,\n\nUn compte administrateur vient d'être créé en votre nom sur le site d'évaluation des stagiaires. " +
+        		"Votre identifiant est : '" + superUser.getEmail() +"' et votre mot de passe est : '" + 
+        		superUser.getPassword() + "'. ";
+            	if(superUser.isActive()){
+            		message += "Votre compte administrateur est actif : vous pouvez dès à présent vous connecter et profiter des fonctionnalités du site,\n\n";    				
+            	}else{
+            		message += "Votre compte administrateur est inactif : vous recevrez ultérieurement un message vous autorisant à vous connecter "+
+            		"et à profiter des fonctionnalités du site,\n\n";
+            	}
+            	message += "Les administrateurs du site d'évaluation des stagiaires";
+				Email email = new SimpleEmail();
+				email.setHostName(HOST_NAME);
+				email.setSmtpPort(SMTP_PORT);
+
+				email.setAuthentication(this.emailAccount.getLogin(), this.emailAccount.getPassword());
+				email.setDebug(true);
+				email.setSSLOnConnect(true);
+				email.setStartTLSEnabled(true);
+				email.setFrom(this.emailAccount.getLogin());
+				email.setSubject("Création de compte administrateur");
+				email.setMsg(message);
+				email.addTo(superUser.getEmail());
+				email.send();
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
-        }
+        } catch (EmailException e) {
+        	throw new DaoException("Impossible d'envoyer le mail : " + e.getMessage());
+		}
         finally {
             try {
                 if (connexion != null) {

@@ -58,8 +58,7 @@ public class DaoFactory {
 
         }
         
-        DaoFactory instance = new DaoFactory(
-        		url, userName, password);
+        DaoFactory instance = new DaoFactory(url, userName, password);
         return instance;
     }
 
@@ -73,7 +72,7 @@ public class DaoFactory {
         return new UserDaoImpl(this);
     }
     
-    public UsersManagementDao getUsersManagamentDao() {
+    public UsersManagementDao getUsersManagamentDao() throws DAOConfigurationException {
         return new UsersManagementDaoImpl(this);
     }
 }
