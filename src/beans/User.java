@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class User {
 	private String email;
+	private String password;
 	private String surname;
 	private String name;
 	private String phone;
@@ -17,6 +18,12 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getSurname() {
 		return surname;
@@ -58,5 +65,9 @@ public class User {
 	}
 	public void setAccountStatus(boolean accountStatus) {
 		this.accountStatus = accountStatus;
+	}
+	
+	public boolean isActive(){
+		return this.accountStatus;
 	}
 }

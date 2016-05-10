@@ -11,4 +11,6 @@ public interface UsersManagementDao {
     List<Trainee> getTrainees() throws DaoException;
     void dropTrainee(String email) throws DaoException;
     void dropSuperSuper(String email) throws DaoException;
+	void addTrainee(Trainee trainee) throws DaoException;
+	void addSuperUser(SuperUser superUser) throws DaoException;
 }

@@ -59,13 +59,12 @@
 				        </c:forEach>						
 			        </table>
 			        </div>
-			        <p><a href="<c:url value="/super_user/users_management?action=add&user_type=super_user"/>">Ajouter un administrateur</a></p>
 			        </div>
 		        </c:if>
 		        
     			<c:if test="${! empty trainees}">
     				<div class="row">
-    				<h1>Utilisateur</h1>
+    				<h1>Stagiaire</h1>
 					<div class="table-responsive"> 
 					<table class="table table-hover table-bordered table-striped">
 			        	<colgroup>
@@ -106,9 +105,9 @@
 				        </c:forEach>						
 			        </table>
 			        </div>
-			        <p><a href="<c:url value="/super_user/users_management?action=add&user_type=trainee"/>">Ajouter un stagiaire</a></p>
 			        </div>
 		        </c:if>
+		        <p><a href="<c:url value="/super_user/users_management?action=add"/>">Ajouter un utilisateur</a></p>
 	    	</section>
 	    </c:if>
 	    </div>

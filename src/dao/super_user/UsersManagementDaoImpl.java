@@ -23,6 +23,56 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     }
     
     @Override
+	public List<Trainee> getTrainees() throws DaoException{
+        List<Trainee> trainees = new ArrayList<Trainee>();
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+                Trainee tmpTrainee = new Trainee();
+                
+            	String email = result.getString("email");
+                String surname = result.getString("surname");
+                String name = result.getString("name");
+                String phone = result.getString("phone");
+                String company = result.getString("company");
+                Timestamp accountCreation = result.getTimestamp("accountCreation");
+                boolean accountStatus = result.getBoolean("accountStatus");
+
+                tmpTrainee.setEmail(email);
+                tmpTrainee.setSurname(surname);
+                tmpTrainee.setName(name);
+                tmpTrainee.setPhone(phone);
+                tmpTrainee.setCompany(company);
+                tmpTrainee.setAccountCreation(accountCreation);
+                tmpTrainee.setAccountStatus(accountStatus);
+                
+                // System.out.println(tmpTrainee.getEmail()); // Test
+                // System.out.println(tmpTrainee.getSurname()); // Test
+                // System.out.println(tmpTrainee.getName()); // Test
+                
+                trainees.add(tmpTrainee);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données");
+            }
+        }
+        return trainees;
+    }
+    
+    @Override
 	public List<SuperUser> getSuperUsers(SuperUser superUser) throws DaoException{
         List<SuperUser> superUsers = new ArrayList<SuperUser>();
         Connection connexion = null;
@@ -137,39 +187,27 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     }
     
     @Override
-	public List<Trainee> getTrainees() throws DaoException{
-        List<Trainee> trainees = new ArrayList<Trainee>();
+    public void addTrainee(Trainee trainee) throws DaoException {
+    	// System.out.println("Ajouter stagiaire"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
-            preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
-            ResultSet result = preparedStatement.executeQuery();
-            while (result.next()) {
-                Trainee tmpTrainee = new Trainee();
-            	
-            	String email = result.getString("email");
-                String surname = result.getString("surname");
-                String name = result.getString("name");
-                String phone = result.getString("phone");
-                String company = result.getString("company");
-                Timestamp accountCreation = result.getTimestamp("accountCreation");
-                boolean accountStatus = result.getBoolean("accountStatus");
-
-                tmpTrainee.setEmail(email);
-                tmpTrainee.setSurname(surname);
-                tmpTrainee.setName(name);
-                tmpTrainee.setPhone(phone);
-                tmpTrainee.setCompany(company);
-                tmpTrainee.setAccountCreation(accountCreation);
-                tmpTrainee.setAccountStatus(accountStatus);
-                
-                // System.out.println(tmpTrainee.getEmail()); // Test
-                // System.out.println(tmpTrainee.getSurname()); // Test
-                // System.out.println(tmpTrainee.getName()); // Test
-                
-                trainees.add(tmpTrainee);
+            // System.out.println("INSERT INTO Trainee (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);"); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("INSERT INTO Trainee (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);");
+            preparedStatement.setString(1, trainee.getEmail());
+            preparedStatement.setString(2, trainee.getSurname());
+            preparedStatement.setString(3, trainee.getName());
+            preparedStatement.setString(4, trainee.getPassword());
+            preparedStatement.setString(5, trainee.getPhone());
+            preparedStatement.setString(6, trainee.getCompany());
+            preparedStatement.setBoolean(7, trainee.isActive());
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println("Stagiaire impossible à ajouter."); // Test
+            	throw new DaoException("Stagiaire impossible à ajouter.");
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
@@ -183,6 +221,42 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
                 throw new DaoException("Impossible de communiquer avec la base de données");
             }
         }
-        return trainees;
+    }
+    
+    @Override
+    public void addSuperUser(SuperUser superUser) throws DaoException {
+    	// System.out.println("Ajouter administrateur"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println("INSERT INTO SuperUser (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);"); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("INSERT INTO SuperUser (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);");
+            preparedStatement.setString(1, superUser.getEmail());
+            preparedStatement.setString(2, superUser.getSurname());
+            preparedStatement.setString(3, superUser.getName());
+            preparedStatement.setString(4, superUser.getPassword());
+            preparedStatement.setString(5, superUser.getPhone());
+            preparedStatement.setString(6, superUser.getCompany());
+            preparedStatement.setBoolean(7, superUser.isActive());
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println("Administrateur impossible à ajouter."); // Test
+            	throw new DaoException("Administrateur impossible à ajouter.");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données");
+            }
+        }
     }
 }
