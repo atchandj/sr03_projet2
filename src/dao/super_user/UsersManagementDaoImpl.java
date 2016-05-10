@@ -166,6 +166,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     	// System.out.println("Supprimer stagiaire"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
+        String message = null;
         try{
             connexion = daoFactory.getConnection();
             // System.out.println("DELETE FROM Trainee WHERE email =  ?;"); // Test
@@ -177,6 +178,11 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             if(result == 0){
             	// System.out.println("Stagiaire à supprimer inconnu."); // Test
             	throw new DaoException("Stagiaire à supprimer inconnu.");
+            }else{
+        		message = "Bonjour Madame, Monsieur,\n\nNous avons le regret de vous annoncer que votre compte stagiaire " + 
+        		"ayant pour identifiant '" + email +"' vient d'avoir été supprimé,\n\n" +
+            	"Les administrateurs du site d'évaluation des stagiaires";
+            	this.sendAnEmail("Suppression de compte stagiaire", message, email);
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
@@ -197,6 +203,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     	// System.out.println("Supprimer administrateur");
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
+        String message = null;
         try{
             connexion = daoFactory.getConnection();
             // System.out.println("DELETE FROM SuperUser WHERE email =  ?;");
@@ -208,6 +215,11 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             if(result == 0){
             	// System.out.println("Administrateur à supprimer inconnu.");
             	throw new DaoException("Administrateur à supprimer inconnu.");
+            }else{
+        		message = "Bonjour Madame, Monsieur,\n\nNous avons le regret de vous annoncer que votre compte administrateur " + 
+        		"ayant pour identifiant '" + email +"' vient d'avoir été supprimé,\n\n" +
+            	"Les administrateurs du site d'évaluation des stagiaires";
+            	this.sendAnEmail("Suppression de compte administrateur", message, email);
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
@@ -257,7 +269,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             		"et à profiter des fonctionnalités du site,\n\n";
             	}
             	message += "Les administrateurs du site d'évaluation des stagiaires";
-            	this.sendAnEmail("Création de compte stagiaire", message, trainee);
+            	this.sendAnEmail("Création de compte stagiaire", message, trainee.getEmail());
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
@@ -307,7 +319,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             		"et à profiter des fonctionnalités du site,\n\n";
             	}
             	message += "Les administrateurs du site d'évaluation des stagiaires";
-            	this.sendAnEmail("Création de compte administrateur", message, superUser);
+            	this.sendAnEmail("Création de compte administrateur", message, superUser.getEmail());
             }
         } catch (SQLException e) {
             throw new DaoException("Impossible de communiquer avec la base de données");
@@ -323,20 +335,20 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         }
     }
     
-    private void sendAnEmail(String subject, String message, User user) throws DaoException{
-		Email email = new SimpleEmail();
-		email.setHostName(HOST_NAME);
-		email.setSmtpPort(SMTP_PORT);    	
-		email.setAuthentication(this.emailAccount.getLogin(), this.emailAccount.getPassword());
-		email.setDebug(true);
-		email.setSSLOnConnect(true);
-		email.setStartTLSEnabled(true);
+    private void sendAnEmail(String subject, String message, String email) throws DaoException{
+		Email simpleEmail = new SimpleEmail();
+		simpleEmail.setHostName(HOST_NAME);
+		simpleEmail.setSmtpPort(SMTP_PORT);    	
+		simpleEmail.setAuthentication(this.emailAccount.getLogin(), this.emailAccount.getPassword());
+		simpleEmail.setDebug(true);
+		simpleEmail.setSSLOnConnect(true);
+		simpleEmail.setStartTLSEnabled(true);
 		try {
-			email.setFrom(this.emailAccount.getLogin());
-			email.setSubject(subject);
-			email.setMsg(message);
-			email.addTo(user.getEmail());
-			email.send();
+			simpleEmail.setFrom(this.emailAccount.getLogin());
+			simpleEmail.setSubject(subject);
+			simpleEmail.setMsg(message);
+			simpleEmail.addTo(email);
+			simpleEmail.send();
 		} catch (EmailException e) {
         	throw new DaoException("Impossible d'envoyer le mail : " + e.getMessage());
 		}
