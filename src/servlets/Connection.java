@@ -83,7 +83,7 @@ public class Connection extends HttpServlet {
 				} catch (DaoException e1) {
 					errorMessage = e1.getMessage();
 					if(errorMessage.equals("Not a super user.")){
-						request.setAttribute("errorMessage", "Utilisateur inconnu.");
+						request.setAttribute("errorMessage", "Utilisateur inconnu ou dont le compte n'est pas activé.");
 					}else{
 						request.setAttribute("errorMessage", errorMessage);
 					}

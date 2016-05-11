@@ -86,7 +86,7 @@ public class UsersManagement extends HttpServlet {
 				if(userType.equals("super_user")){
 					try {
 						// System.out.println("Modifier statut admin"); // Test
-						this.usersManagementDao.modifyStatusSuperSuper(userEmail, activateBool);
+						this.usersManagementDao.modifyStatusSuperUser(userEmail, activateBool);
 					} catch (DaoException e) {
 						errorMessage = e.getMessage();
 						request.setAttribute("errorMessage", errorMessage);

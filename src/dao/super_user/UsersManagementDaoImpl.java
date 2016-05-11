@@ -288,7 +288,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     }
     
     @Override
-	public void modifyStatusSuperSuper(String email, boolean validate) throws DaoException{
+	public void modifyStatusSuperUser(String email, boolean validate) throws DaoException{
     	// System.out.println("Modifier administrateur"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
