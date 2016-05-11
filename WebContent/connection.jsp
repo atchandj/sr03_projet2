@@ -28,7 +28,7 @@
 									<label class="control-label" for="password">Mot de passe : </label>
 									<input type="password" id="password" class="form-control" placeholder="Mot de passe" name="password"/>
 								</div>
-								<input type="submit" class="btn btn-default" value="envoyer"/>
+								<input type="submit" class="btn btn-default" value="Me connecter"/>
 								<c:if test="${ !empty errorMessage }">
 							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 
 										<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

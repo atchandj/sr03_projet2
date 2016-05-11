@@ -8,6 +8,8 @@ import java.util.Properties;
 
 import com.mysql.jdbc.Connection;
 
+import dao.super_user.UserDataDao;
+import dao.super_user.UserDataDaoImpl;
 import dao.super_user.UsersManagementDao;
 import dao.super_user.UsersManagementDaoImpl;
 
@@ -74,5 +76,9 @@ public class DaoFactory {
     
     public UsersManagementDao getUsersManagamentDao() throws DAOConfigurationException {
         return new UsersManagementDaoImpl(this);
+    }
+    
+    public UserDataDao getUserDataDao() {
+        return new UserDataDaoImpl(this);
     }
 }

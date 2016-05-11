@@ -20,7 +20,7 @@
 					<div class="row">
 					<h1>Administrateur</h1>					
 					<div class="table-responsive"> 
-					<table class="table table-hover table-bordered table-striped">
+					<table class="table table-hover table-bordered title="Cliquer pour me modifier ou me consulter">
 			        	<colgroup>
 				            <col class="col-md-2">
 				            <col class="col-md-2">
@@ -47,7 +47,7 @@
 						</thead>
 				        <c:forEach var="superUser" items="${ superUsers }">
 				        	<tbody>
-					        	<tr>
+					        	<tr class="clickable-row" data-href="<c:url value="/super_user/user_data?action=consult&type=super_user&email=${ superUser.email }"/>" title="Cliquer pour me modifier ou me consulter">
 					        		<td><c:out value="${ superUser.surname }" /></td>
 					        		<td><c:out value="${ superUser.name }" /></td>
 					        		<td><c:out value="${ superUser.email }" /></td>
@@ -78,7 +78,7 @@
     				<div class="row">
     				<h1>Stagiaire</h1>
 					<div class="table-responsive"> 
-					<table class="table table-hover table-bordered table-striped">
+					<table class="table table-hover table-bordered">
 			        	<colgroup>
 				            <col class="col-md-2">
 				            <col class="col-md-2">
@@ -105,7 +105,7 @@
 						</thead>
 				        <c:forEach var="trainee" items="${ trainees }">
 				        	<tbody>
-					        	<tr>
+					        	<tr class="clickable-row" data-href="<c:url value="/super_user/user_data?action=consult&type=trainee&email=${ trainee.email }"/>" title="Cliquer pour me modifier ou me consulter">
 					        		<td><c:out value="${ trainee.surname }" /></td>
 					        		<td><c:out value="${ trainee.name }" /></td>
 					        		<td><c:out value="${ trainee.email }" /></td>
@@ -136,5 +136,6 @@
 	    </c:if>
 	    </div>
 	    <%@ include file="/footer.jsp" %>
+	    <script src="<c:url value="/js/script.js"/>"></script>
 	</body>
 </html>
