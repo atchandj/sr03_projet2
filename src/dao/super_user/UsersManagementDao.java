@@ -13,4 +13,6 @@ public interface UsersManagementDao {
     void dropSuperSuper(String email) throws DaoException;
 	void addTrainee(Trainee trainee) throws DaoException;
 	void addSuperUser(SuperUser superUser) throws DaoException;
+	void modifyStatusTrainee(String email, boolean validate) throws DaoException;
+	void modifyStatusSuperSuper(String email, boolean validate) throws DaoException;
 }

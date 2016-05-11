@@ -40,14 +40,18 @@ public class UsersManagement extends HttpServlet {
 		HttpSession session = request.getSession(); // Initiation of the session engine					
 		SuperUser superUser = (SuperUser) session.getAttribute(ATT_SESSION_SUPERUSER); // We get a session variable
 		String errorMessage = null;
+		String userType = null;
+		String userEmail = null;
+		String activate = null;
+		Boolean activateBool = null;
 		
 		String action =  request.getParameter("action");
 		if(action != null){
 			switch (action) {
 			case "delete":	
 				// System.out.println("Supprimer"); // Test
-				String userType =  request.getParameter("user_type");
-				String userEmail =  request.getParameter("email");	
+				userType =  request.getParameter("user_type");
+				userEmail =  request.getParameter("email");	
 				// System.out.println(userType); // Test
 				// System.out.println(userEmail); // Test
 				if(userType.equals("super_user")){
@@ -62,6 +66,35 @@ public class UsersManagement extends HttpServlet {
 					try {
 						// System.out.println("Supprimer stagiaire"); // Test
 						this.usersManagementDao.dropTrainee(userEmail);
+					} catch (DaoException e) {
+						errorMessage = e.getMessage();
+						request.setAttribute("errorMessage", errorMessage);
+					}
+				}
+				break;
+			case "modify_status":
+				// System.out.println("Modification de status"); // Test
+				userType = request.getParameter("user_type");
+				userEmail = request.getParameter("email");	
+				activate = request.getParameter("activer");
+				activateBool = Boolean.valueOf(activate);
+				
+				// System.out.println(userType); // Test
+				// System.out.println(userEmail); // Test
+				// System.out.println(activate); // Test
+				// System.out.println(activateBool); // Test
+				if(userType.equals("super_user")){
+					try {
+						// System.out.println("Modifier statut admin"); // Test
+						this.usersManagementDao.modifyStatusSuperSuper(userEmail, activateBool);
+					} catch (DaoException e) {
+						errorMessage = e.getMessage();
+						request.setAttribute("errorMessage", errorMessage);
+					}
+				}else if(userType.equals("trainee")){				
+					try {
+						// System.out.println("Modifier statut  stagiaire"); // Test
+						this.usersManagementDao.modifyStatusTrainee(userEmail, activateBool);
 					} catch (DaoException e) {
 						errorMessage = e.getMessage();
 						request.setAttribute("errorMessage", errorMessage);

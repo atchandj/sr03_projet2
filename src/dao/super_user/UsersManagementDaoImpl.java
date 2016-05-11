@@ -17,7 +17,6 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 import beans.EmailAccount;
-import beans.User;
 import beans.super_user.SuperUser;
 import beans.trainee.Trainee;
 import dao.DAOConfigurationException;
@@ -236,6 +235,112 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     }
     
     @Override
+	public void modifyStatusTrainee(String email, boolean validate) throws DaoException{
+    	System.out.println("Modifier stagiaire"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String message = null;
+        String word1 = null;
+        String word2 = null;
+        String subject = null;
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println("UPDATE Trainee SET accountStatus = ? WHERE email = ?;"); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE Trainee SET accountStatus = ? WHERE email = ?;");
+            preparedStatement.setBoolean(1, validate);
+            preparedStatement.setString(2, email);
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println("Stagiaire à modifier inconnu."); // Test
+            	throw new DaoException("Stagiaire à modifier inconnu.");
+            }else{
+        		if(validate){
+        			word1 = "plaisir ";
+        			word2 = "activé.\n\n";
+        			subject = "Activation de compte stagiaire";
+        		}else{
+        			word1 = "regret ";
+        			word2 = "désactivé.\n\n";
+        			subject = "Désactivation de compte stagiaire";
+        		}
+        		message = "Bonjour Madame, Monsieur,\n\nNous avons le ";
+        		message += word1;
+        		message += "de vous annoncer que votre compte stagiaire ";
+        		message += "ayant pour identifiant '" + email +"' vient d'avoir été ";
+        		message += word2;
+        		message += "Les administrateurs du site d'évaluation des stagiaires";
+            	this.sendAnEmail(subject, message, email);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données");
+            }
+        }
+    }
+    
+    @Override
+	public void modifyStatusSuperSuper(String email, boolean validate) throws DaoException{
+    	// System.out.println("Modifier administrateur"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String message = null;
+        String word1 = null;
+        String word2 = null;
+        String subject = null;
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println("UPDATE SuperUser SET accountStatus = ? WHERE email = ?;"); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE SuperUser SET accountStatus = ? WHERE email = ?;");
+            preparedStatement.setBoolean(1, validate);
+            preparedStatement.setString(2, email);
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println("Administrateur à modifier inconnu."); // Test
+            	throw new DaoException("Administrateur à modifier inconnu.");
+            }else{
+        		if(validate){
+        			word1 = "plaisir ";
+        			word2 = "activé.\n\n";
+        			subject = "Activation de compte administrateur";
+        		}else{
+        			word1 = "regret ";
+        			word2 = "désactivé.\n\n";
+        			subject = "Désactivation de compte administrateur";
+        		}
+        		message = "Bonjour Madame, Monsieur,\n\nNous avons le ";
+        		message += word1;
+        		message += "de vous annoncer que votre compte administrateur ";
+        		message += "ayant pour identifiant '" + email +"' vient d'avoir été ";
+        		message += word2;
+        		message += "Les administrateurs du site d'évaluation des stagiaires";
+            	this.sendAnEmail(subject, message, email);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données");
+            }
+        }
+    }
+    
+    @Override
     public void addTrainee(Trainee trainee) throws DaoException {
     	// System.out.println("Ajouter stagiaire"); // Test
         Connection connexion = null;
@@ -352,6 +457,5 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
 		} catch (EmailException e) {
         	throw new DaoException("Impossible d'envoyer le mail : " + e.getMessage());
 		}
-
     }
 }
