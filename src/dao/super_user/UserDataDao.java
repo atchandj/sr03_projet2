@@ -7,4 +7,6 @@ import dao.DaoException;
 public interface UserDataDao {
 	Trainee getTrainee(String email) throws DaoException;
 	SuperUser getSuperUser(String email) throws DaoException;
+	void updateTrainee(Trainee trainee) throws DaoException;
+	void updateSuperUser(SuperUser superUser) throws DaoException;
 }

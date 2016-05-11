@@ -25,7 +25,7 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="email">E-mail de l'utilisateur : </label>
-									<input type="email" id="email" class="form-control" placeholder="E-mail" name="email" value="${user.email}" autofocus required/>
+									<input type="email" id="email" class="form-control" placeholder="E-mail" name="email" value="${user.email}" autofocus required readonly/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="surname">Nom de famille : </label>

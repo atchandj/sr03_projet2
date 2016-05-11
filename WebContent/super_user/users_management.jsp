@@ -20,7 +20,7 @@
 					<div class="row">
 					<h1>Administrateur</h1>					
 					<div class="table-responsive"> 
-					<table class="table table-hover table-bordered title="Cliquer pour me modifier ou me consulter">
+					<table class="table table-hover table-bordered">
 			        	<colgroup>
 				            <col class="col-md-2">
 				            <col class="col-md-2">

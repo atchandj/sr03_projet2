@@ -4,11 +4,10 @@ public class EmailAccount {
 	private String login;
 	private String password;
 	
-	public EmailAccount(String login, String password)
-	  {
+	public EmailAccount(String login, String password){
 		this.login = login;
 		this.password = password;
-	  }
+	}
 	
 	public String getLogin() {
 		return login;

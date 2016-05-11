@@ -1,5 +1,5 @@
-DROP VIEW vBadAnswer;
-DROP VIEW vGoodAnswer;
+-- DROP VIEW vBadAnswer;
+-- DROP VIEW vGoodAnswer;
 
 DROP TABLE AttemptAnswer;
 DROP TABLE Answer;

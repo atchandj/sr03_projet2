@@ -236,7 +236,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     
     @Override
 	public void modifyStatusTrainee(String email, boolean validate) throws DaoException{
-    	System.out.println("Modifier stagiaire"); // Test
+    	// System.out.println("Modifier stagiaire"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;

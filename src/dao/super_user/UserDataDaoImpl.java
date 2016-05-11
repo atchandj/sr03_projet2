@@ -110,4 +110,77 @@ public class UserDataDaoImpl implements UserDataDao {
         }
         return superUser;
     }
+    
+    @Override
+	public void updateTrainee(Trainee trainee) throws DaoException{
+    	// System.out.println("Mettre à jour stagiaire"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println("UPDATE Trainee SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;"); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE Trainee SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;");
+            
+            // System.out.println(trainee.getName());
+            
+            preparedStatement.setString(1, trainee.getSurname());
+            preparedStatement.setString(2, trainee.getName());
+            preparedStatement.setString(3, trainee.getPhone());
+            preparedStatement.setString(4, trainee.getCompany());
+            preparedStatement.setString(5, trainee.getEmail());
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println("Stagiaire à mettre à jour inconnu."); // Test
+            	throw new DaoException("Stagiaire à mettre à jour inconnu.");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données : " + e.getMessage());
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données : " + e.getMessage());
+            }
+        }
+    }
+    
+    @Override
+	public void updateSuperUser(SuperUser superUser) throws DaoException{
+    	// System.out.println("Mettre à jour administrateur"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println("UPDATE SuperUser SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;"); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE SuperUser SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;");
+            preparedStatement.setString(1, superUser.getSurname());
+            preparedStatement.setString(2, superUser.getName());
+            preparedStatement.setString(3, superUser.getPhone());
+            preparedStatement.setString(4, superUser.getCompany());
+            preparedStatement.setString(5, superUser.getEmail());
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println("Administrateur à mettre à jour inconnu."); // Test
+            	throw new DaoException("Administrateur à mettre à jour inconnu.");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données : " + e.getMessage());
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données : " + e.getMessage());
+            }
+        }
+    }
 }

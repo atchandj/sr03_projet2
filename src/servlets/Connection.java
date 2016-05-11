@@ -59,6 +59,7 @@ public class Connection extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		TemporaryUser tempUser = new TemporaryUser();
 		tempUser.setEmail(request.getParameter("email"));
 		tempUser.setPassword(request.getParameter("password"));

@@ -13,6 +13,17 @@ public class User {
 	private Timestamp accountCreation;
 	private boolean accountStatus;
 	
+    public User(String email, String surname, String name, String phone, String company){
+        this.email = email;
+        this.surname = surname;
+        this.name = name;
+        this.phone = phone;
+        this.company = company;
+    }
+    
+    public User(){
+    }
+	
 	public String getEmail() {
 		return email;
 	}
