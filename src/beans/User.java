@@ -22,6 +22,11 @@ public class User {
     }
     
     public User(){
+        this.email = null;
+        this.surname = null;
+        this.name = null;
+        this.phone = null;
+        this.company = null;
     }
 	
 	public String getEmail() {

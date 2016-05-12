@@ -13,6 +13,7 @@
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="usersManagement" value="usersManagement" />
 		</jsp:include>
+		<div class="container-fluid">
 		<div role="tabpanel" class="tab-pane active">
 			<form method="post" action="<c:url value="/super_user/users_management"/>">
 				<div class="row">
@@ -74,6 +75,7 @@
 				</div>
 			</form>
 		</div> 
+		</div>
 	    <%@ include file="/footer.jsp" %>   
 	</body>
 </html>

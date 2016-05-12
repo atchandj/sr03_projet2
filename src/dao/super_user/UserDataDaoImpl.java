@@ -3,11 +3,14 @@ package dao.super_user;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 import beans.super_user.SuperUser;
+import beans.trainee.Attempt;
 import beans.trainee.Trainee;
 import dao.DaoException;
 import dao.DaoFactory;
@@ -182,5 +185,51 @@ public class UserDataDaoImpl implements UserDataDao {
                 throw new DaoException("Impossible de communiquer avec la base de données : " + e.getMessage());
             }
         }
+    }
+    
+    @Override
+    public List<Attempt> getAttemptsOfATrainee(String traineeEMail) throws DaoException{
+    	List<Attempt> attemptsOfATrainee = new ArrayList<Attempt>();
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = null;
+        try{
+            connexion = daoFactory.getConnection();
+            query = "SELECT Top.name AS topicName, Q.name AS questionnaireName, A.score, A.beginning, A.end, "
+            		+ "TIMESTAMPDIFF(SECOND, A.beginning, A.end) AS durationInSeconds, "
+            		+ "(A.score/(TIMESTAMPDIFF(SECOND, A.beginning, A.end)))*100 AS scoreDivByDurationTimes100 "
+            		+ "FROM Trainee Tr, Attempt A, Questionnaire Q, Topic Top "
+            		+ "WHERE Tr.id = A.Trainee AND A.questionnaire = Q.id AND Q.topic= Top.name AND Tr.email = ? "
+            		+ "ORDER BY topicName, A.beginning;";
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            preparedStatement.setString(1, traineeEMail);
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+            	String topicName = result.getString("topicName");
+                String questionnaireName = result.getString("questionnaireName");
+                int score = result.getInt("score");
+                Timestamp beginning = result.getTimestamp("beginning");
+                Timestamp end = result.getTimestamp("end");
+                int durationInSeconds = result.getInt("durationInSeconds");
+                double scoreDivByDurationTimes100 = result.getDouble("scoreDivByDurationTimes100");
+
+                Attempt tmpAttempt= new Attempt(topicName, questionnaireName,score, beginning, end, durationInSeconds, scoreDivByDurationTimes100);
+                                
+                attemptsOfATrainee.add(tmpAttempt);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Impossible de communiquer avec la base de données");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException("Impossible de communiquer avec la base de données");
+            }
+        }
+        return attemptsOfATrainee;
     }
 }

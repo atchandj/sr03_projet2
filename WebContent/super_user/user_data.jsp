@@ -13,11 +13,13 @@
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="usersManagement" value="usersManagement" />
 		</jsp:include>
-		<h1>Informations sur un utilisateur</h1>
-		<div role="tabpanel" class="tab-pane active">
-			<form method="post" action="<c:url value="/super_user/user_data"/>">
-				<div class="row">
-					<div class="col-md-4 col-lg-offset-4 " >
+		<div class="container-fluid">
+			<div class="row">
+			<h1>Informations sur un utilisateur</h1>
+			<h2>Données personnelles</h2>
+			<div role="tabpanel" class="tab-pane active">
+				<form method="post" action="<c:url value="/super_user/user_data"/>">				
+					<div class="col-md-4 col-md-offset-4 " >
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								Modification(s) d'un utilisateur
@@ -61,10 +63,44 @@
 								</c:if>						
 							</div>
 						</div>
-					</div>
-				</div>
-			</form>
-		</div> 
+					</div>				
+				</form>
+			</div>
+			</div> 
+			<c:if test="${ type == 'Stagiaire' }">
+				<h2>Parcours</h2>		
+				<c:set var="previousTopic" value="" scope="page" />
+				<c:forEach var="attempt" items="${ attempts }" varStatus="status">	
+					<c:if test="${ previousTopic != attempt.topicName }">
+						<h3><c:out value="${ attempt.topicName }"/></h3>
+						<c:set var="previousTopic" value="${ attempt.topicName }" scope="page" />		
+					</c:if>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<div class="panel panel-default text-center">
+								<div class="panel-heading">
+									<h4><c:out value="${ attempt.questionnaireName }"/></h4>
+								</div>
+								<div class="panel-body">
+									<dl>
+									  <dt>Score (S) :</dt>
+									  <dd><c:out value="${ attempt.score }"/></dd>
+									  <dt>Début :</dt>
+									  <dd><c:out value="${ attempt.begining }"/></dd>
+									  <dt>Fin :</dt>
+									  <dd><c:out value="${ attempt.end }"/></dd>
+									  <dt>Durée en secondes (D) :</dt>
+									  <dd><c:out value="${ attempt.durationInSeconds }"/></dd>
+									  <dt>Score divisé par la durée multiplié par 100 ((S/D)*100) :</dt>
+									  <dd><c:out value="${ attempt.scoreDivByDurationTimes100 }"/> </dd>
+								  	</dl>
+							  	</div>
+					  		</div>
+				  		</div>
+			  		</div>
+	 			</c:forEach>
+			</c:if>
+		</div>		
 	    <%@ include file="/footer.jsp" %>		
 	</body>
 </html>

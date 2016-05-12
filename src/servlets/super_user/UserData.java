@@ -55,6 +55,7 @@ public class UserData extends HttpServlet {
 			try {
 				trainee = this.userDataDao.getTrainee(userEmail);
 				request.setAttribute("user", trainee);
+				request.setAttribute("attempts", this.userDataDao.getAttemptsOfATrainee(userEmail));
 			} catch (DaoException e) {
 				request.setAttribute("errorMessage", "Utilisateur inconnu.");
 			}			

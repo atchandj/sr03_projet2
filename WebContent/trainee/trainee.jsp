@@ -13,6 +13,7 @@
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="traineeHome" value="traineeHome" />
 		</jsp:include>
+		<div class="container-fluid">
 	    <c:if test="${ !empty sessionScope.trainee }">
 		    <section>
 		        <p>Vous êtes le stagiaire : ${ sessionScope.trainee.name } ${ sessionScope.trainee.surname } !</p>
@@ -23,6 +24,7 @@
 		    	<p>Etat : <c:out value="${sessionScope.trainee.accountStatus}" /></p>
 	    	</section>
 	    </c:if>
+	    </div>
  	    <%@ include file="/footer.jsp" %>
 	</body>
 </html>
