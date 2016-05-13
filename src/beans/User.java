@@ -14,11 +14,11 @@ public class User {
 	private boolean accountStatus;
 	
     public User(String email, String surname, String name, String phone, String company){
-        this.email = email;
-        this.surname = surname;
-        this.name = name;
-        this.phone = phone;
-        this.company = company;
+    	this.setEmail(email);
+    	this.setSurname(surname);
+    	this.setName(name);
+    	this.setPhone(phone);
+    	this.setCompany(company);
     }
     
     public User(){

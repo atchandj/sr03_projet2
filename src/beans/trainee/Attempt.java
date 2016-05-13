@@ -13,13 +13,13 @@ public class Attempt {
 	private double scoreDivByDurationTimes100;
 
     public Attempt(String topicName, String questionnaireName, int score, Timestamp begining, Timestamp end, int durationInSeconds, double scoreDivByDurationTimes100){
-        this.topicName = topicName;
-        this.questionnaireName = questionnaireName;
-        this.score = score;
-        this.begining = begining;
-        this.end = end;
-        this.durationInSeconds = durationInSeconds;
-        this.scoreDivByDurationTimes100 = scoreDivByDurationTimes100;
+        this.setTopicName(topicName);
+        this.setQuestionnaireName(questionnaireName);
+        this.setScore(score);
+        this.setBegining(begining);
+        this.setEnd(end);
+        this.setDurationInSeconds(durationInSeconds);
+        this.setScoreDivByDurationTimes100(scoreDivByDurationTimes100);
     }
     
     public Attempt(){

@@ -5,8 +5,13 @@ public class EmailAccount {
 	private String password;
 	
 	public EmailAccount(String login, String password){
-		this.login = login;
-		this.password = password;
+		this.setLogin(login);
+		this.setPassword(password);
+	}
+	
+	public EmailAccount(){
+		this.login = null;
+		this.password = null;
 	}
 	
 	public String getLogin() {
