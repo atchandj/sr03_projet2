@@ -1,4 +1,4 @@
--- ======================================== Modèle Logique de Données ========================================
+-- ======================================== Modèle Physique de Données ========================================
 
 CREATE TABLE Trainee(
 	id INT AUTO_INCREMENT,
@@ -103,17 +103,17 @@ CREATE TABLE Answer(
 -- /* Ajout d'une clé artificielle pour les performances */
 
 
--- CREATE VIEW vGoodAnswer
--- AS
--- SELECT A.question, A.orderNumber, A.value, A.active
--- FROM Answer A
--- WHERE A.t='GoodAnswer';
+CREATE VIEW vGoodAnswer
+AS
+SELECT A.question, A.orderNumber, A.value, A.active
+FROM Answer A
+WHERE A.t='GoodAnswer';
 
--- CREATE VIEW vBadAnswer
--- AS
--- SELECT A.question, A.orderNumber, A.value, A.active
--- FROM Answer A
--- WHERE A.t='BadAnswer';
+CREATE VIEW vBadAnswer
+AS
+SELECT A.question, A.orderNumber, A.value, A.active
+FROM Answer A
+WHERE A.t='BadAnswer';
 
 -- -----------------------------------------------------------------------------------------------
 
@@ -124,3 +124,35 @@ CREATE TABLE AttemptAnswer(
 	FOREIGN KEY(attempt) REFERENCES Attempt(id),
 	FOREIGN KEY(answer) REFERENCES Answer(id)
 );
+
+-- -----------------------------------------------------------------------------------------------
+
+CREATE VIEW NotActivableQuestionnaire 
+AS  
+SELECT * 
+FROM Questionnaire Q1
+WHERE EXISTS (
+	SELECT *
+	FROM Question Q2
+	WHERE Q2.questionnaire = Q1.id AND Q2.active = 0
+) OR NOT EXISTS(
+	SELECT *
+	FROM Question Q2
+	WHERE Q2.questionnaire = Q1.id
+) OR Q1.active = 1;
+
+CREATE VIEW ActivableQuestionnaire 
+AS  
+SELECT * 
+FROM Questionnaire Q1
+WHERE NOT EXISTS (
+	SELECT *
+	FROM Question Q2
+	WHERE Q2.questionnaire = Q1.id AND Q2.active = 0
+) AND EXISTS(
+	SELECT *
+	FROM Question Q2
+	WHERE Q2.questionnaire = Q1.id
+) AND Q1.active = 0;
+
+-- -----------------------------------------------------------------------------------------------

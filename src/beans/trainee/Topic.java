@@ -11,9 +11,14 @@ public class Topic {
 		this.setQuestionnaires(questionnaires);		
 	}
 
+	public Topic(String name){
+		this.setName(name);
+		this.questionnaires = new ArrayList<Questionnaire>();	
+	}
+	
 	public Topic(){
 		this.name = null;
-		this.questionnaires = null;		
+		this.questionnaires = new ArrayList<Questionnaire>();		
 	}	
 	
 	public String getName() {

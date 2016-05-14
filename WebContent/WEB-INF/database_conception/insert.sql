@@ -40,7 +40,7 @@ VALUES("JEE", "Servlet", TRUE);
 -- ========== Question ===========================================================================
 
 INSERT INTO Question (questionnaire, orderNumber, value, active)
-VALUES(1, 1, "Qu'est qu'une servelt ?", TRUE);
+VALUES(1, 1, "Qu'est qu'une servlet ?", TRUE);
 
 INSERT INTO Question (questionnaire, orderNumber, value, active)
 VALUES(1, 2, "Quelle est la particularité d'une servlet ?", TRUE);
@@ -50,4 +50,4 @@ INSERT INTO Attempt(trainee, questionnaire, score, beginning, end)
 VALUES
 (1, 2, 15, NOW(), DATE_ADD(NOW(), INTERVAL 4 HOUR)),
 (2, 1, 7, NOW(), DATE_ADD(NOW(), INTERVAL 10 HOUR)),
-(2, 2, 18, NOW(), DATE_ADD(NOW(), INTERVAL 2 HOUR)),
+(2, 2, 18, NOW(), DATE_ADD(NOW(), INTERVAL 2 HOUR));

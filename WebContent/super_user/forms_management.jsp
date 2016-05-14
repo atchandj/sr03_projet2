@@ -17,6 +17,9 @@
 	    <c:if test="${ !empty sessionScope.superUser }">
 	        <section>
 				<p>Vous êtes en train de voir des forms</p>
+				<c:forEach var="topic" items="${ topics }">
+					| <c:out value="${ topic.name }" /> | 
+				</c:forEach>
 	    	</section>
 	    </c:if>
 	    </div>
