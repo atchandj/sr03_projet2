@@ -8,6 +8,10 @@ import java.util.Properties;
 
 import com.mysql.jdbc.Connection;
 
+import dao.super_user.TopicsManagementDao;
+import dao.super_user.TopicsManagementDaoImpl;
+import dao.super_user.UserDataDao;
+import dao.super_user.UserDataDaoImpl;
 import dao.super_user.UsersManagementDao;
 import dao.super_user.UsersManagementDaoImpl;
 import dao.trainee.SurveyListDao;
@@ -60,8 +64,7 @@ public class DaoFactory {
 
         }
         
-        DaoFactory instance = new DaoFactory(
-        		url, userName, password);
+        DaoFactory instance = new DaoFactory(url, userName, password);
         return instance;
     }
 
@@ -75,11 +78,17 @@ public class DaoFactory {
         return new UserDaoImpl(this);
     }
     
-    public UsersManagementDao getUsersManagamentDao() {
+    public UsersManagementDao getUsersManagamentDao() throws DAOConfigurationException {
         return new UsersManagementDaoImpl(this);
     }
     
     public SurveyListDao getSurveyListDao() {
         return new SurveyListDaoImpl(this);
+    public UserDataDao getUserDataDao() {
+        return new UserDataDaoImpl(this);
+    }
+    
+    public TopicsManagementDao getTopicsManagementDao(){
+    	return new TopicsManagementDaoImpl(this);
     }
 }

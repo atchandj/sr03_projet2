@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -58,6 +59,7 @@ public class Connection extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		TemporaryUser tempUser = new TemporaryUser();
 		tempUser.setEmail(request.getParameter("email"));
 		tempUser.setPassword(request.getParameter("password"));
@@ -82,7 +84,7 @@ public class Connection extends HttpServlet {
 				} catch (DaoException e1) {
 					errorMessage = e1.getMessage();
 					if(errorMessage.equals("Not a super user.")){
-						request.setAttribute("errorMessage", "Utilisateur inconnu.");
+						request.setAttribute("errorMessage", "Utilisateur inconnu ou dont le compte n'est pas activé.");
 					}else{
 						request.setAttribute("errorMessage", errorMessage);
 					}

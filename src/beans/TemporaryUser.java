@@ -4,6 +4,16 @@ public class TemporaryUser {
 	private String email;
 	private String password;
 	
+	public TemporaryUser(String email, String password){
+		this.setEmail(email);
+		this.setPassword(password);
+	}
+	
+	public TemporaryUser(){
+		this.email = null;
+		this.password = null;
+	}
+	
 	public String getEmail() {
 		return email;
 	}

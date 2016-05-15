@@ -9,7 +9,6 @@
 			</button>
 			<a class="navbar-brand" href="<c:url value="/connection"/>">Evaluation des stagiaires</a>
 		</div>
-		${superUserHome}
 		<div class="collapse navbar-collapse" id="myNavbar">			
 			<ul class="nav navbar-nav">
 				<li <c:if test="${ !empty param.superUserHome }">class="active"</c:if> ><a href="<c:url value="/super_user"/>" title="Vers l'accueil administrateur"><span class="glyphicon glyphicon-home"></span> Accueil administrateur</a></li>

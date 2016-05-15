@@ -13,6 +13,7 @@
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="superUserHome" value="superUserHome" />
 		</jsp:include>
+		<div class="container-fluid">
 	    <c:if test="${ !empty sessionScope.superUser }">
 	        <section>
 		        <p>Vous êtes l'administrateur : ${ sessionScope.superUser.name } ${ sessionScope.superUser.surname } !</p>
@@ -23,6 +24,7 @@
 		    	<p>Etat : <c:out value="${sessionScope.superUser.accountStatus}" /></p>
 	    	</section>
 	    </c:if>
+	    </div>
 	    <%@ include file="/footer.jsp" %>
 	</body>
 </html>

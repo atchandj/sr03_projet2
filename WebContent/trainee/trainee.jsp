@@ -13,16 +13,18 @@
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="traineeHome" value="traineeHome" />
 		</jsp:include>
+		<div class="container-fluid">
 	    <c:if test="${ !empty sessionScope.trainee }">
 		    <section>
 		        <p>Vous êtes le stagiaire : ${ sessionScope.trainee.name } ${ sessionScope.trainee.surname } !</p>
 		    	<p>Mail : <c:out value="${sessionScope.trainee.email}" /></p>
 		    	<p>Phone : <c:out value="${sessionScope.trainee.phone}" /></p>
 		    	<p>Company : <c:out value="${sessionScope.trainee.company}" /></p>
-		    	<p>Data de création : <c:out value="${sessionScope.superuser.accountCreation}" /></p>
+		    	<p>Data de création : <c:out value="${sessionScope.trainee.accountCreation}" /></p>
 		    	<p>Etat : <c:out value="${sessionScope.trainee.accountStatus}" /></p>
 	    	</section>
 	    </c:if>
+	    </div>
  	    <%@ include file="/footer.jsp" %>
 	</body>
 </html>

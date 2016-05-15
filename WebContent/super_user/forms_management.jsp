@@ -13,11 +13,16 @@
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="formsManagement" value="formsManagement" />
 		</jsp:include>
+		<div class="container-fluid">
 	    <c:if test="${ !empty sessionScope.superUser }">
 	        <section>
 				<p>Vous êtes en train de voir des forms</p>
+				<c:forEach var="topic" items="${ topics }">
+					| <c:out value="${ topic.name }" /> | 
+				</c:forEach>
 	    	</section>
 	    </c:if>
+	    </div>
 	    <%@ include file="/footer.jsp" %>
 	</body>
 </html>
