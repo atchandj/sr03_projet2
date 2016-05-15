@@ -22,31 +22,28 @@
 			
 			<c:if test="${ !empty sessionScope.trainee }">
 				<section>
-							<table class="table table-bordered" id="surveyList">
-								<thead>
-						            <tr>
-						                <th>#</th>
-						                <th>Thème</th>
-						                <th>Questionnaire</th>
-						            </tr>
-						        </thead>
-						        <tbody>
-						        <c:forEach var="topic" items="${ topics }" varStatus="status">
-							        
-						                <c:forEach var="questionnaire" items="${ topic.questionnaires }" varStatus = "statusQuestionnaire">
-						                	<tr>
-						                		<td>${ status.count + statusQuestionnaire.count - 1 }</td>
-						                		<td>${ topic.name }</td>
-						                		<td>${ questionnaire.name }</td>
-						                	</tr>
-						                </c:forEach>
-							        
-						        </c:forEach>
-						        </tbody>	
-							</table>
-				
-					
-				
+					<table class="table table-bordered" id="surveyList">
+						<thead>
+				            <tr>
+				                <th>Thème</th>
+				                <th>Questionnaire</th>
+				                <th> Action </th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				        <c:forEach var="topic" items="${ topics }" varStatus="status">
+					        
+				                <c:forEach var="questionnaire" items="${ topic.questionnaires }">
+				                	<tr>
+				                		<td>${ topic.name }</td>
+				                		<td>${ questionnaire.name }</td>
+				                		<td> <a href="<c:url value="/trainee/survey_list?action=launchSurvey&questionnaire=${ questionnaire.id }" />"> Lancer un parcours </a> </td>
+				                	</tr>
+				                </c:forEach>
+					        
+				        </c:forEach>
+				        </tbody>	
+					</table>
 	    	</section>
 			</c:if>
 		</div>

@@ -3,13 +3,15 @@ package beans.trainee;
 import java.util.ArrayList;
 
 public class Questionnaire {
+	private int id;
 	private String name;
 	private boolean active;
 	private ArrayList<Question> questions;
 	private boolean activable;
 	private boolean deletable;
 	
-	public Questionnaire(String name, boolean active, ArrayList<Question> questions, boolean activable, boolean deletable){
+	public Questionnaire(int id, String name, boolean active, ArrayList<Question> questions, boolean activable, boolean deletable){
+		this.setId(id);
 		this.setName(name);
 		this.setActive(active);
 		this.setQuestions(questions);
@@ -17,7 +19,8 @@ public class Questionnaire {
 		this.setDeletable(deletable);
 	}
 	
-	public Questionnaire(String name, boolean active, boolean activable, boolean deletable){
+	public Questionnaire(int id, String name, boolean active, boolean activable, boolean deletable){
+		this.setId(id);
 		this.setName(name);
 		this.setActive(active);
 		this.questions = new ArrayList<Question>();	
@@ -25,7 +28,8 @@ public class Questionnaire {
 		this.setDeletable(deletable);
 	}
 	
-	public Questionnaire(String name, boolean active, boolean activable){
+	public Questionnaire(int id, String name, boolean active, boolean activable){
+		this.setId(id);
 		this.setName(name);
 		this.setActive(active);
 		this.questions = new ArrayList<Question>();	
@@ -70,6 +74,14 @@ public class Questionnaire {
 	}
 	public void setDeletable(boolean deletable) {
 		this.deletable = deletable;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }
