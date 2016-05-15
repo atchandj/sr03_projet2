@@ -45,7 +45,7 @@
 										</ul>
 									</c:if>
 									<div class="panel-footer">
-										<a href="#" title="Cliquez si vous souhaitez en ajouter un">Ajouter un questionnaire </a>
+										<a href="<c:url value="/super_user/forms_management?action=add_questionnaire&topic_name=${ topic.name }"/>" title="Cliquez si vous souhaitez en ajouter un">Ajouter un questionnaire </a>
 									</div>
 								</div>
 							</div>
@@ -67,6 +67,7 @@
 									<label class="control-label" for="newTopicName">Nom du sujet : </label>
 									<input type="text" id="newTopicName" class="form-control" placeholder="Nom du sujet" name="newTopicName" autofocus required/>
 								</div>	
+								<input type="hidden" name="paction" value="add_topic" />	
 								<input type="submit" class="btn btn-default" value="Ajouter"/>
 								<c:if test="${ !empty errorMessage }">
 							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 
@@ -78,7 +79,7 @@
 							</div>
 						</div>
 					</div>
-					</div>		
+					</div>					
 				</form>		
 	    	</section>
 	    </c:if>

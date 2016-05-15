@@ -14,7 +14,8 @@ import dao.super_user.TopicsManagementDao;
 public class FormsManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String FORMS_MANAGEMENT_JSP = "/super_user/forms_management.jsp";
-	
+	private static final String ADD_QUESTIONNAIRE_JSP = "/super_user/add_questionnaire.jsp";
+
     private TopicsManagementDao topicsManagementDao;
 	
     public FormsManagement() {
@@ -33,24 +34,72 @@ public class FormsManagement extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String errorMessage = null;
+		String action =  request.getParameter("action");
+		String topicName = null;
+		if(action != null){
+			switch (action) {
+			case "delete_topic":	
+				System.out.println("Supprimer un sujet"); // Test
+				break;
+			case "add_questionnaire":
+				System.out.println("Ajouter un questionnaire"); // Test
+				topicName = request.getParameter("topic_name");
+				// System.out.println(topicName); // Test
+				request.setAttribute("topic_name", topicName);
+				this.getServletContext().getRequestDispatcher(ADD_QUESTIONNAIRE_JSP).forward(request, response);
+				break;
+			case "delete_questionnaire":
+				System.out.println("Supprimer un questionnaire"); // Test
+				break;
+			case "activate_questionnaire":
+				System.out.println("Activer un questionnaire"); // Test
+				break;
+			default:
+				break;
+			}
+		}
 		try {
 			request.setAttribute("topics", this.topicsManagementDao.getTopics());
 		} catch (DaoException e) {
 			errorMessage = e.getMessage();
 			request.setAttribute("errorMessage", errorMessage);
 		}
-		this.getServletContext().getRequestDispatcher(FORMS_MANAGEMENT_JSP).forward(request, response);
+		if(action == null || !action.equals("add_questionnaire")){
+			this.getServletContext().getRequestDispatcher(FORMS_MANAGEMENT_JSP).forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String newTopicName = request.getParameter("newTopicName");
+		String newTopicName = null;
+		String topicName = null;
+		String questionnaireName = null;
 		String errorMessage = null;
-		try {
-			this.topicsManagementDao.addTopic(newTopicName);
-		} catch (DaoException e) {
-			errorMessage = e.getMessage();
-			request.setAttribute("errorMessage", errorMessage);
-		}		
+		String action =  request.getParameter("paction");
+		if(action != null){
+			switch (action) {
+			case "add_topic":
+				newTopicName = request.getParameter("newTopicName");
+				try {
+					this.topicsManagementDao.addTopic(newTopicName);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
+				break;
+			case "add_questionnaire":
+				topicName = request.getParameter("topicName");
+				questionnaireName = request.getParameter("questionnaireName");
+				try {
+					this.topicsManagementDao.addQuestionnaire(topicName, questionnaireName);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
+				break;
+			default:
+				break;
+			}
+		}
 		doGet(request, response);
 	}
 }

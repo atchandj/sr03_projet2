@@ -119,4 +119,39 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
             }
         }
     }
+    
+    @Override
+    public void addQuestionnaire(String topicName, String questionnaireName) throws DaoException {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "INSERT INTO Questionnaire(topic, name, active) "
+        		+ "VALUE(?, ?, 0);";
+        String topicErrorMessage = "Nouveau questionnaire impossible à ajouter.";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            preparedStatement.setString(1, topicName);
+            preparedStatement.setString(2, questionnaireName);
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println(topicErrorMessage); // Test
+            	throw new DaoException(topicErrorMessage);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage);
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage);
+            }
+        }
+    }
 }
