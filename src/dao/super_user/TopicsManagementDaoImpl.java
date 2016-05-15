@@ -190,4 +190,38 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
             }
         }
 	}
+	
+	public void deleteTopic(String topicName) throws DaoException{
+    	// System.out.println("Supprimer sujet"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM Topic "
+        		+ "WHERE name = ?;";
+        String questionnaireErrorMessage = "Impossible de supprimer le questionnaire.";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            preparedStatement.setString(1, topicName);
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println(questionnaireErrorMessage); // Test
+            	throw new DaoException(questionnaireErrorMessage);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage);
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage);
+            }
+        }
+	}	
 }

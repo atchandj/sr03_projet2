@@ -40,8 +40,15 @@ public class FormsManagement extends HttpServlet {
 		String questionnaireName = null;
 		if(action != null){
 			switch (action) {
-			case "delete_topic":	
+			case "delete_topic":
 				System.out.println("Supprimer un sujet"); // Test
+				topicName = request.getParameter("topic_name");
+				try {
+					this.topicsManagementDao.deleteTopic(topicName);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
 				break;
 			case "add_questionnaire":
 				System.out.println("Ajouter un questionnaire"); // Test

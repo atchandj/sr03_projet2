@@ -36,6 +36,10 @@ thead{
 	color: #bdbdbd;
 }
 
+.panel-title > .btn{
+	color: #ffffff;
+}
+
 .panel{
 	margin-top: 30px;
 }
