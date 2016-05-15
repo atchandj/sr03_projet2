@@ -10,16 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.trainee.Questionnaire;
+import beans.trainee.Topic;
 import dao.DAOConfigurationException;
 import dao.DaoException;
 import dao.DaoFactory;
-import dao.trainee.QuestionnaireListDao;
+import dao.trainee.TopicsListDao;
 
 
 public class SurveyList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String SURVEY_LIST_JSP = "/trainee/survey_list.jsp";
-	private QuestionnaireListDao surveyListDao;
+	private TopicsListDao topicsListDao;
        
     public SurveyList() {
         super();
@@ -30,22 +31,21 @@ public class SurveyList extends HttpServlet {
 		DaoFactory daoFactory;
 		try {
 			daoFactory = DaoFactory.getInstance();
-			this.surveyListDao = daoFactory.getQuestionnaireListDao();
+			this.topicsListDao = daoFactory.getTopicsListDao();
 		} catch (DAOConfigurationException e) {
 			e.printStackTrace();
 		} 
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("col");
 		// TODO Auto-generated method stub
 		try {
-			List<Questionnaire> surveyList = this.surveyListDao.getQuestionnaireList();
-			request.setAttribute("surveyList", surveyList);
-			System.out.println(surveyList);
+			request.setAttribute("topics", this.topicsListDao.getActivatedTopics());
+			
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
 		}
 		
 		this.getServletContext().getRequestDispatcher(SURVEY_LIST_JSP).forward(request, response);
