@@ -1,15 +1,16 @@
 package beans.trainee;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Question {
+	private int id;
 	private String value;
 	private int orderNumber;
 	private boolean active;
-	private ArrayList<BadAnswer> badAnswers;
+	private List<BadAnswer> badAnswers;
 	private GoodAnswer goodAnswer;
 	
-	public Question(String value, int orderNumber, boolean active, ArrayList<BadAnswer> badAnswers, GoodAnswer goodAnswer){
+	public Question(int id, String value, int orderNumber, boolean active, List<BadAnswer> badAnswers, GoodAnswer goodAnswer){
 		this.setValue(value);
 		this.setOrderNumber(orderNumber);
 		this.setActive(active);
@@ -17,6 +18,7 @@ public class Question {
 		this.setGoodAnswer(goodAnswer);
 	}
 	public Question(){
+		this.setId(0);
 		this.value = null;
 		this.orderNumber = 0;
 		this.active = false;
@@ -42,10 +44,10 @@ public class Question {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	public ArrayList<BadAnswer> getBadAnswers() {
+	public List<BadAnswer> getBadAnswers() {
 		return badAnswers;
 	}
-	public void setBadAnswers(ArrayList<BadAnswer> badAnswers) {
+	public void setBadAnswers(List<BadAnswer> badAnswers) {
 		this.badAnswers = badAnswers;
 	}
 	public GoodAnswer getGoodAnswer() {
@@ -53,5 +55,11 @@ public class Question {
 	}
 	public void setGoodAnswer(GoodAnswer goodAnswer) {
 		this.goodAnswer = goodAnswer;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

@@ -45,6 +45,14 @@ VALUES(1, 1, "Qu'est qu'une servlet ?", TRUE);
 INSERT INTO Question (questionnaire, orderNumber, value, active)
 VALUES(1, 2, "Quelle est la particularité d'une servlet ?", TRUE);
 
+-- ========== Answer ===========================================================================
+
+INSERT INTO answer (id, question, orderNumber, value, active, t)
+VALUES (1, 1, 1, "Classe capable de recevoir une requête HTTP, et de renvoyer une réponse HTTP.", 1, "GoodAnswer");
+
+INSERT INTO answer (id, question, orderNumber, value, active, t)
+VALUES (2,1,2, "C'est le conteneur web", 1, "BadAnswer");
+
 -- ========== Attempt ===========================================================================
 INSERT INTO Attempt(trainee, questionnaire, score, beginning, end)
 VALUES

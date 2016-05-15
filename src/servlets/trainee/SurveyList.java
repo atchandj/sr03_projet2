@@ -43,12 +43,12 @@ public class SurveyList extends HttpServlet {
 		
 		if(action != null){
 			int idQuestionnaire = Integer.parseInt(request.getParameter("questionnaire"));
-			List<Question> questions;
 			try {
-				questions = this.topicsListDao.getQuestions(idQuestionnaire);
+				List<Question> questions = this.topicsListDao.getQuestions(idQuestionnaire);
 				request.setAttribute("questions", questions);
+				
 				index = (request.getParameter("index") != null) ? Integer.parseInt(request.getParameter("index")) : 0 ;
-				//System.out.println(questions.get(1).getValue());
+				request.setAttribute("answers", this.topicsListDao.getAnswer(questions.get(index).getId()));
 				request.setAttribute("index", index);
 			} catch (DaoException e) {
 				e.printStackTrace();

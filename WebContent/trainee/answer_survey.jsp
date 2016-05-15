@@ -25,7 +25,14 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="question"><c:out value="${ questions.get(index).value }" /> </label>
-									<input type="text" id="question" class="form-control" placeholder="Réponse" name="question" autofocus required/>
+									<c:forEach var="answer" items="${ answers }" >
+										<div class="radio">
+										  <label>
+										    <input type="radio" name="optionsRadios" id="answer" value="<c:out value="${answer.value }" />">
+										    	<c:out value="${answer.value }" />
+										  </label>
+										</div>
+									</c:forEach>
 								</div>		
 								
 								<input type="submit" class="btn btn-default" value="Suivant"/>
