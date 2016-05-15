@@ -14,6 +14,8 @@ import dao.super_user.UserDataDao;
 import dao.super_user.UserDataDaoImpl;
 import dao.super_user.UsersManagementDao;
 import dao.super_user.UsersManagementDaoImpl;
+import dao.trainee.QuestionnaireListDao;
+import dao.trainee.QuestionnaireListDaoImpl;
 
 public class DaoFactory {
     private static final String FILE_PROPERTIES = "/dao/dao.properties";
@@ -78,6 +80,10 @@ public class DaoFactory {
     
     public UsersManagementDao getUsersManagamentDao() throws DAOConfigurationException {
         return new UsersManagementDaoImpl(this);
+    }
+    
+    public QuestionnaireListDao getQuestionnaireListDao() {
+        return new QuestionnaireListDaoImpl(this);
     }
     
     public UserDataDao getUserDataDao() {
