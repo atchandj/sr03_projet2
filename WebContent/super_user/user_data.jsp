@@ -19,7 +19,7 @@
 			<h2>Données personnelles</h2>
 			<div role="tabpanel" class="tab-pane active">
 				<form method="post" action="<c:url value="/super_user/user_data"/>">				
-					<div class="col-md-4 col-md-offset-4 " >
+					<div class="col-md-6 col-md-offset-3 " >
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								Modification(s) d'un utilisateur
@@ -76,7 +76,7 @@
 						<c:set var="previousTopic" value="${ attempt.topicName }" scope="page" />		
 					</c:if>
 					<div class="row">
-						<div class="col-md-4 col-md-offset-4">
+						<div class="col-md-6 col-md-offset-3">
 							<div class="panel panel-default text-center">
 								<div class="panel-heading">
 									<h4><c:out value="${ attempt.questionnaireName }"/></h4>

@@ -43,6 +43,14 @@ public class FormsManagement extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String newTopicName = request.getParameter("newTopicName");
+		String errorMessage = null;
+		try {
+			this.topicsManagementDao.addTopic(newTopicName);
+		} catch (DaoException e) {
+			errorMessage = e.getMessage();
+			request.setAttribute("errorMessage", errorMessage);
+		}		
 		doGet(request, response);
 	}
 }
