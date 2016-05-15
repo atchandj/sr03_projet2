@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.trainee.Questionnaire;
+
 import beans.trainee.Topic;
 import dao.DAOConfigurationException;
 import dao.DaoException;
@@ -40,8 +39,8 @@ public class SurveyList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			request.setAttribute("topics", this.topicsListDao.getActivatedTopics());
-			
+			List<Topic> topics = this.topicsListDao.getActivatedTopics();
+			request.setAttribute("topics", topics);
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
