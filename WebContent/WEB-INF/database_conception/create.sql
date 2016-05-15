@@ -48,7 +48,7 @@ CREATE TABLE Questionnaire(
 	active BOOLEAN NOT NULL,
 	PRIMARY KEY(id),
 	UNIQUE(topic, name),
-	FOREIGN KEY(topic) REFERENCES Topic(name)
+	FOREIGN KEY(topic) REFERENCES Topic(name) ON DELETE CASCADE
 );
 
 -- /* Ajout d'une clé artificielle pour les performances */
@@ -80,7 +80,7 @@ CREATE TABLE Question(
 	active BOOLEAN NOT NULL,
 	PRIMARY KEY(id),
 	UNIQUE(questionnaire, orderNumber),
-	FOREIGN KEY(questionnaire) REFERENCES Questionnaire(id)
+	FOREIGN KEY(questionnaire) REFERENCES Questionnaire(id) ON DELETE CASCADE
 );
 
 -- /* Ajout d'une clé artificielle pour les performances */
@@ -96,8 +96,8 @@ CREATE TABLE Answer(
 	t VARCHAR(10) NOT NULL,
 	PRIMARY KEY(id),
 	UNIQUE(question, orderNumber),
-	FOREIGN KEY(question) REFERENCES Question(id),
-	CHECK(t like 'GoodAnswer' or t like 'BadAnswer')
+	FOREIGN KEY(question) REFERENCES Question(id) ON DELETE CASCADE,
+	CHECK(t LIKE 'GoodAnswer' OR t LIKE 'BadAnswer')
 );
 
 -- /* Ajout d'une clé artificielle pour les performances */
@@ -153,6 +153,26 @@ WHERE NOT EXISTS (
 	SELECT *
 	FROM Question Q2
 	WHERE Q2.questionnaire = Q1.id
+) AND Q1.active = 0;
+
+CREATE VIEW NotDeletableQuestionnaire 
+AS  
+SELECT * 
+FROM Questionnaire Q1
+WHERE EXISTS (
+	SELECT *
+	FROM Question Q2
+	WHERE Q2.questionnaire = Q1.id AND Q2.active = 1
+) OR Q1.active = 1;
+
+CREATE VIEW DeletableQuestionnaire 
+AS  
+SELECT * 
+FROM Questionnaire Q1
+WHERE NOT EXISTS (
+	SELECT *
+	FROM Question Q2
+	WHERE Q2.questionnaire = Q1.id AND Q2.active = 1
 ) AND Q1.active = 0;
 
 -- -----------------------------------------------------------------------------------------------

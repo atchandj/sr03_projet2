@@ -11,4 +11,5 @@ public interface TopicsManagementDao {
 	void addQuestionnaire(String topicName, String questionnaireName) throws DaoException;
 	void activateQuestionnaire(String topicName, String questionnaireName) throws DaoException;
 	void deleteTopic(String topicName) throws DaoException;
+	void deleteQuestionnaire(String topicName, String questionnaireName) throws DaoException;
 }
