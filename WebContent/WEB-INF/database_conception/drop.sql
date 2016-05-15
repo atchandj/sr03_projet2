@@ -1,5 +1,7 @@
 DROP VIEW vBadAnswer;
 DROP VIEW vGoodAnswer;
+DROP VIEW NotActivableQuestionnaire;
+DROP VIEW ActivableQuestionnaire;
 
 DROP TABLE AttemptAnswer;
 DROP TABLE Answer;

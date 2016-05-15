@@ -37,6 +37,7 @@ public class UsersManagement extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession(); // Initiation of the session engine					
 		SuperUser superUser = (SuperUser) session.getAttribute(ATT_SESSION_SUPERUSER); // We get a session variable
 		String errorMessage = null;

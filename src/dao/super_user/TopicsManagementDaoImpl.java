@@ -154,4 +154,40 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
             }
         }
     }
+    
+	public void activateQuestionnaire(String topicName, String questionnaireName) throws DaoException{
+    	// System.out.println("Activer questionnaire"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE Questionnaire "
+        		+ "SET active = 1 "
+        		+ "WHERE topic = ? AND name = ?;";
+        String questionnaireErrorMessage = "Impossible d'activer le questionnaire.";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            preparedStatement.setString(1, topicName);
+            preparedStatement.setString(2, questionnaireName);
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println(questionnaireErrorMessage); // Test
+            	throw new DaoException(questionnaireErrorMessage);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage);
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage);
+            }
+        }
+	}
 }

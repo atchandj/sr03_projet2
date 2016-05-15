@@ -38,6 +38,7 @@ public class UserData extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		String userEmail = request.getParameter("email");
 		String action = request.getParameter("action");
 		String type = request.getParameter("type");

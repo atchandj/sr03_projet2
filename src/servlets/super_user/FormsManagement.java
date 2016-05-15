@@ -33,9 +33,11 @@ public class FormsManagement extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		String errorMessage = null;
 		String action =  request.getParameter("action");
 		String topicName = null;
+		String questionnaireName = null;
 		if(action != null){
 			switch (action) {
 			case "delete_topic":	
@@ -52,7 +54,15 @@ public class FormsManagement extends HttpServlet {
 				System.out.println("Supprimer un questionnaire"); // Test
 				break;
 			case "activate_questionnaire":
-				System.out.println("Activer un questionnaire"); // Test
+				topicName = request.getParameter("topic_name");
+				questionnaireName = request.getParameter("questionnaire_name");
+				System.out.println("Activer un questionnaire : " + topicName + " " + questionnaireName); // Test
+				try {
+					this.topicsManagementDao.activateQuestionnaire(topicName, questionnaireName);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
 				break;
 			default:
 				break;
@@ -70,6 +80,7 @@ public class FormsManagement extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		String newTopicName = null;
 		String topicName = null;
 		String questionnaireName = null;

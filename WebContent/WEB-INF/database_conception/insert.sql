@@ -32,10 +32,10 @@ VALUES
 -- ========== Questionnaire ===========================================================================
 
 INSERT INTO Questionnaire (topic, name, active)
-VALUES("JavaScript", "Boucle & Condition", TRUE);
+VALUES("JavaScript", "Boucle and Condition", FALSE);
 
 INSERT INTO Questionnaire (topic, name, active)
-VALUES("JEE", "Servlet", TRUE);
+VALUES("JEE", "Servlet", FALSE);
 
 -- ========== Question ===========================================================================
 

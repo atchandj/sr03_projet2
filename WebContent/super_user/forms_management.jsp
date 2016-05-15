@@ -38,7 +38,7 @@
 												" >
 													<a href="#" title="Cliquez pour me consulter"><c:out value="${ questionnaire.name }" /></a>
 													<c:if test="${ questionnaire.activable == true }">
-														<a href="#" class="btn btn-info" role="button">Activer le questionnaire</a>
+														<a href="<c:url value="/super_user/forms_management?action=activate_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-success" role="button">Activer le questionnaire</a>
 													</c:if>
 												</li>
 											</c:forEach>
