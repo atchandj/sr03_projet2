@@ -9,17 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.Survey;
+import beans.trainee.Questionnaire;
 import dao.DAOConfigurationException;
 import dao.DaoException;
 import dao.DaoFactory;
-import dao.trainee.SurveyListDao;
+import dao.trainee.QuestionnaireListDao;
 
 
 public class SurveyList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String SURVEY_LIST_JSP = "/trainee/survey_list.jsp";
-	private SurveyListDao surveyListDao;
+	private QuestionnaireListDao surveyListDao;
        
     public SurveyList() {
         super();
@@ -30,7 +30,7 @@ public class SurveyList extends HttpServlet {
 		DaoFactory daoFactory;
 		try {
 			daoFactory = DaoFactory.getInstance();
-			this.surveyListDao = daoFactory.getSurveyListDao();
+			this.surveyListDao = daoFactory.getQuestionnaireListDao();
 		} catch (DAOConfigurationException e) {
 			e.printStackTrace();
 		} 
@@ -40,7 +40,7 @@ public class SurveyList extends HttpServlet {
 		System.out.println("col");
 		// TODO Auto-generated method stub
 		try {
-			List<Survey> surveyList = this.surveyListDao.getSurveyList();
+			List<Questionnaire> surveyList = this.surveyListDao.getQuestionnaireList();
 			request.setAttribute("surveyList", surveyList);
 			System.out.println(surveyList);
 		} catch (DaoException e) {

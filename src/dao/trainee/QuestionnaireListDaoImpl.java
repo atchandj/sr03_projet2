@@ -9,23 +9,24 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-import beans.Survey;
+
 import beans.super_user.SuperUser;
+import beans.trainee.Questionnaire;
 import beans.trainee.Trainee;
 import dao.DaoException;
 import dao.DaoFactory;
 import dao.super_user.UsersManagementDao;
 
-public class SurveyListDaoImpl implements SurveyListDao {
+public class QuestionnaireListDaoImpl implements QuestionnaireListDao {
 	 private DaoFactory daoFactory;
 
-	    public SurveyListDaoImpl(DaoFactory daoFactory) {
+	    public QuestionnaireListDaoImpl(DaoFactory daoFactory) {
 	        this.daoFactory = daoFactory;
 	    }
 	    
 	    @Override
-	    public List<Survey> getSurveyList() throws DaoException{
-	    	List<Survey> surveys = new ArrayList<Survey>();
+	    public List<Questionnaire> getQuestionnaireList() throws DaoException{
+	    	List<Questionnaire> surveys = new ArrayList<Questionnaire>();
 	    	Connection connexion = null;
 	        PreparedStatement preparedStatement = null;
 	        try{
@@ -33,13 +34,13 @@ public class SurveyListDaoImpl implements SurveyListDao {
 	        	preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT id, topic, name, active FROM Questionnaire;");
 	        	ResultSet result = preparedStatement.executeQuery();
 	        	while(result.next()){
-	        		Survey survey = new Survey();
+	        		Questionnaire survey = new Questionnaire();
 	        		
 	        		String topic = result.getString("topic");
 	                String name = result.getString("name");
 	                boolean isActive = result.getBoolean("active");
 	                
-	                survey.setTopic(topic);
+	                //survey.setTopic(topic);
 	                survey.setName(name);
 	                survey.setActive(isActive);
 	                

@@ -14,8 +14,8 @@ import dao.super_user.UserDataDao;
 import dao.super_user.UserDataDaoImpl;
 import dao.super_user.UsersManagementDao;
 import dao.super_user.UsersManagementDaoImpl;
-import dao.trainee.SurveyListDao;
-import dao.trainee.SurveyListDaoImpl;
+import dao.trainee.QuestionnaireListDao;
+import dao.trainee.QuestionnaireListDaoImpl;
 
 public class DaoFactory {
     private static final String FILE_PROPERTIES = "/dao/dao.properties";
@@ -82,8 +82,10 @@ public class DaoFactory {
         return new UsersManagementDaoImpl(this);
     }
     
-    public SurveyListDao getSurveyListDao() {
-        return new SurveyListDaoImpl(this);
+    public QuestionnaireListDao getQuestionnaireListDao() {
+        return new QuestionnaireListDaoImpl(this);
+    }
+    
     public UserDataDao getUserDataDao() {
         return new UserDataDaoImpl(this);
     }
