@@ -10,6 +10,8 @@ import com.mysql.jdbc.Connection;
 
 import dao.super_user.UsersManagementDao;
 import dao.super_user.UsersManagementDaoImpl;
+import dao.trainee.SurveyListDao;
+import dao.trainee.SurveyListDaoImpl;
 
 public class DaoFactory {
     private static final String FILE_PROPERTIES = "/dao/dao.properties";
@@ -75,5 +77,9 @@ public class DaoFactory {
     
     public UsersManagementDao getUsersManagamentDao() {
         return new UsersManagementDaoImpl(this);
+    }
+    
+    public SurveyListDao getSurveyListDao() {
+        return new SurveyListDaoImpl(this);
     }
 }

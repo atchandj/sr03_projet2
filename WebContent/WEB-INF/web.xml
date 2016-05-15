@@ -36,6 +36,14 @@
     <url-pattern>/trainee</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>SurveyList</servlet-name>
+    <servlet-class>servlets.trainee.SurveyList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SurveyList</servlet-name>
+    <url-pattern>/trainee/survey_list</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>SuperUserHome</servlet-name>
     <servlet-class>servlets.super_user.SuperUserHome</servlet-class>
   </servlet>

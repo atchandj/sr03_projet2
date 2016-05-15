@@ -40,7 +40,7 @@ VALUES("JEE", "Servlet", TRUE);
 -- ========== Question ===========================================================================
 
 INSERT INTO Question (questionnaire, orderNumber, value, active)
-VALUES(1, 1, "Qu'est qu'une servelt ?", TRUE);
+VALUES(1, 1, "Qu'est qu'une servlet ?", TRUE);
 
 INSERT INTO Question (questionnaire, orderNumber, value, active)
 VALUES(1, 2, "Quelle est la particularité d'une servlet ?", TRUE);
