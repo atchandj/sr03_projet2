@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class User {
+	private int id;
 	private String email;
 	private String password;
 	private String surname;
@@ -13,6 +14,15 @@ public class User {
 	private Timestamp accountCreation;
 	private boolean accountStatus;
 	
+    public User(int id, String email, String surname, String name, String phone, String company){
+    	this.setId(id);
+    	this.setEmail(email);
+    	this.setSurname(surname);
+    	this.setName(name);
+    	this.setPhone(phone);
+    	this.setCompany(company);
+    }
+    
     public User(String email, String surname, String name, String phone, String company){
     	this.setEmail(email);
     	this.setSurname(surname);
@@ -22,6 +32,7 @@ public class User {
     }
     
     public User(){
+    	this.setId(0);
         this.email = null;
         this.surname = null;
         this.name = null;
@@ -85,5 +96,13 @@ public class User {
 	
 	public boolean isActive(){
 		return this.accountStatus;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

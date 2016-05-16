@@ -63,7 +63,6 @@ CREATE TABLE Attempt(
 	beginning DATETIME NOT NULL,
 	end DATETIME NOT NULL,
 	PRIMARY KEY(id),
-	UNIQUE(trainee, questionnaire),
 	FOREIGN KEY(trainee) REFERENCES Trainee(id),
 	FOREIGN KEY(questionnaire) REFERENCES Questionnaire(id)
 );

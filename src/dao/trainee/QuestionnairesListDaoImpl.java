@@ -8,10 +8,11 @@ import java.util.List;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-
+import com.mysql.jdbc.Statement;
 
 import beans.super_user.SuperUser;
 import beans.trainee.Answer;
+import beans.trainee.Attempt;
 import beans.trainee.BadAnswer;
 import beans.trainee.GoodAnswer;
 import beans.trainee.Question;
@@ -22,15 +23,15 @@ import dao.DaoException;
 import dao.DaoFactory;
 import dao.super_user.UsersManagementDao;
 
-public class TopicsListDaoImpl implements TopicsListDao {
+public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
 	 private DaoFactory daoFactory;
 
-	    public TopicsListDaoImpl(DaoFactory daoFactory) {
+	    public QuestionnairesListDaoImpl(DaoFactory daoFactory) {
 	        this.daoFactory = daoFactory;
 	    }
 	    
 	    @Override
-	    public List<Topic> getActivatedTopics() throws DaoException {
+	    public List<Topic> getActivatedQuestionnaire() throws DaoException {
 	        List<Topic> topics = new ArrayList<Topic>();
 	        Connection connexion = null;
 	        PreparedStatement preparedStatement = null;
@@ -42,14 +43,10 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	        try{
 	            connexion = daoFactory.getConnection();
 	            query = "SELECT * FROM("
-	            		+ "SELECT NAQ.id as questionnaireId, T.name AS topicName, NAQ.name AS questionnaireName, NAQ.active AS questionnaireActive, 0 AS questionnaireValidable "
-	            		+ "FROM Topic T INNER JOIN NotActivableQuestionnaire NAQ "
-	            		+ "ON T.name = NAQ.Topic "
-	            		+ "UNION ALL "
 	            		+ "SELECT UQ.id as questionnaireId, T.name AS topicName, UQ.name AS questionnaireName, UQ.active AS questionnaireActive, NULL AS questionnaireValidable "
 	            		+ "FROM Topic T INNER JOIN Questionnaire UQ "
 	            		+ "ON T.name = UQ.Topic "
-	            		+ "WHERE UQ.id IS NULL"
+	            		+ "WHERE UQ.id IS NOT NULL AND UQ.active = TRUE"
 	            		+ ")R "
 	            		+ "ORDER BY R.topicName, R.questionnaireName;";
 	            // System.out.println(query); // Test
@@ -188,5 +185,91 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	        }
 	        return answers;
 		}
+	    
+	    @Override
+	    public boolean isQuestionnaireAttempted(int idTrainee, int questionnaireId) throws DaoException{
+	    	boolean questionnaireAttempted = false;
+	        Connection connexion = null;
+	        PreparedStatement preparedStatement = null;
+	        String query = null;
+	        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+	        try{
+	            connexion = daoFactory.getConnection();
+	            query = "SELECT * "
+	            		+ "FROM attempt "
+	            		+ "WHERE trainee = ? and questionnaire = ?;";
+	            		
+	            //System.out.println(query); // Test
+	            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+	            preparedStatement.setInt(1, idTrainee);
+	            preparedStatement.setInt(2, questionnaireId);
+	            ResultSet result = preparedStatement.executeQuery();            
+	            if (result.next()) {	            	
+	            	questionnaireAttempted = true;
+	            }	            
+	        } catch (SQLException e) {
+	        	e.printStackTrace();
+	            throw new DaoException(databaseErrorMessage);
+	        }
+	        finally {
+	            try {
+	                if (connexion != null) {
+	                    connexion.close();  
+	                }
+	            } catch (SQLException e) {
+	                throw new DaoException(databaseErrorMessage);
+	            }
+	        }
+	        return questionnaireAttempted;
+	    }
+	    
+	    @Override
+	    public void addAttempt(Trainee trainee, Attempt attempt) throws DaoException {
+	    	 System.out.println("Ajouter un parcours"); // Test
+	        Connection connexion = null;
+	        PreparedStatement preparedStatement = null;
+	        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+	        try{
+	            connexion = daoFactory.getConnection();
+	            //System.out.println("INSERT INTO Attempt (trainee, questionnaire, score, beginning, end) VALUES (?, ?, ?, ?, ?);"); // Test
+	            String query = "INSERT INTO Attempt "
+	            		+ "(trainee, questionnaire, score, beginning, end) "
+	            		+ "VALUES (?, ?, ?, ?, ?);";
+	            preparedStatement = (PreparedStatement) connexion.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+	            preparedStatement.setInt(1, trainee.getId());
+	            preparedStatement.setInt(2, attempt.getQuestionnaireId());
+	            preparedStatement.setInt(3, attempt.getScore());
+	            preparedStatement.setString(4, attempt.getBeginingSql());
+	            preparedStatement.setString(5, attempt.getEndSql());
+	            int result = preparedStatement.executeUpdate();
+	            ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+	            if(valeursAutoGenerees.next()){
+	            	int attemptId = valeursAutoGenerees.getInt( 1 );
+	            	query = "INSERT INTO attemptAnswer "
+	            			+ "(attempt, answer) "
+	            			+ "VALUES (?, ?);";
+	            	for(Answer a : attempt.getAttemptedAnswers())
+	            	{
+	            		preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+		            	preparedStatement.setInt(1, attemptId);
+			            preparedStatement.setInt(2, a.getId());
+			            result = preparedStatement.executeUpdate();
+	            	}
+	            }
+	            connexion.commit();
+	        } catch (SQLException e) {
+	        	e.printStackTrace();
+	            throw new DaoException(databaseErrorMessage);
+	        }
+	        finally {
+	            try {
+	                if (connexion != null) {
+	                    connexion.close();  
+	                }
+	            } catch (SQLException e) {
+	                throw new DaoException(databaseErrorMessage);
+	            }
+	        }
+	    }
 	   
 }

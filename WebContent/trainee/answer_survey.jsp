@@ -68,6 +68,7 @@
 							  <dt>Fin</dt>
 							  <dd><c:out value="${ attempt.end }" /></dd>
 							</dl>
+							<a class="btn btn-default" href="<c:url value="/trainee/survey_list" />" role="button">Retour à la liste des questionnaires</a>
 						</div>
 					</div>
 				</div>
