@@ -17,3 +17,5 @@ DROP TABLE Questionnaire;
 DROP TABLE Topic;
 DROP TABLE SuperUser;
 DROP TABLE Trainee;
+
+DROP PROCEDURE IF EXISTS deleteAnswer;

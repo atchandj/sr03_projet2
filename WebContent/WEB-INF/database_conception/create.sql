@@ -226,3 +226,18 @@ WHERE NOT EXISTS (
 ) AND Q.active = 0;
 
 -- -----------------------------------------------------------------------------------------------
+
+DELIMITER //
+CREATE PROCEDURE deleteAnswer(IN questionD INT, IN orderNumberD INT)
+BEGIN
+	START TRANSACTION;
+    DELETE FROM Answer
+	WHERE question = questionD AND orderNumber = orderNumberD;
+    UPDATE Answer
+    SET orderNumber = orderNumber - 1
+    WHERE orderNumber > orderNumberD AND question = questionD;
+    COMMIT;
+END//
+DELIMITER ;
+
+-- -----------------------------------------------------------------------------------------------
