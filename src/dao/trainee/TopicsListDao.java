@@ -1,5 +1,6 @@
 package dao.trainee;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import beans.trainee.Answer;
@@ -12,7 +13,5 @@ import dao.DaoException;
 public interface TopicsListDao {
 	List<Topic> getActivatedTopics() throws DaoException;
 	List<Question> getQuestions(int idQuestionnaire) throws DaoException;
-	GoodAnswer getGoodAnswerById(int idQuestion) throws DaoException;
-	List<BadAnswer> getBadAnswerById(int idQuestion) throws DaoException;
-	List<Answer> getAnswer(int idQuestion) throws DaoException;
+	ArrayList<Answer> getAnswer(int idQuestion) throws DaoException;
 }

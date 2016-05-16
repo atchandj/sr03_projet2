@@ -7,6 +7,7 @@
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
+		<script src="<c:url value="surveyList.js"/>"></script>
 	</head>
 	<body>
 		<%@ include file="/header.jsp" %>   
@@ -15,7 +16,7 @@
 		</jsp:include>
 		
 		<div class="container-fluid">
-			<form method="post" action="<c:url value="/super_user/users_management"/>">
+			<form method="post" action="<c:url value="/trainee/survey_list"/>">
 				<div class="row">
 					<div class="col-md-4 col-lg-offset-4 " >
 						<div class="panel panel-default">
@@ -24,17 +25,17 @@
 							</div>
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
-									<label class="control-label" for="question"><c:out value="${ questions.get(index).value }" /> </label>
-									<c:forEach var="answer" items="${ answers }" >
+									<label class="control-label" for="question"><c:out value="${ question.value }" /> </label>
+									<c:forEach var="answer" items="${ question.answers }" >
 										<div class="radio">
 										  <label>
-										    <input type="radio" name="optionsRadios" id="answer" value="<c:out value="${answer.value }" />">
+										    <input type="radio" name="answerId" value="<c:out value="${answer.id }" />">
 										    	<c:out value="${answer.value }" />
 										  </label>
 										</div>
 									</c:forEach>
 								</div>		
-								
+								<input type="hidden" name="index" value="<c:out value="${index }" />">
 								<input type="submit" class="btn btn-default" value="Suivant"/>
 								<c:if test="${ !empty errorMessage }">
 							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 
