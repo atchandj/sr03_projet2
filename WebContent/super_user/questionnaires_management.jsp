@@ -50,7 +50,7 @@
 										</c:forEach>
 									</ul>
 									<div class="panel-footer">
-										<a href="<c:url value="/super_user/forms_management?action=add_answer&question_id=${ question.id }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse </a>
+										<a href="<c:url value="/super_user/questions_management?action=add_answer&question_id=${ question.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse </a>
 									</div>
 								</div>
 							</div>

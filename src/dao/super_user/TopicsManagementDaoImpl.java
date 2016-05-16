@@ -94,7 +94,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
             }
             topics.add(tmpTopic);
         } catch (SQLException e) {
-            throw new DaoException(databaseErrorMessage);
+            throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
         }
         finally {
             try {
@@ -102,7 +102,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
                     connexion.close();  
                 }
             } catch (SQLException e) {
-                throw new DaoException(databaseErrorMessage);
+                throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
             }
         }
         return topics;

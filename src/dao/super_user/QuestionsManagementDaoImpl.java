@@ -258,6 +258,37 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             // System.out.println(answerOrderNumber); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setInt(2, answerOrderNumber);
+            preparedStatement.executeUpdate();
+            connexion.commit();
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+            }
+        }
+    }
+    
+    public void addAnswer(int questionId, String answerValue) throws DaoException{
+    	// System.out.println("Ajouter une réponse"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "CALL addAnswer(?, ?);";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            // System.out.println(questionId); // Test
+            // System.out.println(answerValue); // Test
+            preparedStatement.setInt(1, questionId);
+            preparedStatement.setString(2, answerValue);
+            preparedStatement.executeUpdate();
             connexion.commit();
         } catch (SQLException e) {
             throw new DaoException(databaseErrorMessage + ": " + e.getMessage());

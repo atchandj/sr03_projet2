@@ -240,4 +240,25 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE addAnswer(IN questionId INT, IN answerValue  VARCHAR(255))
+BEGIN
+ 	DECLARE numberOfAnswers INT;
+	DECLARE answerOrderNumber INT;
+	START TRANSACTION;
+	SELECT COUNT(*) INTO numberOfAnswers
+	FROM Answer
+	WHERE question = questionId;
+	SET answerOrderNumber = numberOfAnswers + 1;
+	IF numberOfAnswers = 0 THEN
+		INSERT INTO Answer(question, orderNumber, value, active, t)
+		VALUE(questionId, answerOrderNumber, answerValue, FALSE, 'GoodAnswer');
+	ELSE
+		INSERT INTO Answer(question, orderNumber, value, active, t)
+		VALUE(questionId, answerOrderNumber, answerValue, FALSE, 'BadAnswer');
+	END IF;
+    COMMIT;
+END//
+DELIMITER ;
+
 -- -----------------------------------------------------------------------------------------------

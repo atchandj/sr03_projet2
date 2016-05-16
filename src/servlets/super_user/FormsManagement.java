@@ -83,13 +83,13 @@ public class FormsManagement extends HttpServlet {
 				break;
 			}
 		}
-		try {
-			request.setAttribute("topics", this.topicsManagementDao.getTopics());
-		} catch (DaoException e) {
-			errorMessage = e.getMessage();
-			request.setAttribute("errorMessage", errorMessage);
-		}
 		if(action == null || !action.equals("add_questionnaire")){
+			try {
+				request.setAttribute("topics", this.topicsManagementDao.getTopics());
+			} catch (DaoException e) {
+				errorMessage = e.getMessage();
+				request.setAttribute("errorMessage", errorMessage);
+			}
 			this.getServletContext().getRequestDispatcher(FORMS_MANAGEMENT_JSP).forward(request, response);
 		}
 	}

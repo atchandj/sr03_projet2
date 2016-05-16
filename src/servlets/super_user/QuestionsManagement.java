@@ -14,6 +14,7 @@ import dao.super_user.QuestionsManagementDao;
 public class QuestionsManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String QUESTIONNAIRES_MANAGEMENT_JSP = "/super_user/questionnaires_management.jsp";   
+	private static final String ANSWER_JSP = "/super_user/answer.jsp";
 	
     private QuestionsManagementDao questionnairesManagementDao;
 	    
@@ -40,7 +41,8 @@ public class QuestionsManagement extends HttpServlet {
 		int questionId = 0;
 		int answerOrderNumber = 0;
 		String action =  request.getParameter("action");
-
+		request.setAttribute("topicName", topicName);
+		request.setAttribute("questionnaireName", questionnaireName);
 		if(action != null){
 			switch (action) {
 			case "delete_question":
@@ -80,7 +82,7 @@ public class QuestionsManagement extends HttpServlet {
 				}
 				break;
 			case "activate_answer":
-				// System.out.println("Ajouter une réponse"); // Test
+				// System.out.println("Activer une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
 				try {
@@ -91,22 +93,53 @@ public class QuestionsManagement extends HttpServlet {
 					request.setAttribute("errorMessage", errorMessage);
 				}
 				break;
+			case "add_answer":		
+				System.out.println("Ajouter une réponse"); // Test
+				questionId = Integer.parseInt(request.getParameter("question_id"));
+				request.setAttribute("questionId", questionId);
+				this.getServletContext().getRequestDispatcher(ANSWER_JSP).forward(request, response);				
 			default:
 				break;
 			}
 		}
-		try {
-			request.setAttribute("questionnaire", this.questionnairesManagementDao.getQuestionnaire(topicName, questionnaireName));
-		} catch (DaoException e) {
-			errorMessage = e.getMessage();
-			request.setAttribute("errorMessage", errorMessage);
+		if(action == null || !action.equals("add_answer")){
+			try {
+				request.setAttribute("questionnaire", this.questionnairesManagementDao.getQuestionnaire(topicName, questionnaireName));
+			} catch (DaoException e) {
+				errorMessage = e.getMessage();
+				request.setAttribute("errorMessage", errorMessage);
+			}		
+			this.getServletContext().getRequestDispatcher(QUESTIONNAIRES_MANAGEMENT_JSP).forward(request, response);
 		}
-		request.setAttribute("topicName", topicName);
-		request.setAttribute("questionnaireName", questionnaireName);
-		this.getServletContext().getRequestDispatcher(QUESTIONNAIRES_MANAGEMENT_JSP).forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		String newAnswerValue = null;
+		String errorMessage = null;
+		int questionId = 0;
+		String action =  request.getParameter("paction");
+		if(action != null){
+			switch (action) {
+			case "add_answer":
+				System.out.println("Ajouter une réponse"); // Test
+				questionId = Integer.parseInt(request.getParameter("question_id"));
+				newAnswerValue = request.getParameter("answserValue");
+				System.out.println(newAnswerValue);
+				try {
+					this.questionnairesManagementDao.addAnswer(questionId, newAnswerValue);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
+				break;
+			case "add_question":
+				System.out.println("Ajouter une question"); // Test
+				break;				
+			default:
+				break;
+			}
+		}
 		doGet(request, response);
 	}
 
