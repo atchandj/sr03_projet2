@@ -2,21 +2,17 @@
 
 INSERT INTO Trainee 
 (email, surname, name, password, phone, company, accountCreation, accountStatus)
-VALUES ("ckyle@gmail.com", "Kyle", "Cédric", "ckyle", "0156201074", "UTC", NOW(), TRUE);
-
-INSERT INTO Trainee 
-(email, surname, name, password, phone, company, accountCreation, accountStatus)
-VALUES ("jdiesel@gmail.com", "Diesel", "Jean", "jdiesel", "0656221084", "UTC", NOW(), TRUE);
+VALUES 
+("ckyle@gmail.com", "Kyle", "Cédric", "ckyle", "0156201074", "UTC", NOW(), TRUE),
+("jdiesel@gmail.com", "Diesel", "Jean", "jdiesel", "0656221084", "UTC", NOW(), TRUE);
 
 -- ========== SuperUser ===========================================================================
 
 INSERT INTO SuperUser 
 (email, surname, name, password, phone, company, accountCreation, accountStatus)
-VALUES ("atchandj@gmail.com", "Tchandjou", "Adrien", "atchandj", "0654651084", "UTC", "2015-07-02 15:00:12", TRUE);
-
-INSERT INTO SuperUser 
-(email, surname, name, password, phone, company, accountCreation, accountStatus)
-VALUES ("daniel@gmail.com", "Artchounin", "Daniel", "daniel", "0657311307", "UTC", "2015-05-02 11:00:12", TRUE);
+VALUES 
+("atchandj@gmail.com", "Tchandjou", "Adrien", "atchandj", "0654651084", "UTC", "2015-07-02 15:00:12", TRUE),
+("daniel@gmail.com", "Artchounin", "Daniel", "daniel", "0657311307", "UTC", "2015-05-02 11:00:12", TRUE);
 
 -- ========== Topic ===========================================================================
 
@@ -32,18 +28,27 @@ VALUES
 -- ========== Questionnaire ===========================================================================
 
 INSERT INTO Questionnaire (topic, name, active)
-VALUES("JavaScript", "Boucle and Condition", FALSE);
-
-INSERT INTO Questionnaire (topic, name, active)
-VALUES("JEE", "Servlet", FALSE);
+VALUES
+("JavaScript", "Boucle and Condition", FALSE),
+("JEE", "Servlet", FALSE);
 
 -- ========== Question ===========================================================================
 
 INSERT INTO Question (questionnaire, orderNumber, value, active)
-VALUES(1, 1, "Qu'est qu'une servlet ?", TRUE);
+VALUES
+(1, 1, "Qu'est qu'une servlet ?", TRUE),
+(1, 2, "Quelle est la particularité d'une servlet ?", TRUE);
 
-INSERT INTO Question (questionnaire, orderNumber, value, active)
-VALUES(1, 2, "Quelle est la particularité d'une servlet ?", TRUE);
+-- ========== Answer ===========================================================================
+INSERT INTO Answer(question, orderNumber, value, active, t)
+VALUES
+(1, 1, "a", 1, "BadAnswer"),
+(1, 2, "b", 0, "GoodAnswer"),
+(1, 3, "c", 1, "BadAnswer"),
+(2, 4, "d", 0, "BadAnswer"),
+(2, 1, "a", 1, "BadAnswer"),
+(2, 2, "b", 0, "BadAnswer"),
+(2, 3, "c", 1, "GoodAnswer");
 
 -- ========== Attempt ===========================================================================
 INSERT INTO Attempt(trainee, questionnaire, score, beginning, end)

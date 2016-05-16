@@ -8,6 +8,8 @@ import java.util.Properties;
 
 import com.mysql.jdbc.Connection;
 
+import dao.super_user.QuestionsManagementDao;
+import dao.super_user.QuestionsManagementDaoImpl;
 import dao.super_user.TopicsManagementDao;
 import dao.super_user.TopicsManagementDaoImpl;
 import dao.super_user.UserDataDao;
@@ -92,5 +94,9 @@ public class DaoFactory {
     
     public TopicsManagementDao getTopicsManagementDao(){
     	return new TopicsManagementDaoImpl(this);
+    }
+    
+    public QuestionsManagementDao getQuestionsManagementDao(){
+    	return new QuestionsManagementDaoImpl(this);
     }
 }

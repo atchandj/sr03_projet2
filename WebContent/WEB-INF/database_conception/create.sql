@@ -176,3 +176,53 @@ WHERE NOT EXISTS (
 ) AND Q1.active = 0;
 
 -- -----------------------------------------------------------------------------------------------
+
+CREATE VIEW NotActivableQuestion
+AS  
+SELECT * 
+FROM Question Q
+WHERE EXISTS (
+	SELECT *
+	FROM Answer A
+	WHERE A.question = Q.id AND A.active = 0
+) OR NOT EXISTS(
+	SELECT *
+	FROM Answer A
+	WHERE A.question = Q.id
+) OR Q.active = 1;
+
+CREATE VIEW ActivableQuestion 
+AS  
+SELECT * 
+FROM Question Q
+WHERE NOT EXISTS (
+	SELECT *
+	FROM Answer A
+	WHERE A.question = Q.id AND A.active = 0
+) AND EXISTS(
+	SELECT *
+	FROM Answer A
+	WHERE A.question = Q.id
+) AND Q.active = 0;
+
+CREATE VIEW NotDeletableQuestion 
+AS  
+SELECT * 
+FROM Question Q
+WHERE EXISTS (
+	SELECT *
+	FROM Answer A
+	WHERE A.question = Q.id AND A.active = 1
+) OR Q.active = 1;
+
+CREATE VIEW DeletableQuestion 
+AS  
+SELECT * 
+FROM Question Q
+WHERE NOT EXISTS (
+	SELECT *
+	FROM Answer A
+	WHERE A.question = Q.id AND A.active = 1
+) AND Q.active = 0;
+
+-- -----------------------------------------------------------------------------------------------

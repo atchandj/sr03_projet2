@@ -176,6 +176,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         }
     }
     
+    @Override
 	public void activateQuestionnaire(String topicName, String questionnaireName) throws DaoException{
     	// System.out.println("Activer questionnaire"); // Test
         Connection connexion = null;
@@ -212,6 +213,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         }
 	}
 	
+    @Override
 	public void deleteTopic(String topicName) throws DaoException{
     	// System.out.println("Supprimer sujet"); // Test
         Connection connexion = null;
@@ -246,6 +248,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         }
 	}	
 	
+    @Override
 	public void deleteQuestionnaire(String topicName, String questionnaireName) throws DaoException{
     	// System.out.println("Supprimer questionnaire"); // Test
         Connection connexion = null;
@@ -266,7 +269,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
             connexion.commit();
             // System.out.println(result); // Test
             if(result == 0){
-            	System.out.println(questionnaireErrorMessage); // Test
+            	// System.out.println(questionnaireErrorMessage); // Test
             	throw new DaoException(questionnaireErrorMessage);
             }
         } catch (SQLException e) {

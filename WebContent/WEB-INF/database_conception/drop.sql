@@ -4,6 +4,10 @@ DROP VIEW NotActivableQuestionnaire;
 DROP VIEW ActivableQuestionnaire;
 DROP VIEW NotDeletableQuestionnaire;
 DROP VIEW DeletableQuestionnaire;
+DROP VIEW NotActivableQuestion;
+DROP VIEW ActivableQuestion;
+DROP VIEW NotDeletableQuestion;
+DROP VIEW DeletableQuestion;
 
 DROP TABLE AttemptAnswer;
 DROP TABLE Answer;

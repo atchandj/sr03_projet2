@@ -2,26 +2,43 @@ package beans.trainee;
 
 import java.util.ArrayList;
 
-public class Question {
+public class Question {	
 	private String value;
 	private int orderNumber;
 	private boolean active;
-	private ArrayList<BadAnswer> badAnswers;
-	private GoodAnswer goodAnswer;
+	private ArrayList<Answer> answers;
+	private boolean activable;
+	private boolean deletable;
+	private int questionnaireId;
 	
-	public Question(String value, int orderNumber, boolean active, ArrayList<BadAnswer> badAnswers, GoodAnswer goodAnswer){
+	public Question(String value, int orderNumber, boolean active, ArrayList<Answer> answers, boolean activable, boolean deletable, int questionnaireId){
 		this.setValue(value);
 		this.setOrderNumber(orderNumber);
 		this.setActive(active);
-		this.setBadAnswers(badAnswers);
-		this.setGoodAnswer(goodAnswer);
+		this.setAnswers(answers);
+		this.setActivable(activable);
+		this.setDeletable(deletable);
+		this.setQuestionnaireId(questionnaireId);
 	}
+	
+	public Question(String value, int orderNumber, boolean active, boolean activable, boolean deletable, int questionnaireId){
+		this.setValue(value);
+		this.setOrderNumber(orderNumber);
+		this.setActive(active);
+		this.answers = new ArrayList<Answer>();
+		this.setActivable(activable);
+		this.setDeletable(deletable);
+		this.setQuestionnaireId(questionnaireId);
+	}
+	
 	public Question(){
 		this.value = null;
 		this.orderNumber = 0;
 		this.active = false;
-		this.badAnswers = null;
-		this.goodAnswer = null;
+		this.answers = new ArrayList<Answer>();
+		this.activable = false;
+		this.deletable = false;
+		this.questionnaireId = 0;
 	}
 	
 	public String getValue() {
@@ -42,16 +59,29 @@ public class Question {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	public ArrayList<BadAnswer> getBadAnswers() {
-		return badAnswers;
+	public ArrayList<Answer> getAnswers() {
+		return answers;
 	}
-	public void setBadAnswers(ArrayList<BadAnswer> badAnswers) {
-		this.badAnswers = badAnswers;
+	public void setAnswers(ArrayList<Answer> answers) {
+		this.answers = answers;
 	}
-	public GoodAnswer getGoodAnswer() {
-		return goodAnswer;
+	public boolean isActivable() {
+		return activable;
 	}
-	public void setGoodAnswer(GoodAnswer goodAnswer) {
-		this.goodAnswer = goodAnswer;
+	public void setActivable(boolean activable) {
+		this.activable = activable;
 	}
+	public boolean isDeletable() {
+		return deletable;
+	}
+	public void setDeletable(boolean deletable) {
+		this.deletable = deletable;
+	}
+	public int getQuestionnaireId() {
+		return questionnaireId;
+	}
+	public void setQuestionnaireId(int questionnaireId) {
+		this.questionnaireId = questionnaireId;
+	}
+	
 }
