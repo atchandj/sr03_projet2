@@ -1,13 +1,10 @@
 package servlets.trainee;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +21,7 @@ import beans.trainee.Trainee;
 import dao.DAOConfigurationException;
 import dao.DaoException;
 import dao.DaoFactory;
-import dao.trainee.TopicsListDao;
+import dao.trainee.QuestionnairesListDao;
 
 
 public class SurveyList extends HttpServlet {
@@ -34,18 +31,17 @@ public class SurveyList extends HttpServlet {
 	private static final String ATT_SESSION_QUESTIONS = "questions";
 	private static final String ATT_SESSION_ATTEMPT = "attempt";
 	private static final String ATT_SESSION_TRAINEE = "trainee";
-	private TopicsListDao topicsListDao;
+	private QuestionnairesListDao questionnairesListDao;
        
     public SurveyList() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     public void init() throws ServletException {
 		DaoFactory daoFactory;
 		try {
 			daoFactory = DaoFactory.getInstance();
-			this.topicsListDao = daoFactory.getTopicsListDao();
+			this.questionnairesListDao = daoFactory.getTopicsListDao();
 		} catch (DAOConfigurationException e) {
 			e.printStackTrace();
 		} 
@@ -65,7 +61,7 @@ public class SurveyList extends HttpServlet {
 				attempt.setQuestionnaireId(idQuestionnaire);
 				List<Question> questions = new ArrayList<Question>();
 				try {
-					questions = this.topicsListDao.getQuestions(idQuestionnaire);	
+					questions = this.questionnairesListDao.getQuestions(idQuestionnaire);	
 				} catch (DaoException e) {
 					request.setAttribute("errorMessage", e.getMessage());
 				}
@@ -88,7 +84,7 @@ public class SurveyList extends HttpServlet {
 			} catch (Exception e) {
 				request.setAttribute("errorMessage", e.getMessage());
 				try {
-					List<Topic> topics = this.topicsListDao.getActivatedTopics();
+					List<Topic> topics = this.questionnairesListDao.getActivatedQuestionnaire();
 					request.setAttribute("topics", topics);
 				} catch (DaoException e1) {
 					request.setAttribute("errorMessage", e1.getMessage());
@@ -98,7 +94,7 @@ public class SurveyList extends HttpServlet {
 		}
 		else{
 			try {
-				List<Topic> topics = this.topicsListDao.getActivatedTopics();
+				List<Topic> topics = this.questionnairesListDao.getActivatedQuestionnaire();
 				request.setAttribute("topics", topics);
 			} catch (DaoException e) {
 				request.setAttribute("errorMessage", e.getMessage());
@@ -111,7 +107,6 @@ public class SurveyList extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		@SuppressWarnings("unchecked")
 		Attempt attempt = (Attempt) session.getAttribute(ATT_SESSION_ATTEMPT); //We recover the session variable for an attempt
 		@SuppressWarnings("unchecked")
 		List<Question> questions = (List<Question>) session.getAttribute(ATT_SESSION_QUESTIONS);
@@ -143,7 +138,7 @@ public class SurveyList extends HttpServlet {
 				attempt.setAnswersUnique();
 				attempt.setDone(true);
 				try {
-					this.topicsListDao.addAttempt(trainee, attempt);
+					this.questionnairesListDao.addAttempt(trainee, attempt);
 					session.removeAttribute(ATT_SESSION_ATTEMPT);
 					session.removeAttribute(ATT_SESSION_QUESTIONS);
 				} catch (DaoException e) {

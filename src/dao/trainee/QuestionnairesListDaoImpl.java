@@ -23,15 +23,15 @@ import dao.DaoException;
 import dao.DaoFactory;
 import dao.super_user.UsersManagementDao;
 
-public class TopicsListDaoImpl implements TopicsListDao {
+public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
 	 private DaoFactory daoFactory;
 
-	    public TopicsListDaoImpl(DaoFactory daoFactory) {
+	    public QuestionnairesListDaoImpl(DaoFactory daoFactory) {
 	        this.daoFactory = daoFactory;
 	    }
 	    
 	    @Override
-	    public List<Topic> getActivatedTopics() throws DaoException {
+	    public List<Topic> getActivatedQuestionnaire() throws DaoException {
 	        List<Topic> topics = new ArrayList<Topic>();
 	        Connection connexion = null;
 	        PreparedStatement preparedStatement = null;
