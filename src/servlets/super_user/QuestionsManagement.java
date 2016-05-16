@@ -68,7 +68,16 @@ public class QuestionsManagement extends HttpServlet {
 				}				
 				break;
 			case "delete_answer":
-				System.out.println("Supprimer une réponse"); // Test
+				// System.out.println("Supprimer une réponse"); // Test
+				questionId = Integer.parseInt(request.getParameter("question_id"));
+				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
+				try {
+					this.questionnairesManagementDao.deleteAnswer(questionId, answerOrderNumber);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					// System.out.println(errorMessage); // Test
+					request.setAttribute("errorMessage", errorMessage);
+				}
 				break;
 			case "activate_answer":
 				// System.out.println("Ajouter une réponse"); // Test

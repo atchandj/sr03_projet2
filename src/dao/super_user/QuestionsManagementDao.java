@@ -8,4 +8,5 @@ public interface QuestionsManagementDao {
 	 void deleteQuestion(int questionnaireId, int questionOrderNumber) throws DaoException;
 	 void activateQuestion(int questionnaireId, int questionOrderNumber) throws DaoException;
 	 void activateAnswer(int questionId, int answerOrderNumber) throws DaoException;
+	 void deleteAnswer(int questionId, int answerOrderNumber) throws DaoException;
 }
