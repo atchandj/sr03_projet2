@@ -37,6 +37,8 @@ public class QuestionsManagement extends HttpServlet {
 		String errorMessage = null;
 		int questionnaireId = 0;
 		int questionOrderNumber = 0;
+		int questionId = 0;
+		int answerOrderNumber = 0;
 		String action =  request.getParameter("action");
 
 		if(action != null){
@@ -69,7 +71,16 @@ public class QuestionsManagement extends HttpServlet {
 				System.out.println("Supprimer une réponse"); // Test
 				break;
 			case "activate_answer":
-				System.out.println("Ajouter une réponse"); // Test
+				// System.out.println("Ajouter une réponse"); // Test
+				questionId = Integer.parseInt(request.getParameter("question_id"));
+				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
+				try {
+					this.questionnairesManagementDao.activateAnswer(questionId, answerOrderNumber);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					// System.out.println(errorMessage); // Test
+					request.setAttribute("errorMessage", errorMessage);
+				}
 				break;
 			default:
 				break;
