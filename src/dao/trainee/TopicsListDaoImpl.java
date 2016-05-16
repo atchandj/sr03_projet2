@@ -166,7 +166,8 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	                boolean answerActive = result.getBoolean("answerActive");
 	                int answerOrderNumber = result.getInt("answerOrderNumber"),
 	                	answerId = result.getInt("answerId");
-	                if(result.getString("answerType") == "GoodAnswer"){
+	                
+	                if(result.getString("answerType").equals("GoodAnswer")){
 	                	answers.add(new GoodAnswer(answerId, answerOrderNumber, answerValue, answerActive));
 	                }
 	                else{
