@@ -45,12 +45,12 @@ VALUES
 (1, 1, "a", 1, "BadAnswer"),
 (1, 2, "b", 0, "GoodAnswer"),
 (1, 3, "c", 1, "BadAnswer"),
-(2, 4, "d", 0, "BadAnswer"),
+(1, 4, "Classe capable de recevoir une requête HTTP, et de renvoyer une réponse HTTP.", 1, "BadAnswer"),
 (2, 1, "a", 1, "BadAnswer"),
 (2, 2, "b", 0, "BadAnswer"),
 (2, 3, "c", 1, "GoodAnswer"),
-(1, 1, "Classe capable de recevoir une requête HTTP, et de renvoyer une réponse HTTP.", 1, "GoodAnswer"),
-(1, 2, "C'est le conteneur web", 1, "BadAnswer");
+(2, 4, "d", 0, "BadAnswer"),
+(2, 5, "C'est le conteneur web", 1, "BadAnswer");
 
 -- ========== Attempt ===========================================================================
 INSERT INTO Attempt(trainee, questionnaire, score, beginning, end)
