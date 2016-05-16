@@ -25,10 +25,10 @@
 								<h4 class="panel-title">
 									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />"><c:out value="${ question.value }" /></a> 
 									<c:if test="${question.activable}">
-										<a href="<c:url value="/super_user/questions_management?action=activate_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }"/>" class="btn btn-success" role="button">Activer</a>
+										<a href="<c:url value="/super_user/questions_management?action=activate_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
 									</c:if> 
 									<c:if test="${question.deletable}">
-										<a href="<c:url value="/super_user/questions_management?action=delete_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }"/>" class="btn btn-warning" role="button">Supprimer</a>
+										<a href="<c:url value="/super_user/questions_management?action=delete_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Supprimer</a>
 									</c:if> 
 								</h4>
 								</div>
@@ -43,8 +43,8 @@
 											" >
 												<c:out value="${ answer.value }" />
 												<c:if test="${ answer.active == false }">
-													<a href="<c:url value="/super_user/questions_management?action=activate_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }"/>" class="btn btn-success" role="button">Activer</a>
-													<a href="<c:url value="/super_user/questions_management?action=delete_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }"/>" class="btn btn-warning" role="button">Supprimer</a>
+													<a href="<c:url value="/super_user/questions_management?action=activate_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
+													<a href="<c:url value="/super_user/questions_management?action=delete_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Supprimer</a>
 												</c:if>
 											</li>
 										</c:forEach>

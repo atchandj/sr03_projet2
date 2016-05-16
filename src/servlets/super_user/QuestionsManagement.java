@@ -34,15 +34,46 @@ public class QuestionsManagement extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String topicName = request.getParameter("topic_name");
 		String questionnaireName = request.getParameter("questionnaire_name");
-		// System.out.println(topicName); // Test
-		// System.out.println(questionnaireName); // Test
 		String errorMessage = null;
+		int questionnaireId = 0;
+		int questionOrderNumber = 0;
+		String action =  request.getParameter("action");
+
+		if(action != null){
+			switch (action) {
+			case "delete_question":
+				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
+				questionOrderNumber = Integer.parseInt(request.getParameter("question_order_number"));
+				// System.out.println("Supprimer une question"); // Test
+				try {
+					this.questionnairesManagementDao.deleteQuestion(questionnaireId, questionOrderNumber);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					// System.out.println(errorMessage); // Test
+					request.setAttribute("errorMessage", errorMessage);
+				}
+				break;
+			case "activate_question":
+				System.out.println("Activer une question"); // Test
+				break;
+			case "delete_answer":
+				System.out.println("Supprimer une réponse"); // Test
+				break;
+			case "activate_answer":
+				System.out.println("Ajouter une réponse"); // Test
+				break;
+			default:
+				break;
+			}
+		}
 		try {
 			request.setAttribute("questionnaire", this.questionnairesManagementDao.getQuestionnaire(topicName, questionnaireName));
 		} catch (DaoException e) {
 			errorMessage = e.getMessage();
 			request.setAttribute("errorMessage", errorMessage);
 		}
+		request.setAttribute("topicName", topicName);
+		request.setAttribute("questionnaireName", questionnaireName);
 		this.getServletContext().getRequestDispatcher(QUESTIONNAIRES_MANAGEMENT_JSP).forward(request, response);
 	}
 

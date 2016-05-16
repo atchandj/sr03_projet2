@@ -101,6 +101,8 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
                 	if(i != 1){
                 		questionnaire.getQuestions().add(tmpQuestion);
                 	}                	
+                	System.out.println("act "+  activableQuestion);
+                	System.out.println("del "+  deletableQuestion);
                 	tmpQuestion = new Question(questionId, questionValue, questionOrderNumber, activeQuestion, activableQuestion, deletableQuestion, questionnaireId);
                 	previousQuestionOrderNumber = questionOrderNumber;            		
                 }
@@ -127,5 +129,42 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             }
         }
         return questionnaire;
+    }
+    
+    public void deleteQuestion(int questionnaireId, int questionOrderNumber) throws DaoException{
+    	// System.out.println("Supprimer question"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM Question "
+        		+ "WHERE questionnaire = ? AND orderNumber = ?;";
+        String questionErrorMessage = "Impossible de supprimer la question.";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            // System.out.println(questionnaireId); // Test
+            // System.out.println(questionOrderNumber); // Test
+            preparedStatement.setInt(1, questionnaireId);
+            preparedStatement.setInt(2, questionOrderNumber);
+            int result = preparedStatement.executeUpdate();
+            connexion.commit();
+            // System.out.println(result); // Test
+            if(result == 0){
+            	// System.out.println(questionErrorMessage); // Test
+            	throw new DaoException(questionErrorMessage);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+            }
+        }
     }
 }
