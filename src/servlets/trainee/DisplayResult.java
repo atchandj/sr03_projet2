@@ -7,10 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class DisplayResult
- */
-@WebServlet("/trainee/display_result")
 public class DisplayResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DISPLAY_RESULT_JSP = "/trainee/display_result.jsp";
