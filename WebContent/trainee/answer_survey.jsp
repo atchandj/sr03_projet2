@@ -16,6 +16,8 @@
 		</jsp:include>
 		
 		<div class="container-fluid">
+		<c:choose>
+		<c:when test="${ end == false }">
 			<form method="post" action="<c:url value="/trainee/survey_list"/>">
 				<div class="row">
 					<div class="col-md-4 col-lg-offset-4 " >
@@ -49,6 +51,29 @@
 					</div>
 				</div>
 			</form>
+		</c:when>
+		<c:otherwise>
+			<div class="row">
+				<div class="col-md-4 col-lg-offset-4 " >
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Résultat
+						</div>
+						<div class="panel-body">
+							<dl class="dl-horizontal">
+							  <dt>Score</dt>
+							  <dd><c:out value="${ attempt.score } (${attempt.score * 100/ attempt.attemptedAnswers.size() }%)" /></dd>
+							  <dt>Début</dt>
+							  <dd><c:out value="${ attempt.begining }" /></dd>
+							  <dt>Fin</dt>
+							  <dd><c:out value="${ attempt.end }" /></dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:otherwise>
+		</c:choose>	
 		</div>
 		
 	    <%@ include file="/footer.jsp" %>

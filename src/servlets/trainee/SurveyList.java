@@ -2,6 +2,8 @@ package servlets.trainee;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -64,7 +66,7 @@ public class SurveyList extends HttpServlet {
 						int index =  0;
 						request.setAttribute("question", questions.get(index));
 						request.setAttribute("index", index);
-						
+						request.setAttribute("end", false);	
 						} catch (DaoException e) {
 							e.printStackTrace();
 							request.setAttribute("errorMessage", e.getMessage());
@@ -99,10 +101,11 @@ public class SurveyList extends HttpServlet {
 			HttpSession session = request.getSession();
 			@SuppressWarnings("unchecked")
 			List<Question> questions = (List<Question>) session.getAttribute(ATT_SESSION_QUESTIONS);
+			@SuppressWarnings("unchecked")
+			Attempt attempt = (Attempt) session.getAttribute(ATT_SESSION_ATTEMPT); //We recover the session variable for an attempt
 			//System.out.println(questions);
 			for(Answer a : questions.get(index).getAnswers()){
 				if(answerId == a.getId()){
-					Attempt attempt = (Attempt) session.getAttribute(ATT_SESSION_ATTEMPT); //We recover the session variable for an attempt
 					attempt.getAttemptedAnswers().add(a); //Put the answer in the attempt
 					if(a.getClass().equals(GoodAnswer.class) ) 
 						attempt.increaseScore(); 					
@@ -111,12 +114,17 @@ public class SurveyList extends HttpServlet {
 			}
 			
 			if(index + 1 < questions.size() ){
+				request.setAttribute("end", false);	
 				request.setAttribute("question", questions.get(index + 1));
 				request.setAttribute("index", index + 1);	
 				this.getServletContext().getRequestDispatcher(ANSWER_SURVEY_JSP).forward(request, response);
 			}
 			else{
-				doGet(request, response);
+				request.setAttribute("end", true);
+				attempt.setEnd(new Timestamp(new Date().getTime()));
+				request.setAttribute("attempt", attempt);
+				this.getServletContext().getRequestDispatcher(ANSWER_SURVEY_JSP).forward(request, response);
+				//doGet(request, response);
 			}
 			
 		}
