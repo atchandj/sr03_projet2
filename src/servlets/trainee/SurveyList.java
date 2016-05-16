@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.trainee.Answer;
 import beans.trainee.Attempt;
+import beans.trainee.GoodAnswer;
 import beans.trainee.Question;
 import beans.trainee.Topic;
 import dao.DAOConfigurationException;
@@ -44,7 +46,7 @@ public class SurveyList extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action =  request.getParameter("action");
-		int index;
+		
 		
 		if(action != null){
 			switch(action){
@@ -59,9 +61,10 @@ public class SurveyList extends HttpServlet {
 						session.setAttribute(ATT_SESSION_ATTEMPT, attempt); // Creation of a session variable for an attempt
 									
 						
-						index = (request.getParameter("index") != null) ? Integer.parseInt(request.getParameter("index")) : 0 ;
+						int index =  0;
 						request.setAttribute("question", questions.get(index));
 						request.setAttribute("index", index);
+						
 						} catch (DaoException e) {
 							e.printStackTrace();
 							request.setAttribute("errorMessage", e.getMessage());
@@ -89,7 +92,36 @@ public class SurveyList extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		if(request.getParameter("answerId") != null){
+			int index = Integer.parseInt(request.getParameter("index")),
+					answerId = Integer.parseInt(request.getParameter("answerId"));
+			
+			HttpSession session = request.getSession();
+			@SuppressWarnings("unchecked")
+			List<Question> questions = (List<Question>) session.getAttribute(ATT_SESSION_QUESTIONS);
+			//System.out.println(questions);
+			for(Answer a : questions.get(index).getAnswers()){
+				if(answerId == a.getId()){
+					Attempt attempt = (Attempt) session.getAttribute(ATT_SESSION_ATTEMPT); //We recover the session variable for an attempt
+					attempt.getAttemptedAnswers().add(a); //Put the answer in the attempt
+					if(a.getClass().equals(GoodAnswer.class) ) 
+						attempt.increaseScore(); 					
+					session.setAttribute(ATT_SESSION_ATTEMPT, attempt);
+				}
+			}
+			
+			if(index + 1 < questions.size() ){
+				request.setAttribute("question", questions.get(index + 1));
+				request.setAttribute("index", index + 1);	
+				this.getServletContext().getRequestDispatcher(ANSWER_SURVEY_JSP).forward(request, response);
+			}
+			else{
+				doGet(request, response);
+			}
+			
+		}
+		
+		
 	}
 
 }

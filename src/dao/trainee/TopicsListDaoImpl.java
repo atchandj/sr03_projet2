@@ -104,7 +104,7 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	            query = "SELECT Q.id as questionId, Q.questionnaire as questionnaireId, Q.value as questionValue, Q.active as questionActive, Q.orderNumber as questionOrderNumber "
 	            		+ "FROM question Q INNER JOIN questionnaire UQ "
 	            		+ "ON Q.questionnaire = UQ.id "
-	            		+ "WHERE Q.id = ? AND Q.active = 1 "
+	            		+ "WHERE UQ.id = ? AND Q.active = 1 "
 	            		+ "ORDER By questionOrderNumber ASC ;";
 	             //System.out.println(query); // Test
 	            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);

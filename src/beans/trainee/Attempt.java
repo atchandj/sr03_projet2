@@ -2,6 +2,7 @@ package beans.trainee;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Attempt {
@@ -12,6 +13,7 @@ public class Attempt {
 	private Timestamp end;
 	private int durationInSeconds;
 	private double scoreDivByDurationTimes100;
+	private ArrayList<Answer> attemptedAnswers;
 
     public Attempt(String topicName, String questionnaireName, int score, Timestamp begining, Timestamp end, int durationInSeconds, double scoreDivByDurationTimes100){
         this.setTopicName(topicName);
@@ -31,6 +33,7 @@ public class Attempt {
         this.end = new Timestamp(new Date().getTime());
         this.durationInSeconds = 0;
         this.scoreDivByDurationTimes100 = 0.0;
+        this.setAttemptedAnswers(new ArrayList<Answer>());
     }
     
 	public String getTopicName() {
@@ -50,6 +53,9 @@ public class Attempt {
 	}
 	public void setScore(int score) {
 		this.score = score;
+	}
+	public void increaseScore(){
+		this.score += 1;
 	}
 	public String getBegining() {
 		String formattedAccountCreation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(this.begining);
@@ -76,5 +82,13 @@ public class Attempt {
 	}
 	public void setScoreDivByDurationTimes100(double scoreDivByDurationTimes100) {
 		this.scoreDivByDurationTimes100 = scoreDivByDurationTimes100;
+	}
+
+	public ArrayList<Answer> getAttemptedAnswers() {
+		return attemptedAnswers;
+	}
+
+	public void setAttemptedAnswers(ArrayList<Answer> attemptedAnswers) {
+		this.attemptedAnswers = attemptedAnswers;
 	}
 }
