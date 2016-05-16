@@ -101,13 +101,14 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
 	        try{
 	            connexion = daoFactory.getConnection();
-	            query = "SELECT UQ.id as questionId, Q.value as questionValue, Q.active as questionActive, Q.orderNumber as questionOrderNumber "
+	            query = "SELECT Q.id as questionId, Q.questionnaire as questionnaireId, Q.value as questionValue, Q.active as questionActive, Q.orderNumber as questionOrderNumber "
 	            		+ "FROM question Q INNER JOIN questionnaire UQ "
 	            		+ "ON Q.questionnaire = UQ.id "
-	            		+ "WHERE UQ.id = " + idQuestionnaire + " AND Q.active = 1 "
+	            		+ "WHERE Q.id = ? AND Q.active = 1 "
 	            		+ "ORDER By questionOrderNumber ASC ;";
 	             //System.out.println(query); // Test
 	            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+	            preparedStatement.setInt(1, idQuestionnaire);
 	            ResultSet result = preparedStatement.executeQuery();            
 	            while (result.next()) {
 	            	tmpQuestion = new Question();
@@ -116,13 +117,14 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	                String questionValue = result.getString("questionValue");
 	                boolean questionActive = result.getBoolean("questionActive");
 	                int questionOrderNumber = result.getInt("questionOrderNumber");
+	                int questionnaireId = result.getInt("questionnaireId");
 	                
 	                tmpQuestion.setId(questionId);
 	                tmpQuestion.setValue(questionValue);
 	                tmpQuestion.setOrderNumber(questionOrderNumber);
 	                tmpQuestion.setActive(questionActive);
-	                //tmpQuestion.setGoodAnswer(getGoodAnswerById(questionId));
-	                //tmpQuestion.setBadAnswers(getBadAnswerById(questionId));
+	                tmpQuestion.setQuestionnaireId(questionnaireId);
+	                tmpQuestion.setAnswers(getAnswer(questionId));;
 	                questions.add(tmpQuestion);
 	            }	            
 	        } catch (SQLException e) {
@@ -141,89 +143,8 @@ public class TopicsListDaoImpl implements TopicsListDao {
 		}
 	    
 	    @Override
-	    public GoodAnswer getGoodAnswerById(int idQuestion) throws DaoException {
-	    	GoodAnswer answer = null;
-	        Connection connexion = null;
-	        PreparedStatement preparedStatement = null;
-	        String query = null;
-	        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
-	        try{
-	            connexion = daoFactory.getConnection();
-	            query = "SELECT GA.id as answerId, GA.value as answerValue, GA.active answerActive, GA.orderNumber as answerOrderNumber "
-	            		+ "FROM vGoodAnswer GA INNER JOIN question Q "
-	            		+ "ON Q.id = GA.question "
-	            		+ "WHERE GA.question = " + idQuestion + " "
-	            		+ "ORDER BY GA.orderNumber;";
-	            		
-	             //System.out.println(query); // Test
-	            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-	            ResultSet result = preparedStatement.executeQuery();            
-	            while (result.next()) {	            	
-	                String answerValue = result.getString("answerValue");
-	                boolean answerActive = result.getBoolean("answerActive");
-	                int answerOrderNumber = result.getInt("answerOrderNumber"),
-	                	answerId = result.getInt("answerId");
-	                
-	                answer = new GoodAnswer(answerId, answerOrderNumber, answerValue, answerActive);
-	            }	            
-	        } catch (SQLException e) {
-	            throw new DaoException(databaseErrorMessage);
-	        }
-	        finally {
-	            try {
-	                if (connexion != null) {
-	                    connexion.close();  
-	                }
-	            } catch (SQLException e) {
-	                throw new DaoException(databaseErrorMessage);
-	            }
-	        }
-	        return answer;
-		}
-	    
-	    @Override
-	    public List<BadAnswer> getBadAnswerById(int idQuestion) throws DaoException {
-	    	List<BadAnswer> answers = new ArrayList<BadAnswer>();
-	        Connection connexion = null;
-	        PreparedStatement preparedStatement = null;
-	        String query = null;
-	        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
-	        try{
-	            connexion = daoFactory.getConnection();
-	            query = "SELECT BA.id as answerId, BA.value as answerValue, BA.active answerActive, BA.orderNumber as answerOrderNumber "
-	            		+ "FROM vBadAnswer BA INNER JOIN question Q "
-	            		+ "ON Q.id = BA.question "
-	            		+ "WHERE BA.question = " + idQuestion + " "
-	            		+ "ORDER BY BA.orderNumber;";
-	            		
-	             //System.out.println(query); // Test
-	            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-	            ResultSet result = preparedStatement.executeQuery();            
-	            while (result.next()) {	            	
-	                String answerValue = result.getString("answerValue");
-	                boolean answerActive = result.getBoolean("answerActive");
-	                int answerOrderNumber = result.getInt("answerOrderNumber"),
-	                	answerId = result.getInt("answerId");
-	                answers.add(new BadAnswer(answerId, answerOrderNumber, answerValue, answerActive));
-	            }	            
-	        } catch (SQLException e) {
-	            throw new DaoException(databaseErrorMessage);
-	        }
-	        finally {
-	            try {
-	                if (connexion != null) {
-	                    connexion.close();  
-	                }
-	            } catch (SQLException e) {
-	                throw new DaoException(databaseErrorMessage);
-	            }
-	        }
-	        return answers;
-		}
-	    
-	    @Override
-	    public List<Answer> getAnswer(int idQuestion) throws DaoException {
-	    	List<Answer> answers = new ArrayList<Answer>();
+	    public ArrayList<Answer> getAnswer(int idQuestion) throws DaoException {
+	    	ArrayList<Answer> answers = new ArrayList<Answer>();
 	        Connection connexion = null;
 	        PreparedStatement preparedStatement = null;
 	        String query = null;
@@ -233,18 +154,20 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	            query = "SELECT A.id as answerId, A.value as answerValue, A.active answerActive, A.orderNumber as answerOrderNumber, A.t as answerType  "
 	            		+ "FROM Answer A INNER JOIN question Q "
 	            		+ "ON Q.id = A.question "
-	            		+ "WHERE A.question = " + idQuestion + " "
+	            		+ "WHERE A.question = ? "
 	            		+ "ORDER BY A.orderNumber;";
 	            		
-	            System.out.println(query); // Test
+	            //System.out.println(query); // Test
 	            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+	            preparedStatement.setInt(1, idQuestion);
 	            ResultSet result = preparedStatement.executeQuery();            
 	            while (result.next()) {	            	
 	                String answerValue = result.getString("answerValue");
 	                boolean answerActive = result.getBoolean("answerActive");
 	                int answerOrderNumber = result.getInt("answerOrderNumber"),
 	                	answerId = result.getInt("answerId");
-	                if(result.getString("answerType") == "GoodAnswer"){
+	                
+	                if(result.getString("answerType").equals("GoodAnswer")){
 	                	answers.add(new GoodAnswer(answerId, answerOrderNumber, answerValue, answerActive));
 	                }
 	                else{
@@ -252,7 +175,7 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	                }
 	            }	            
 	        } catch (SQLException e) {
-	            throw new DaoException(e.getMessage());
+	            throw new DaoException(databaseErrorMessage);
 	        }
 	        finally {
 	            try {

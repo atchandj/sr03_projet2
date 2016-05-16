@@ -2,6 +2,7 @@ package beans.trainee;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Attempt {
 	private String topicName;
@@ -26,8 +27,8 @@ public class Attempt {
         this.topicName = null;
         this.questionnaireName = null;
         this.score = 0;
-        this.begining = null;
-        this.end = null;
+        this.begining = new Timestamp(new Date().getTime());
+        this.end = new Timestamp(new Date().getTime());
         this.durationInSeconds = 0;
         this.scoreDivByDurationTimes100 = 0.0;
     }
