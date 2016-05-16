@@ -13,7 +13,7 @@
 			<ul class="nav navbar-nav">
 				<li <c:if test="${ !empty param.traineeHome }">class="active"</c:if> ><a href="<c:url value="/trainee"/>" title="Vers l'accueil stagiaire"><span class="glyphicon glyphicon-home"></span> Accueil stagiaire</a></li>
 				<li <c:if test="${ !empty param.surveyList }">class="active"</c:if>><a href="<c:url value="/trainee/survey_list"/>" title="Vers la liste des questionnaires"><span class="glyphicon glyphicon-file"></span> Liste des questionnaires</a></li>
-				<li><a href="#" title="Vers les résultats obtenus"><span class="glyphicon glyphicon-education"></span> Résultats obtenus</a></li> 
+				<li <c:if test="${ !empty param.displayResult }">class="active"</c:if>><a href="#" title="Vers les résultats obtenus"><span class="glyphicon glyphicon-education"></span> Résultats obtenus</a></li> 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="<c:url value="/deconnection"/>" title="Vers le formulaire de connexion"><span class="glyphicon glyphicon-log-out"></span> Me déconnecter</a></li>
