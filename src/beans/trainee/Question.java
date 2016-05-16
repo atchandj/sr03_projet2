@@ -2,7 +2,8 @@ package beans.trainee;
 
 import java.util.ArrayList;
 
-public class Question {	
+public class Question {		
+	private int id;
 	private String value;
 	private int orderNumber;
 	private boolean active;
@@ -10,6 +11,16 @@ public class Question {
 	private boolean activable;
 	private boolean deletable;
 	private int questionnaireId;
+	
+	public Question(int id, String value, int orderNumber, boolean active, ArrayList<Answer> answers, boolean activable, boolean deletable, int questionnaireId){
+		this.setValue(value);
+		this.setOrderNumber(orderNumber);
+		this.setActive(active);
+		this.setAnswers(answers);
+		this.setActivable(activable);
+		this.setDeletable(deletable);
+		this.setQuestionnaireId(questionnaireId);
+	}
 	
 	public Question(String value, int orderNumber, boolean active, ArrayList<Answer> answers, boolean activable, boolean deletable, int questionnaireId){
 		this.setValue(value);
@@ -32,6 +43,7 @@ public class Question {
 	}
 	
 	public Question(){
+		this.setId(0);
 		this.value = null;
 		this.orderNumber = 0;
 		this.active = false;
@@ -83,5 +95,10 @@ public class Question {
 	public void setQuestionnaireId(int questionnaireId) {
 		this.questionnaireId = questionnaireId;
 	}
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 }

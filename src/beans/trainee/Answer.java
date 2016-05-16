@@ -1,17 +1,27 @@
 package beans.trainee;
 
 public abstract class Answer {
+	private int id;
 	private int orderNumber;
 	private String value;
 	private boolean active;
 	
+	public Answer(int id, int orderNumber, String value, boolean active){
+		this.setId(id);
+		this.setOrderNumber(orderNumber);
+		this.setValue(value);
+		this.setActive(active);
+	}
+	
 	public Answer(int orderNumber, String value, boolean active){
+		this.id = 0;
 		this.setOrderNumber(orderNumber);
 		this.setValue(value);
 		this.setActive(active);
 	}
 	
 	public Answer(){
+		this.id = 0;
 		this.orderNumber = 0;
 		this.value = null;
 		this.active = false;
@@ -34,6 +44,14 @@ public abstract class Answer {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	
