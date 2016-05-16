@@ -147,13 +147,13 @@ public class SurveyList extends HttpServlet {
 				request.setAttribute("attempt", attempt);				
 				attempt.setAnswersUnique();
 				System.out.println(attempt.getAttemptedAnswers());
-				/*try {
-					this.questionnairesListDao.addAttempt(trainee, attempt);*/
+				try {
+					this.questionnairesListDao.addAttempt(trainee, attempt);
 					session.removeAttribute(ATT_SESSION_ATTEMPT);
 					session.removeAttribute(ATT_SESSION_QUESTIONS);
-				/*} catch (DaoException e) {
+				} catch (DaoException e) {
 					request.setAttribute("errorMessage", e.getMessage());
-				}*/
+				}
 				this.getServletContext().getRequestDispatcher(ANSWER_SURVEY_JSP).forward(request, response);;
 			}
 			
