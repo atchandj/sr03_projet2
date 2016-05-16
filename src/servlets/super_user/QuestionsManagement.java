@@ -42,9 +42,9 @@ public class QuestionsManagement extends HttpServlet {
 		if(action != null){
 			switch (action) {
 			case "delete_question":
+				// System.out.println("Supprimer une question"); // Test
 				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
 				questionOrderNumber = Integer.parseInt(request.getParameter("question_order_number"));
-				// System.out.println("Supprimer une question"); // Test
 				try {
 					this.questionnairesManagementDao.deleteQuestion(questionnaireId, questionOrderNumber);
 				} catch (DaoException e) {
@@ -54,7 +54,16 @@ public class QuestionsManagement extends HttpServlet {
 				}
 				break;
 			case "activate_question":
-				System.out.println("Activer une question"); // Test
+				// System.out.println("Activer une question"); // Test
+				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
+				questionOrderNumber = Integer.parseInt(request.getParameter("question_order_number"));
+				try {
+					this.questionnairesManagementDao.activateQuestion(questionnaireId, questionOrderNumber);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					// System.out.println(errorMessage); // Test
+					request.setAttribute("errorMessage", errorMessage);
+				}				
 				break;
 			case "delete_answer":
 				System.out.println("Supprimer une réponse"); // Test
