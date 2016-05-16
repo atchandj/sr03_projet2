@@ -22,6 +22,13 @@
 			
 			<c:if test="${ !empty sessionScope.trainee }">
 				<section>
+					<c:if test="${ !empty errorMessage }">
+				  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+							<span class="sr-only">Error:</span><c:out value="${ errorMessage }" />
+						</div>
+					</c:if>
 					<table class="table table-bordered" id="surveyList">
 						<thead>
 				            <tr>

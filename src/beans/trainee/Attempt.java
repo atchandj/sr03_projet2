@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Attempt {
 	private String topicName;
@@ -15,6 +17,7 @@ public class Attempt {
 	private int durationInSeconds;
 	private double scoreDivByDurationTimes100;
 	private ArrayList<Answer> attemptedAnswers;
+	private boolean isDone;
 
     public Attempt(String topicName, String questionnaireName, int score, Timestamp begining, Timestamp end, int durationInSeconds, double scoreDivByDurationTimes100){
         this.setTopicName(topicName);
@@ -35,6 +38,7 @@ public class Attempt {
         this.durationInSeconds = 0;
         this.scoreDivByDurationTimes100 = 0.0;
         this.setAttemptedAnswers(new ArrayList<Answer>());
+        this.isDone = false;
     }
     
 	public String getTopicName() {
@@ -100,6 +104,13 @@ public class Attempt {
 	public void setAttemptedAnswers(ArrayList<Answer> attemptedAnswers) {
 		this.attemptedAnswers = attemptedAnswers;
 	}
+	
+	public void setAnswersUnique() { //To delete doublon
+		Set<Answer> hs = new HashSet<>();
+		hs.addAll(this.attemptedAnswers);
+		this.attemptedAnswers.clear();
+		this.attemptedAnswers.addAll(hs);		
+	}
 
 	public int getQuestionnaireId() {
 		return questionnaireId;
@@ -107,5 +118,13 @@ public class Attempt {
 
 	public void setQuestionnaireId(int questionnaireId) {
 		this.questionnaireId = questionnaireId;
+	}
+
+	public boolean isDone() {
+		return isDone;
+	}
+
+	public void setDone(boolean isDone) {
+		this.isDone = isDone;
 	}
 }

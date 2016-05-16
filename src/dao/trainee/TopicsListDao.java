@@ -17,4 +17,5 @@ public interface TopicsListDao {
 	List<Question> getQuestions(int idQuestionnaire) throws DaoException;
 	ArrayList<Answer> getAnswer(int idQuestion) throws DaoException;
 	void addAttempt(Trainee trainee, Attempt attempt) throws DaoException;
+	boolean isQuestionnaireAttempted(int idTrainee, int questionnaireId) throws DaoException;
 }
