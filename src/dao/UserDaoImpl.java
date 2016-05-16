@@ -27,18 +27,20 @@ public class UserDaoImpl implements UserDao {
         try{
             connexion = daoFactory.getConnection();
        	
-            preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT surname, name, phone, company, accountCreation FROM Trainee WHERE email= ? AND password=? AND accountStatus=TRUE;");
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT id, surname, name, phone, company, accountCreation FROM Trainee WHERE email= ? AND password=? AND accountStatus=TRUE;");
             preparedStatement.setString(1, tempUser.getEmail());
             preparedStatement.setString(2, tempUser.getPassword());
             ResultSet result = preparedStatement.executeQuery();         
             if(result.next()){
             	String email = tempUser.getEmail();
+            	int id = result.getInt("id");
                 String surname = result.getString("surname");
                 String name = result.getString("name");
                 String phone = result.getString("phone");
                 String company = result.getString("company");
                 Timestamp accountCreation = result.getTimestamp("accountCreation");
-
+                
+                trainee.setId(id);
                 trainee.setEmail(email);
                 trainee.setSurname(surname);
                 trainee.setName(name);
@@ -73,18 +75,20 @@ public class UserDaoImpl implements UserDao {
         try{
             connexion = daoFactory.getConnection();
        	
-            preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT surname, name, phone, company, accountCreation FROM SuperUser WHERE email=? AND password=? AND accountStatus=TRUE;");
+            preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT id, surname, name, phone, company, accountCreation FROM SuperUser WHERE email=? AND password=? AND accountStatus=TRUE;");
             preparedStatement.setString(1, tempUser.getEmail());
             preparedStatement.setString(2, tempUser.getPassword());
             ResultSet result = preparedStatement.executeQuery();         
             if(result.next()){
             	String email = tempUser.getEmail();
+            	int id = result.getInt("id");
                 String surname = result.getString("surname");
                 String name = result.getString("name");
                 String phone = result.getString("phone");
                 String company = result.getString("company");  
                 Timestamp accountCreation = result.getTimestamp("accountCreation");
                 
+                superUser.setId(id);
                 superUser.setEmail(email);
                 superUser.setSurname(surname);
                 superUser.setName(name);

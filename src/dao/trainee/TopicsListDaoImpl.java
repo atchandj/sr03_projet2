@@ -8,10 +8,11 @@ import java.util.List;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-
+import com.mysql.jdbc.Statement;
 
 import beans.super_user.SuperUser;
 import beans.trainee.Answer;
+import beans.trainee.Attempt;
 import beans.trainee.BadAnswer;
 import beans.trainee.GoodAnswer;
 import beans.trainee.Question;
@@ -188,5 +189,46 @@ public class TopicsListDaoImpl implements TopicsListDao {
 	        }
 	        return answers;
 		}
+	    
+	    @Override
+	    public void addAttempt(Trainee trainee, Attempt attempt) throws DaoException {
+	    	 System.out.println("Ajouter un parcours"); // Test
+	        Connection connexion = null;
+	        PreparedStatement preparedStatement = null;
+	        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+	        try{
+	            connexion = daoFactory.getConnection();
+	            //System.out.println("INSERT INTO Attempt (trainee, questionnaire, score, beginning, end) VALUES (?, ?, ?, ?, ?);"); // Test
+	            String query = "INSERT INTO Attempt "
+	            		+ "(trainee, questionnaire, score, beginning, end) "
+	            		+ "VALUES (?, ?, ?, ?, ?);";
+	            preparedStatement = (PreparedStatement) connexion.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+	            preparedStatement.setInt(1, trainee.getId());
+	            preparedStatement.setInt(2, attempt.getQuestionnaireId());
+	            preparedStatement.setInt(3, attempt.getScore());
+	            preparedStatement.setString(4, attempt.getBeginingSql());
+	            preparedStatement.setString(5, attempt.getEndSql());
+	            int result = preparedStatement.executeUpdate();
+	            System.out.println("Insert");
+	            ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+	            if(valeursAutoGenerees.next()){
+	            	int attemptId = valeursAutoGenerees.getInt( 1 );
+	            	System.out.println(attemptId);
+	            }
+	            connexion.commit();
+	        } catch (SQLException e) {
+	        	e.printStackTrace();
+	            throw new DaoException(databaseErrorMessage);
+	        }
+	        finally {
+	            try {
+	                if (connexion != null) {
+	                    connexion.close();  
+	                }
+	            } catch (SQLException e) {
+	                throw new DaoException(databaseErrorMessage);
+	            }
+	        }
+	    }
 	   
 }

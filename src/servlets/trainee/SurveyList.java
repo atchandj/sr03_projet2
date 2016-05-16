@@ -17,6 +17,7 @@ import beans.trainee.Attempt;
 import beans.trainee.GoodAnswer;
 import beans.trainee.Question;
 import beans.trainee.Topic;
+import beans.trainee.Trainee;
 import dao.DAOConfigurationException;
 import dao.DaoException;
 import dao.DaoFactory;
@@ -29,6 +30,7 @@ public class SurveyList extends HttpServlet {
 	private static final String ANSWER_SURVEY_JSP = "/trainee/answer_survey.jsp";
 	private static final String ATT_SESSION_QUESTIONS = "questions";
 	private static final String ATT_SESSION_ATTEMPT = "attempt";
+	private static final String ATT_SESSION_TRAINEE = "trainee";
 	private TopicsListDao topicsListDao;
        
     public SurveyList() {
@@ -56,6 +58,7 @@ public class SurveyList extends HttpServlet {
 					int idQuestionnaire = Integer.parseInt(request.getParameter("questionnaire"));
 					try {
 						Attempt attempt = new Attempt();
+						attempt.setQuestionnaireId(idQuestionnaire);
 						List<Question> questions = this.topicsListDao.getQuestions(idQuestionnaire);
 						
 						HttpSession session = request.getSession(); // Initiation of the session engine					
@@ -96,13 +99,14 @@ public class SurveyList extends HttpServlet {
 		// TODO Auto-generated method stub
 		if(request.getParameter("answerId") != null){
 			int index = Integer.parseInt(request.getParameter("index")),
-					answerId = Integer.parseInt(request.getParameter("answerId"));
-			
+			    answerId = Integer.parseInt(request.getParameter("answerId"));
+						
 			HttpSession session = request.getSession();
 			@SuppressWarnings("unchecked")
 			List<Question> questions = (List<Question>) session.getAttribute(ATT_SESSION_QUESTIONS);
 			@SuppressWarnings("unchecked")
 			Attempt attempt = (Attempt) session.getAttribute(ATT_SESSION_ATTEMPT); //We recover the session variable for an attempt
+			
 			//System.out.println(questions);
 			for(Answer a : questions.get(index).getAnswers()){
 				if(answerId == a.getId()){
@@ -120,9 +124,15 @@ public class SurveyList extends HttpServlet {
 				this.getServletContext().getRequestDispatcher(ANSWER_SURVEY_JSP).forward(request, response);
 			}
 			else{
+				Trainee trainee = (Trainee) session.getAttribute(ATT_SESSION_TRAINEE);
 				request.setAttribute("end", true);
 				attempt.setEnd(new Timestamp(new Date().getTime()));
 				request.setAttribute("attempt", attempt);
+				try {
+					this.topicsListDao.addAttempt(trainee, attempt);
+				} catch (DaoException e) {
+					request.setAttribute("errorMessage", e.getMessage());
+				}
 				this.getServletContext().getRequestDispatcher(ANSWER_SURVEY_JSP).forward(request, response);
 				//doGet(request, response);
 			}

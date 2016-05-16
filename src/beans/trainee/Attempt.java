@@ -8,6 +8,7 @@ import java.util.Date;
 public class Attempt {
 	private String topicName;
 	private String questionnaireName;
+	private int questionnaireId;
 	private int score;
 	private Timestamp begining;
 	private Timestamp end;
@@ -64,6 +65,14 @@ public class Attempt {
 	public void setBegining(Timestamp begining) {
 		this.begining = begining;
 	}
+	public String getBeginingSql() {
+		String formattedAccountCreation = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.end);
+		return formattedAccountCreation;
+	}
+	public String getEndSql() {
+		String formattedAccountCreation = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.end);
+		return formattedAccountCreation;
+	}
 	public String getEnd() {
 		String formattedAccountCreation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(this.end);
 		return formattedAccountCreation;
@@ -90,5 +99,13 @@ public class Attempt {
 
 	public void setAttemptedAnswers(ArrayList<Answer> attemptedAnswers) {
 		this.attemptedAnswers = attemptedAnswers;
+	}
+
+	public int getQuestionnaireId() {
+		return questionnaireId;
+	}
+
+	public void setQuestionnaireId(int questionnaireId) {
+		this.questionnaireId = questionnaireId;
 	}
 }
