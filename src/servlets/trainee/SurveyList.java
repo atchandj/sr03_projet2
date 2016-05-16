@@ -2,6 +2,7 @@ package servlets.trainee;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -122,6 +123,13 @@ public class SurveyList extends HttpServlet {
 						attempt.increaseScore(); 					
 					session.setAttribute(ATT_SESSION_ATTEMPT, attempt);
 				}
+				else{
+					if(attempt.getAttemptedAnswers().contains(a)){
+						attempt.getAttemptedAnswers().remove(a);
+						if(a.getClass().equals(GoodAnswer.class) )
+							attempt.decreaseScore();
+					}
+				}
 			}
 			
 			if(index + 1 < questions.size() ){
@@ -134,23 +142,26 @@ public class SurveyList extends HttpServlet {
 				Trainee trainee = (Trainee) session.getAttribute(ATT_SESSION_TRAINEE);
 				request.setAttribute("end", true);
 				attempt.setEnd(new Timestamp(new Date().getTime()));
+				attempt.setDurationInSeconds();
+				request.setAttribute("questions", questions);
 				request.setAttribute("attempt", attempt);				
 				attempt.setAnswersUnique();
-				attempt.setDone(true);
-				try {
-					this.questionnairesListDao.addAttempt(trainee, attempt);
+				System.out.println(attempt.getAttemptedAnswers());
+				/*try {
+					this.questionnairesListDao.addAttempt(trainee, attempt);*/
 					session.removeAttribute(ATT_SESSION_ATTEMPT);
 					session.removeAttribute(ATT_SESSION_QUESTIONS);
-				} catch (DaoException e) {
+				/*} catch (DaoException e) {
 					request.setAttribute("errorMessage", e.getMessage());
-				}
+				}*/
 				this.getServletContext().getRequestDispatcher(ANSWER_SURVEY_JSP).forward(request, response);;
 			}
 			
 		}
-		else
+		else{
 			request.setAttribute("errorMessage", "Parcours déjà terminé !");
 			doGet(request, response);
+		}			
 	}
 
 }

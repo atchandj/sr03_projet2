@@ -2,7 +2,6 @@ package dao.trainee;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
-import beans.super_user.SuperUser;
 import beans.trainee.Answer;
 import beans.trainee.Attempt;
 import beans.trainee.BadAnswer;
@@ -21,7 +19,6 @@ import beans.trainee.Topic;
 import beans.trainee.Trainee;
 import dao.DaoException;
 import dao.DaoFactory;
-import dao.super_user.UsersManagementDao;
 
 public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
 	 private DaoFactory daoFactory;
@@ -92,7 +89,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
 	    public List<Question> getQuestions(int idQuestionnaire) throws DaoException {
 	        List<Question> questions = new ArrayList<Question>();
 	        Connection connexion = null;
-	        PreparedStatement preparedStatement = null, preparedStatement2 = null;
+	        PreparedStatement preparedStatement = null;
 	        String query = null;
 	        Question tmpQuestion = null;
 	        String databaseErrorMessage = "Impossible de communiquer avec la base de données";

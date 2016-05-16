@@ -2,9 +2,12 @@ package beans.trainee;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Attempt {
@@ -17,7 +20,6 @@ public class Attempt {
 	private int durationInSeconds;
 	private double scoreDivByDurationTimes100;
 	private ArrayList<Answer> attemptedAnswers;
-	private boolean isDone;
 
     public Attempt(String topicName, String questionnaireName, int score, Timestamp begining, Timestamp end, int durationInSeconds, double scoreDivByDurationTimes100){
         this.setTopicName(topicName);
@@ -38,7 +40,6 @@ public class Attempt {
         this.durationInSeconds = 0;
         this.scoreDivByDurationTimes100 = 0.0;
         this.setAttemptedAnswers(new ArrayList<Answer>());
-        this.isDone = false;
     }
     
 	public String getTopicName() {
@@ -61,6 +62,9 @@ public class Attempt {
 	}
 	public void increaseScore(){
 		this.score += 1;
+	}
+	public void decreaseScore(){
+		this.score -= 1;
 	}
 	public String getBegining() {
 		String formattedAccountCreation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(this.begining);
@@ -89,6 +93,10 @@ public class Attempt {
 	}
 	public void setDurationInSeconds(int durationInSeconds) {
 		this.durationInSeconds = durationInSeconds;
+	}
+	public void setDurationInSeconds() {
+		Duration duration = Duration.between(this.begining.toLocalDateTime(), this.end.toLocalDateTime()) ;
+		this.durationInSeconds = (int) duration.getSeconds();
 	}
 	public double getScoreDivByDurationTimes100() {
 		return (double)Math.round(scoreDivByDurationTimes100 * 1000d) / 1000d;
@@ -119,12 +127,29 @@ public class Attempt {
 	public void setQuestionnaireId(int questionnaireId) {
 		this.questionnaireId = questionnaireId;
 	}
-
-	public boolean isDone() {
-		return isDone;
-	}
-
-	public void setDone(boolean isDone) {
-		this.isDone = isDone;
+	
+	public Map<String, Answer> compareAnswer(Question q){
+		Map<String, Answer> answerList = new HashMap<String, Answer>();
+		ArrayList<Answer> answers = q.getAnswers();
+		
+		for(Answer attemptedAnswer : this.attemptedAnswers){
+			if(answers.contains(attemptedAnswer)){
+				if(attemptedAnswer.getClass() == GoodAnswer.class){
+					answerList.put("trueAnswer", attemptedAnswer);
+				}
+				else{
+					answerList.put("zfalseAnswer", attemptedAnswer);
+					for(Answer answer : answers){
+						if(answer.getClass() == GoodAnswer.class){
+							answerList.put("answerGood", answer);
+							break;
+						}
+					}
+				}
+				break;
+			}
+		}
+		System.out.println(answerList);
+		return answerList;
 	}
 }

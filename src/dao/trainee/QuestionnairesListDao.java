@@ -5,8 +5,6 @@ import java.util.List;
 
 import beans.trainee.Answer;
 import beans.trainee.Attempt;
-import beans.trainee.BadAnswer;
-import beans.trainee.GoodAnswer;
 import beans.trainee.Question;
 import beans.trainee.Topic;
 import beans.trainee.Trainee;

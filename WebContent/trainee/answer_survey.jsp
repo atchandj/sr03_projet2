@@ -67,7 +67,36 @@
 							  <dd><c:out value="${ attempt.begining }" /></dd>
 							  <dt>Fin</dt>
 							  <dd><c:out value="${ attempt.end }" /></dd>
+							  <dt>Durée</dt>
+							  <dd><c:out value="${ attempt.durationInSeconds }" /> sec</dd>
 							</dl>
+							<c:forEach var="question" items="${ questions }" >
+								<ul class="list-group">
+									<li class="list-group-item">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<c:out value="${question.id }"/>" aria-expanded="false" aria-controls="collapse<c:out value="${question.id }"/>">
+											<c:out value="${question.value }" />
+										</a>									
+									</li>
+									<div class="panel-collapse collapse" id="collapse<c:out value="${question.id }"/>">
+										<li class="list-group-item">
+											<c:forEach var="answer" items="${ attempt.compareAnswer(question) }" >
+												<c:choose>
+													<c:when test="${answer.key == 'zfalseAnswer' }">
+														<p class="text-danger">Ta réponse est fausse : <c:out value="${answer.value.value }" />. </p>
+													</c:when>
+													<c:when test="${answer.key == 'answerGood' }">
+														<p class="text-success">La bonne réponse est : <c:out value="${answer.value.value }" />. </p>
+													</c:when>
+													<c:otherwise>
+														<p class="text-success">Ta réponse est bonne : <c:out value="${answer.value.value }" />. </p>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</li>
+									</div>
+									
+								</ul>
+							</c:forEach>
 							<a class="btn btn-default" href="<c:url value="/trainee/survey_list" />" role="button">Retour à la liste des questionnaires</a>
 						</div>
 					</div>
