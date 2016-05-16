@@ -49,12 +49,12 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             int questionnaireId = result1.getInt("id");
             System.out.println("questionId: " + questionnaireId);
             query2 = "SELECT * FROM( "
-            		+ "SELECT NAQ.orderNumber AS questionOrderNumber, NAQ.value AS questionValue, NAQ.active AS activeQuestion, 0 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
+            		+ "SELECT NAQ.id AS questionId, NAQ.orderNumber AS questionOrderNumber, NAQ.value AS questionValue, NAQ.active AS activeQuestion, 0 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
             		+ "FROM NotActivableQuestion NAQ LEFT OUTER JOIN Answer A "
             		+ "ON NAQ.id = A.question "
             		+ "AND NAQ.questionnaire = ? "
             		+ "UNION ALL "
-            		+ "SELECT AQ.orderNumber AS questionOrderNumber, AQ.value AS questionValue, AQ.active AS activeQuestion, 1 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
+            		+ "SELECT AQ.id AS questionId, AQ.orderNumber AS questionOrderNumber, AQ.value AS questionValue, AQ.active AS activeQuestion, 1 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
             		+ "FROM ActivableQuestion AQ INNER JOIN Answer A "
             		+ "ON AQ.id = A.question  "
             		+ "WHERE AQ.questionnaire = ? "
@@ -84,7 +84,8 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             questionnaire = new Questionnaire(questionnaireName);
             while (result2.next()) {            	
             	i += 1;          
-            	System.out.println("Nb of question: " + i);
+            	// System.out.println("Nb of question: " + i); // Test
+            	int questionId = result2.getInt("questionId");
             	int questionOrderNumber = result2.getInt("questionOrderNumber");
             	String questionValue = result2.getString("questionValue");
             	boolean activeQuestion = result2.getBoolean("activeQuestion");
@@ -100,7 +101,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
                 	if(i != 1){
                 		questionnaire.getQuestions().add(tmpQuestion);
                 	}                	
-                	tmpQuestion = new Question(questionValue, questionOrderNumber, activeQuestion, activableQuestion, deletableQuestion, questionnaireId);
+                	tmpQuestion = new Question(questionId, questionValue, questionOrderNumber, activeQuestion, activableQuestion, deletableQuestion, questionnaireId);
                 	previousQuestionOrderNumber = questionOrderNumber;            		
                 }
                 if(answerType != null){

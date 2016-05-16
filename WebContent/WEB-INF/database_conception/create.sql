@@ -228,14 +228,14 @@ WHERE NOT EXISTS (
 -- -----------------------------------------------------------------------------------------------
 
 DELIMITER //
-CREATE PROCEDURE deleteAnswer(IN questionD INT, IN orderNumberD INT)
+CREATE PROCEDURE deleteAnswer(IN questionID INT, IN answerOrderNumber INT)
 BEGIN
 	START TRANSACTION;
     DELETE FROM Answer
-	WHERE question = questionD AND orderNumber = orderNumberD;
+	WHERE question = questionID AND orderNumber = answerOrderNumber;
     UPDATE Answer
     SET orderNumber = orderNumber - 1
-    WHERE orderNumber > orderNumberD AND question = questionD;
+    WHERE orderNumber > answerOrderNumber AND question = questionID;
     COMMIT;
 END//
 DELIMITER ;

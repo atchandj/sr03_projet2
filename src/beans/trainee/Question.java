@@ -13,6 +13,7 @@ public class Question {
 	private int questionnaireId;
 	
 	public Question(int id, String value, int orderNumber, boolean active, ArrayList<Answer> answers, boolean activable, boolean deletable, int questionnaireId){
+		this.setId(id);
 		this.setValue(value);
 		this.setOrderNumber(orderNumber);
 		this.setActive(active);
@@ -21,18 +22,31 @@ public class Question {
 		this.setDeletable(deletable);
 		this.setQuestionnaireId(questionnaireId);
 	}
-	
+		
 	public Question(String value, int orderNumber, boolean active, ArrayList<Answer> answers, boolean activable, boolean deletable, int questionnaireId){
+		this.setId(0);
 		this.setValue(value);
 		this.setOrderNumber(orderNumber);
 		this.setActive(active);
 		this.setAnswers(answers);
+		this.setActivable(activable);
+		this.setDeletable(deletable);
+		this.setQuestionnaireId(questionnaireId);
+	}
+		
+	public Question(int id, String value, int orderNumber, boolean active, boolean activable, boolean deletable, int questionnaireId){
+		this.setId(id);
+		this.setValue(value);
+		this.setOrderNumber(orderNumber);
+		this.setActive(active);
+		this.answers = new ArrayList<Answer>();
 		this.setActivable(activable);
 		this.setDeletable(deletable);
 		this.setQuestionnaireId(questionnaireId);
 	}
 	
 	public Question(String value, int orderNumber, boolean active, boolean activable, boolean deletable, int questionnaireId){
+		this.setId(0);
 		this.setValue(value);
 		this.setOrderNumber(orderNumber);
 		this.setActive(active);

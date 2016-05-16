@@ -43,14 +43,14 @@
 											" >
 												<c:out value="${ answer.value }" />
 												<c:if test="${ answer.active == false }">
-													<a href="<c:url value="/super_user/questions_management?action=activate_answer&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&answer_order_number=${ answer.orderNumber }"/>" class="btn btn-success" role="button">Activer</a>
-													<a href="<c:url value="/super_user/questions_management?action=delete_answer&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&answer_order_number=${ answer.orderNumber }"/>" class="btn btn-warning" role="button">Supprimer</a>
+													<a href="<c:url value="/super_user/questions_management?action=activate_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }"/>" class="btn btn-success" role="button">Activer</a>
+													<a href="<c:url value="/super_user/questions_management?action=delete_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }"/>" class="btn btn-warning" role="button">Supprimer</a>
 												</c:if>
 											</li>
 										</c:forEach>
 									</ul>
 									<div class="panel-footer">
-										<a href="<c:url value="/super_user/forms_management?action=add_answer&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse </a>
+										<a href="<c:url value="/super_user/forms_management?action=add_answer&question_id=${ question.id }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse </a>
 									</div>
 								</div>
 							</div>
