@@ -16,6 +16,8 @@ import dao.super_user.UserDataDao;
 import dao.super_user.UserDataDaoImpl;
 import dao.super_user.UsersManagementDao;
 import dao.super_user.UsersManagementDaoImpl;
+import dao.trainee.DisplayResultDao;
+import dao.trainee.DisplayResultDaoImpl;
 import dao.trainee.QuestionnairesListDao;
 import dao.trainee.QuestionnairesListDaoImpl;
 
@@ -98,5 +100,9 @@ public class DaoFactory {
     
     public QuestionsManagementDao getQuestionsManagementDao(){
     	return new QuestionsManagementDaoImpl(this);
+    }
+    
+    public DisplayResultDao getDisplayResultDao(){
+    	return new DisplayResultDaoImpl(this);
     }
 }

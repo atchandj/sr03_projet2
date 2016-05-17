@@ -2,7 +2,6 @@ package servlets.trainee;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
