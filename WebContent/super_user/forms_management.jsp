@@ -25,7 +25,7 @@
 								<h4 class="panel-title">
 									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />"><c:out value="${ topic.name }" /></a> 
 									<c:if test="${empty topic.questionnaires}">
-										<a href="<c:url value="/super_user/forms_management?action=delete_topic&topic_name=${ topic.name }"/>" class="btn btn-warning" role="button">Supprimer</a>
+										<a href="<c:url value="/super_user/forms_management?action=delete_topic&topic_name=${ topic.name }"/>" class="btn btn-danger" role="button">Supprimer</a>
 									</c:if> 
 								</h4>
 								</div>
@@ -43,7 +43,7 @@
 													<a href="<c:url value="/super_user/forms_management?action=activate_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-success" role="button">Activer</a>
 												</c:if>
 												<c:if test="${ questionnaire.deletable == true }">
-													<a href="<c:url value="/super_user/forms_management?action=delete_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-warning" role="button">Supprimer</a>
+													<a href="<c:url value="/super_user/forms_management?action=delete_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-danger" role="button">Supprimer</a>
 												</c:if>
 											</li>
 										</c:forEach>

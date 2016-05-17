@@ -1,5 +1,6 @@
 package dao.super_user;
 
+import beans.trainee.Answer;
 import beans.trainee.Questionnaire;
 import dao.DaoException;
 
@@ -12,4 +13,6 @@ public interface QuestionsManagementDao {
 	 void addAnswer(int questionId, String answerValue) throws DaoException;
 	 void addQuestion(int questionnaireId, String questionValue) throws DaoException;
 	 void setTrueAnswer(int questionId, int answerOrderNumber) throws DaoException;
+	 Answer getAnswer(int questionId, int answerOrderNumber) throws DaoException;
+	 void updateAnswer(int questionId, int answerOrderNumber, String answerValue) throws DaoException;
 }

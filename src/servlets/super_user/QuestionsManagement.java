@@ -104,11 +104,26 @@ public class QuestionsManagement extends HttpServlet {
 					// System.out.println(errorMessage); // Test
 					request.setAttribute("errorMessage", errorMessage);
 				}
-				break;
+				break;				
 			case "add_answer":		
 				// System.out.println("Ajouter une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
+				request.setAttribute("paction", "add_answer");
 				request.setAttribute("questionId", questionId);
+				this.getServletContext().getRequestDispatcher(ANSWER_JSP).forward(request, response);
+				break;
+			case "modify_answer":		
+				System.out.println("Modifier une réponse"); // Test
+				questionId = Integer.parseInt(request.getParameter("question_id"));
+				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
+				request.setAttribute("paction", "modify_answer");
+				request.setAttribute("questionId", questionId);
+				try {
+					request.setAttribute("answer", this.questionnairesManagementDao.getAnswer(questionId, answerOrderNumber));
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
 				this.getServletContext().getRequestDispatcher(ANSWER_JSP).forward(request, response);
 				break;
 			case "add_question":
@@ -139,6 +154,7 @@ public class QuestionsManagement extends HttpServlet {
 		String errorMessage = null;
 		int questionId = 0;
 		int questionnaireId = 0;
+		int answerOrderNumber = 0;
 		String action =  request.getParameter("paction");
 		if(action != null){
 			switch (action) {
@@ -149,6 +165,22 @@ public class QuestionsManagement extends HttpServlet {
 				// System.out.println(newAnswerValue);
 				try {
 					this.questionnairesManagementDao.addAnswer(questionId, newAnswerValue);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
+				break;
+			case "modify_answer":
+				// System.out.println("Modifier une réponse"); // Test
+				questionId = Integer.parseInt(request.getParameter("question_id"));
+				newAnswerValue = request.getParameter("answserValue");
+				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
+				System.out.println(questionId);
+				System.out.println(newAnswerValue);
+				System.out.println(answerOrderNumber);
+				// System.out.println(newAnswerValue);
+				try {
+					this.questionnairesManagementDao.updateAnswer(questionId, answerOrderNumber, newAnswerValue);
 				} catch (DaoException e) {
 					errorMessage = e.getMessage();
 					request.setAttribute("errorMessage", errorMessage);

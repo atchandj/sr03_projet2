@@ -33,7 +33,7 @@
 										<a href="<c:url value="/super_user/questions_management?action=activate_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
 									</c:if> 
 									<c:if test="${question.deletable}">
-										<a href="<c:url value="/super_user/questions_management?action=delete_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Supprimer</a>
+										<a href="<c:url value="/super_user/questions_management?action=delete_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-danger" role="button">Supprimer</a>
 									</c:if> 
 								</h4>
 								</div>
@@ -52,11 +52,12 @@
 													<c:otherwise><span class="label label-danger">F</span></c:otherwise>
 												</c:choose>	
 												<c:if test="${ question.trueAnswerChangeable and answer['class'] == 'class beans.trainee.BadAnswer' and answer.active == false }">
-													<a href="<c:url value="/super_user/questions_management?action=set_true_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-primary" role="button">Bonne réponse ?</a>
+													<a href="<c:url value="/super_user/questions_management?action=set_true_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-primary" role="button">Bonne réponse</a>
 												</c:if>										
 												<c:if test="${ answer.active == false }">
 													<a href="<c:url value="/super_user/questions_management?action=activate_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
-													<a href="<c:url value="/super_user/questions_management?action=delete_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Supprimer</a>
+													<a href="<c:url value="/super_user/questions_management?action=modify_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Modifier</a>
+													<a href="<c:url value="/super_user/questions_management?action=delete_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-danger" role="button">Supprimer</a>
 												</c:if>
 											</li>
 										</c:forEach>

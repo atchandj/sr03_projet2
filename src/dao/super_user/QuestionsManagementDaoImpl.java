@@ -384,4 +384,78 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             }
         }
     }
+    
+    public Answer getAnswer(int questionId, int answerOrderNumber) throws DaoException{
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "SELECT A.value AS value "
+        		+ "FROM Answer A "
+        		+ "WHERE A.question = ? AND A.orderNumber = ?;";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        Answer answer = null;
+        String answerValue = null;
+        try{
+            connexion = daoFactory.getConnection();
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            preparedStatement.setInt(1, questionId);
+            preparedStatement.setInt(2, answerOrderNumber);
+            ResultSet result = preparedStatement.executeQuery();
+            boolean ok = result.next();
+            if(ok){
+            	answerValue = result.getString("value");
+            	answer = new Answer(answerOrderNumber, answerValue);            	
+            }else{
+            	throw new DaoException(databaseErrorMessage);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage);
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage);
+            }
+        }
+        return answer;
+    }
+    
+	public void updateAnswer(int questionId, int answerOrderNumber, String answerValue) throws DaoException{
+		// System.out.println("Mettre à jour la réponse"); // Test
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		String query = "UPDATE Answer "
+				+ "SET value = ? "
+				+ "WHERE question = ? AND orderNumber = ?;";
+		String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+		String answerErrorMessage = "Impossible de mettre à jour la réponse";
+		try{
+		    connexion = daoFactory.getConnection();
+		    // System.out.println(query); // Test
+		    preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+		    // System.out.println(questionId); // Test
+		    // System.out.println(answerOrderNumber); // Test
+		    preparedStatement.setString(1, answerValue);
+		    preparedStatement.setInt(2, questionId);
+		    preparedStatement.setInt(3, answerOrderNumber);
+		    int result = preparedStatement.executeUpdate();
+		    connexion.commit();
+            if(result == 0){
+            	throw new DaoException(answerErrorMessage);
+            }		    
+		} catch (SQLException e) {
+		    throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+		}
+		finally {
+		    try {
+		        if (connexion != null) {
+		            connexion.close();  
+		        }
+		    } catch (SQLException e) {
+		        throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+		    }
+		}
+	 }
 }

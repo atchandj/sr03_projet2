@@ -13,6 +13,18 @@ public class Question {
 	private int questionnaireId;
 	private boolean trueAnswerChangeable;
 	
+	
+	public Question(String value){
+		this.setId(0);
+		this.value = value;
+		this.orderNumber = 0;
+		this.active = false;
+		this.answers = new ArrayList<Answer>();
+		this.activable = false;
+		this.deletable = false;
+		this.questionnaireId = 0;
+	}
+	
 	public Question(int id, String value, int orderNumber, boolean active, ArrayList<Answer> answers, boolean activable, boolean deletable, int questionnaireId){
 		this.setId(id);
 		this.setValue(value);

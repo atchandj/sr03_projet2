@@ -25,9 +25,12 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="answserValue">Réponse :</label>
-									<input type="text" id="answserValue" class="form-control" placeholder="Réponse" name="answserValue" value="" autofocus required/>
+									<input type="text" id="answserValue" class="form-control" placeholder="Réponse" name="answserValue" value="${ answer.value }" autofocus required/>
 								</div>
-								<input type="hidden" name="paction" value="add_answer" />
+								<c:if test="${ !empty answer }">
+									<input type="hidden" name="answer_order_number" value="${ answer.orderNumber }" />
+								</c:if>
+								<input type="hidden" name="paction" value="${ paction }" />
 								<input type="hidden" name="topic_name" value="${ topicName }" />
 								<input type="hidden" name="questionnaire_name" value="${ questionnaireName }" />
 								<input type="hidden" name="question_id" value="${ questionId }" />
