@@ -14,7 +14,6 @@
 			<jsp:param name="formsManagement" value="formsManagement" />
 		</jsp:include>
 		<div class="container-fluid">
-		<div role="tabpanel" class="tab-pane active">
 			<form method="post" action="<c:url value="/super_user/questions_management"/>">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-4">
@@ -47,7 +46,6 @@
 					</div>
 				</div>
 			</form>
-		</div> 
 	    </div>
 	    <%@ include file="/footer.jsp" %>
 	</body>

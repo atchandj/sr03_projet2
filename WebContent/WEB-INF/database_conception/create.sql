@@ -48,7 +48,7 @@ CREATE TABLE Questionnaire(
 	active BOOLEAN NOT NULL,
 	PRIMARY KEY(id),
 	UNIQUE(topic, name),
-	FOREIGN KEY(topic) REFERENCES Topic(name) ON DELETE CASCADE
+	FOREIGN KEY(topic) REFERENCES Topic(name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- /* Ajout d'une clé artificielle pour les performances */

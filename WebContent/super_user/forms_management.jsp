@@ -16,6 +16,7 @@
 		<div class="container-fluid">
 	    <c:if test="${ !empty sessionScope.superUser }">
 	        <section>
+	        	<h1>Sujets</h1>
 				<c:forEach var="topic" items="${ topics }" varStatus="status">
 					<div class="row">
 					<div class="col-md-6 col-md-offset-3">
@@ -24,6 +25,7 @@
 								<div class="panel-heading">
 								<h4 class="panel-title">
 									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />"><c:out value="${ topic.name }" /></a> 
+									<a href="<c:url value="/super_user/forms_management?action=modify_topic&topic_name=${ topic.name }"/>" class="btn btn-warning" role="button">Modifier</a>
 									<c:if test="${empty topic.questionnaires}">
 										<a href="<c:url value="/super_user/forms_management?action=delete_topic&topic_name=${ topic.name }"/>" class="btn btn-danger" role="button">Supprimer</a>
 									</c:if> 
@@ -60,34 +62,7 @@
 					</div>
 					</div>
 				</c:forEach>
-				<form method="post" action="<c:url value="/super_user/forms_management"/>">
-					<div class="row">
-					<div class="col-md-6 col-md-offset-3">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title text-center">
-									Ajout d'un sujet
-								</h4>
-							</div>
-							<div class="panel-body">
-								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
-									<label class="control-label" for="newTopicName">Nom du sujet : </label>
-									<input type="text" id="newTopicName" class="form-control" placeholder="Nom du sujet" name="newTopicName" autofocus required/>
-								</div>	
-								<input type="hidden" name="paction" value="add_topic" />	
-								<input type="submit" class="btn btn-default" value="Ajouter"/>
-								<c:if test="${ !empty errorMessage }">
-							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 
-										<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-										<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-										<span class="sr-only">Error:</span><c:out value="${ errorMessage }" />
-									</div>
-								</c:if>						
-							</div>
-						</div>
-					</div>
-					</div>					
-				</form>		
+				<h4><a href="<c:url value="/super_user/forms_management?action=add_topic"/>" title="Cliquez si vous souhaitez en ajouter un">Ajouter un sujet</a></h4>
 	    	</section>
 	    </c:if>
 	    </div>

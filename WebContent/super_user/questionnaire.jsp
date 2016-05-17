@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>Ajout d'un questionnaire</title>
+		<title>Questionnaire</title>
 		<script src="<c:url value="/js/jquery-2.2.2.min.js"/>"></script>
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
@@ -14,7 +14,6 @@
 			<jsp:param name="formsManagement" value="formsManagement" />
 		</jsp:include>
 		<div class="container-fluid">
-		<div role="tabpanel" class="tab-pane active">
 			<form method="post" action="<c:url value="/super_user/forms_management"/>">
 				<div class="row">
 					<div class="col-md-4 col-lg-offset-4 " >
@@ -48,7 +47,6 @@
 					</div>
 				</div>
 			</form>
-		</div> 
 	    </div>
 	    <%@ include file="/footer.jsp" %>
 	</body>

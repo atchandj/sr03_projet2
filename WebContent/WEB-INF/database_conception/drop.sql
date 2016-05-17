@@ -8,6 +8,8 @@ DROP VIEW NotActivableQuestion;
 DROP VIEW ActivableQuestion;
 DROP VIEW NotDeletableQuestion;
 DROP VIEW DeletableQuestion;
+DROP VIEW NotChangeableTrueAnswerQuestion;
+DROP VIEW ChangeableTrueAnswerQuestion;
 
 DROP TABLE AttemptAnswer;
 DROP TABLE Answer;

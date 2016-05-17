@@ -14,7 +14,8 @@ import dao.super_user.TopicsManagementDao;
 public class FormsManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String FORMS_MANAGEMENT_JSP = "/super_user/forms_management.jsp";
-	private static final String ADD_QUESTIONNAIRE_JSP = "/super_user/questionnaire.jsp";
+	private static final String QUESTIONNAIRE_JSP = "/super_user/questionnaire.jsp";
+	private static final String TOPIC_JSP = "/super_user/topic.jsp";
 
     private TopicsManagementDao topicsManagementDao;
 	
@@ -56,7 +57,7 @@ public class FormsManagement extends HttpServlet {
 				// System.out.println(topicName); // Test
 				request.setAttribute("topic_name", topicName);
 				request.setAttribute("paction", "add_questionnaire");
-				this.getServletContext().getRequestDispatcher(ADD_QUESTIONNAIRE_JSP).forward(request, response);
+				this.getServletContext().getRequestDispatcher(QUESTIONNAIRE_JSP).forward(request, response);
 				break;
 			case "delete_questionnaire":
 				// System.out.println("Supprimer un questionnaire"); // Test
@@ -89,13 +90,25 @@ public class FormsManagement extends HttpServlet {
 				request.setAttribute("topic_name", topicName);
 				request.setAttribute("questionnaireName", questionnaireName);
 				request.setAttribute("paction", "modify_questionnaire");
-				this.getServletContext().getRequestDispatcher(ADD_QUESTIONNAIRE_JSP).forward(request, response);
+				this.getServletContext().getRequestDispatcher(QUESTIONNAIRE_JSP).forward(request, response);
 			break;
+			case "add_topic":
+				// System.out.println("Ajouter un sujet"); // Test
+				request.setAttribute("paction", "add_topic");
+				this.getServletContext().getRequestDispatcher(TOPIC_JSP).forward(request, response);
+				break;
+			case "modify_topic":
+				// System.out.println("Modifier un sujet"); // Test
+				topicName = request.getParameter("topic_name");
+				request.setAttribute("paction", "modify_topic");
+				request.setAttribute("topic_name", topicName);
+				this.getServletContext().getRequestDispatcher(TOPIC_JSP).forward(request, response);
+				break;
 			default:
 				break;
 			}
 		}
-		if(action == null || ( !action.equals("add_questionnaire")) && !action.equals("modify_questionnaire") ){
+		if(action == null || ( !action.equals("add_questionnaire")) && !action.equals("modify_questionnaire") && !action.equals("add_topic") && !action.equals("modify_topic") ){
 			try {
 				request.setAttribute("topics", this.topicsManagementDao.getTopics());
 			} catch (DaoException e) {
@@ -109,6 +122,7 @@ public class FormsManagement extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String newTopicName = null;
+		String oldTopicName = null;
 		String topicName = null;
 		String oldQuestionnaireName = null;
 		String questionnaireName = null;
@@ -120,6 +134,18 @@ public class FormsManagement extends HttpServlet {
 				newTopicName = request.getParameter("newTopicName");
 				try {
 					this.topicsManagementDao.addTopic(newTopicName);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
+				break;
+			case "modify_topic":
+				newTopicName = request.getParameter("newTopicName");
+				oldTopicName = request.getParameter("oldTopicName");
+				// System.out.println("oldTopicName: " + oldTopicName);
+				// System.out.println("newTopicName: " + newTopicName);
+				try {
+					this.topicsManagementDao.updateTopic(oldTopicName, newTopicName);;
 				} catch (DaoException e) {
 					errorMessage = e.getMessage();
 					request.setAttribute("errorMessage", errorMessage);

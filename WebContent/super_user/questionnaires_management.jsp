@@ -16,6 +16,7 @@
 		<div class="container-fluid">
 	    <c:if test="${ !empty sessionScope.superUser }">
 	    	<section>
+	    		<h1>Questionnaire : ${ questionnaireName }</h1>
 				<c:forEach var="question" items="${ questionnaire.questions }" varStatus="status">	
 					<div class="row">
 					<div class="col-md-6 col-md-offset-3">

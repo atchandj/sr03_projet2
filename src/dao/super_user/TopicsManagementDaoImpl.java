@@ -289,6 +289,42 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         }
 	}	
     
+    public void updateTopic(String oldTopicName, String newTopicName) throws DaoException{
+		// System.out.println("Mettre à jour le sujet"); // Test
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		String query = "UPDATE Topic "
+				+ "SET name = ? "
+				+ "WHERE name = ?;";
+		String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+		String topicErrorMessage = "Impossible de mettre à jour le sujet";
+		try{
+		    connexion = daoFactory.getConnection();
+		    // System.out.println(query); // Test
+		    preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+		    // System.out.println(newTopicName); // Test
+		    // System.out.println(oldTopicName); // Test
+		    preparedStatement.setString(1, newTopicName);
+		    preparedStatement.setString(2, oldTopicName);
+		    int result = preparedStatement.executeUpdate();
+		    connexion.commit();
+            if(result == 0){
+            	throw new DaoException(topicErrorMessage);
+            }		    
+		} catch (SQLException e) {
+		    throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+		}
+		finally {
+		    try {
+		        if (connexion != null) {
+		            connexion.close();  
+		        }
+		    } catch (SQLException e) {
+		        throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+		    }
+		}	
+    }
+    
 	public void updateQuestionnaire(String topicName, String oldQuestionnaireName, String newQuestionnaireName) throws DaoException{
 		// System.out.println("Mettre à jour le questionnaire"); // Test
 		Connection connexion = null;
@@ -297,7 +333,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
 				+ "SET name = ? "
 				+ "WHERE topic = ? AND name = ?;";
 		String databaseErrorMessage = "Impossible de communiquer avec la base de données";
-		String answerErrorMessage = "Impossible de mettre à jour le questionnaire";
+		String questionnaireErrorMessage = "Impossible de mettre à jour le questionnaire";
 		try{
 		    connexion = daoFactory.getConnection();
 		    // System.out.println(query); // Test
@@ -311,7 +347,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
 		    int result = preparedStatement.executeUpdate();
 		    connexion.commit();
             if(result == 0){
-            	throw new DaoException(answerErrorMessage);
+            	throw new DaoException(questionnaireErrorMessage);
             }		    
 		} catch (SQLException e) {
 		    throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
