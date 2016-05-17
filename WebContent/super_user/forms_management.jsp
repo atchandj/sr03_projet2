@@ -35,10 +35,10 @@
 											<li class="list-group-item 
 												<c:choose>
 													<c:when test="${ questionnaire.active == true }">list-group-item-success</c:when>
-													<c:otherwise>list-group-item-warning</c:otherwise>
+													<c:otherwise>list-group-item-danger</c:otherwise>
 												</c:choose>
 											" >
-												<a href="<c:url value="/super_user/questions_management?topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" title="Cliquez pour me consulter"><c:out value="${ questionnaire.name }" /></a>
+												<a href="<c:url value="/super_user/questions_management?topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }" />" title="Cliquez pour me consulter"><c:out value="${ questionnaire.name }" /></a>
 												<c:if test="${ questionnaire.activable == true }">
 													<a href="<c:url value="/super_user/forms_management?action=activate_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-success" role="button">Activer</a>
 												</c:if>

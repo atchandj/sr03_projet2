@@ -20,7 +20,12 @@
 					<div class="row">
 					<div class="col-md-6 col-md-offset-3">
 						<div class="panel-group">
-							<div class="panel panel-default">
+							<div class="panel 
+								<c:choose>
+									<c:when test="${ question.active == true }">panel-success</c:when>
+									<c:otherwise>panel-danger</c:otherwise>
+								</c:choose>						
+							">
 								<div class="panel-heading">
 								<h4 class="panel-title">
 									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />"><c:out value="${ question.value }" /></a> 
@@ -38,10 +43,14 @@
 											<li class="list-group-item 
 												<c:choose>
 													<c:when test="${ answer.active == true }">list-group-item-success</c:when>
-													<c:otherwise>list-group-item-warning</c:otherwise>
+													<c:otherwise>list-group-item-danger</c:otherwise>
 												</c:choose>
 											" >
 												<c:out value="${ answer.value }" />
+												<c:choose>
+													<c:when test="${ answer['class'] == 'class beans.trainee.GoodAnswer' }"><span class="label label-success">V</span></c:when>
+													<c:otherwise><span class="label label-danger">F</span></c:otherwise>
+												</c:choose>												
 												<c:if test="${ answer.active == false }">
 													<a href="<c:url value="/super_user/questions_management?action=activate_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
 													<a href="<c:url value="/super_user/questions_management?action=delete_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Supprimer</a>
