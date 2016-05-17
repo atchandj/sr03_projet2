@@ -58,8 +58,8 @@ public class Question {
 		this.setTrueAnswerChangeable(trueAnswerChangeable);
 	}
 	
-	public Question(int questionId, String value, int orderNumber, boolean active, boolean activable, boolean deletable, int questionnaireId, boolean trueAnswerChangeable){
-		this.setId(0);
+	public Question(int id, String value, int orderNumber, boolean active, boolean activable, boolean deletable, int questionnaireId, boolean trueAnswerChangeable){
+		this.setId(id);
 		this.setValue(value);
 		this.setOrderNumber(orderNumber);
 		this.setActive(active);

@@ -296,4 +296,28 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE changeTrueAnswerOfAQuestion(IN questionId INT, IN answerOrderNumber INT)
+BEGIN
+	DECLARE numberOfChangeableTrueAnswerQuestions INT;
+	DECLARE numberOfInterestingActiveQuestions INT;
+	START TRANSACTION;
+	SELECT COUNT(*) INTO numberOfChangeableTrueAnswerQuestions
+	FROM ChangeableTrueAnswerQuestion CTAQ
+	WHERE CTAQ.id = questionID;
+	SELECT COUNT(*) INTO numberOfInterestingActiveQuestions
+	FROM Answer A
+	WHERE A.question = questionId AND A.orderNumber = answerOrderNumber AND A.active = TRUE;
+	IF (numberOfChangeableTrueAnswerQuestions = 1 AND numberOfInterestingActiveQuestions = 0) THEN
+		UPDATE Answer
+		SET t = 'BadAnswer'
+		WHERE question = questionID;
+		UPDATE Answer
+		SET t = 'GoodAnswer'
+		WHERE question = questionID AND orderNumber = answerOrderNumber;
+    END IF;
+    COMMIT;
+END//
+DELIMITER ;
+
 -- -----------------------------------------------------------------------------------------------

@@ -11,4 +11,5 @@ public interface QuestionsManagementDao {
 	 void deleteAnswer(int questionId, int answerOrderNumber) throws DaoException;
 	 void addAnswer(int questionId, String answerValue) throws DaoException;
 	 void addQuestion(int questionnaireId, String questionValue) throws DaoException;
+	 void setTrueAnswer(int questionId, int answerOrderNumber) throws DaoException;
 }

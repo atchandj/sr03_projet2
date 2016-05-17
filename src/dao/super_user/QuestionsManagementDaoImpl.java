@@ -17,7 +17,6 @@ import dao.DaoFactory;
 public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 	
 	private DaoFactory daoFactory;
-	private PreparedStatement preparedStatement4;
 	
     public QuestionsManagementDaoImpl(DaoFactory daoFactory){
         this.daoFactory = daoFactory;
@@ -51,7 +50,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             ResultSet result1 = preparedStatement1.executeQuery();
             result1.next();
             int questionnaireId = result1.getInt("id");
-            System.out.println("questionId: " + questionnaireId);
+            System.out.println("questionnaireId: " + questionnaireId);
             query2 = "SELECT * FROM( "
             		+ "SELECT NAQ.id AS questionId, NAQ.orderNumber AS questionOrderNumber, NAQ.value AS questionValue, NAQ.active AS activeQuestion, 0 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
             		+ "FROM NotActivableQuestion NAQ LEFT OUTER JOIN Answer A "
@@ -340,6 +339,36 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             // System.out.println(questionValue); // Test
             preparedStatement.setInt(1, questionnaireId);
             preparedStatement.setString(2, questionValue);
+            preparedStatement.executeUpdate();
+            connexion.commit();
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+            }
+        }
+    }
+    
+    public void setTrueAnswer(int questionId, int answerOrderNumber) throws DaoException{
+    	// System.out.println("Changer de réponse vraie"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "CALL changeTrueAnswerOfAQuestion(?, ?);";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            // System.out.println(questionId); // Test
+            // System.out.println(answerOrderNumber); // Test
+            preparedStatement.setInt(1, questionId);
+            preparedStatement.setInt(2, answerOrderNumber);
             preparedStatement.executeUpdate();
             connexion.commit();
         } catch (SQLException e) {

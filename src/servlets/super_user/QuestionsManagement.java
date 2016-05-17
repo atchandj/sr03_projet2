@@ -94,6 +94,17 @@ public class QuestionsManagement extends HttpServlet {
 					request.setAttribute("errorMessage", errorMessage);
 				}
 				break;
+			case "set_true_answer":
+				questionId = Integer.parseInt(request.getParameter("question_id"));
+				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
+				try {
+					this.questionnairesManagementDao.setTrueAnswer(questionId, answerOrderNumber);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					// System.out.println(errorMessage); // Test
+					request.setAttribute("errorMessage", errorMessage);
+				}
+				break;
 			case "add_answer":		
 				// System.out.println("Ajouter une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
