@@ -32,6 +32,9 @@
 									<c:if test="${question.activable}">
 										<a href="<c:url value="/super_user/questions_management?action=activate_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
 									</c:if> 
+									<c:if test="${question.active == false}">
+										<a href="<c:url value="/super_user/questions_management?action=modify_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Modifier</a>
+									</c:if>
 									<c:if test="${question.deletable}">
 										<a href="<c:url value="/super_user/questions_management?action=delete_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-danger" role="button">Supprimer</a>
 									</c:if> 

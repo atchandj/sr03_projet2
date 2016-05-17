@@ -113,7 +113,7 @@ public class QuestionsManagement extends HttpServlet {
 				this.getServletContext().getRequestDispatcher(ANSWER_JSP).forward(request, response);
 				break;
 			case "modify_answer":		
-				System.out.println("Modifier une réponse"); // Test
+				// System.out.println("Modifier une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
 				request.setAttribute("paction", "modify_answer");
@@ -130,13 +130,27 @@ public class QuestionsManagement extends HttpServlet {
 				// System.out.println("Ajouter une question"); // Test
 				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
 				request.setAttribute("questionnaireId", questionnaireId);
+				request.setAttribute("paction", "add_question");
 				this.getServletContext().getRequestDispatcher(QUESTION_JSP).forward(request, response);
+				break;
+			case "modify_question":
+				// System.out.println("Ajouter une question"); // Test
+				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
+				questionOrderNumber = Integer.parseInt(request.getParameter("question_order_number"));
+				request.setAttribute("paction", "modify_question");
+				try {
+					request.setAttribute("question", this.questionnairesManagementDao.getQuestion(questionnaireId, questionOrderNumber));
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}				
+				this.getServletContext().getRequestDispatcher(QUESTION_JSP).forward(request, response);				
 				break;
 			default:
 				break;
 			}
 		}
-		if(action == null || ( !(action.equals("add_answer")) && !(action.equals("add_question")) ) ){
+		if(action == null || ( !(action.equals("add_answer")) && !(action.equals("add_question")) && !(action.equals("modify_answer"))  && !(action.equals("modify_question")) ) ){
 			try {
 				request.setAttribute("questionnaire", this.questionnairesManagementDao.getQuestionnaire(topicName, questionnaireName));
 			} catch (DaoException e) {
@@ -197,6 +211,18 @@ public class QuestionsManagement extends HttpServlet {
 					errorMessage = e.getMessage();
 					request.setAttribute("errorMessage", errorMessage);
 				}				
+				break;			
+			case "modify_question":
+				// System.out.println("Modifier une question"); // Test
+				questionId = Integer.parseInt(request.getParameter("question_id"));
+				newQuestionValue = request.getParameter("questionValue");
+				// System.out.println(newQuestionValue);
+				try {
+					this.questionnairesManagementDao.updateQuestion(questionId, newQuestionValue);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
 				break;				
 			default:
 				break;

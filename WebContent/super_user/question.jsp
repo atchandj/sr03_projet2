@@ -25,12 +25,15 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="questionValue">Question :</label>
-									<input type="text" id="questionValue" class="form-control" placeholder="Question" name="questionValue" value="" autofocus required/>
+									<input type="text" id="questionValue" class="form-control" placeholder="Question" name="questionValue" value="${ question.value }" autofocus required/>
 								</div>
-								<input type="hidden" name="paction" value="add_question" />
+								<c:choose>
+									<c:when test="${ !empty question }"><input type="hidden" name="question_id" value="${ question.id }" /></c:when>									
+									<c:otherwise><input type="hidden" name="questionnaire_id" value="${ questionnaireId }" /></c:otherwise>
+								</c:choose>
+								<input type="hidden" name="paction" value="${ paction }" />
 								<input type="hidden" name="topic_name" value="${ topicName }" />
 								<input type="hidden" name="questionnaire_name" value="${ questionnaireName }" />
-								<input type="hidden" name="questionnaire_id" value="${ questionnaireId }" />
 								<input type="submit" class="btn btn-default" value="Envoyer"/>
 								<c:if test="${ !empty errorMessage }">
 							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 

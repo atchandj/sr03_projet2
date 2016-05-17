@@ -458,4 +458,79 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 		    }
 		}
 	 }
+	
+	public Question getQuestion(int questionnaireId, int questionOrderNumber) throws DaoException{
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "SELECT Q.id AS questionId, Q.value AS questionValue "
+        		+ "FROM Question Q "
+        		+ "WHERE Q.questionnaire = ? AND Q.orderNumber = ?;";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        Question question = null;
+        int questionId = 0;
+        String questionValue = null;
+        try{
+            connexion = daoFactory.getConnection();
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            preparedStatement.setInt(1, questionnaireId);
+            preparedStatement.setInt(2, questionOrderNumber);
+            ResultSet result = preparedStatement.executeQuery();
+            boolean ok = result.next();
+            if(ok){
+            	questionId = result.getInt("questionId");
+            	questionValue = result.getString("questionValue");
+            	question = new Question(questionId, questionValue);            	
+            }else{
+            	throw new DaoException(databaseErrorMessage);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage);
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage);
+            }
+        }
+        return question;		
+	}
+	
+	public void updateQuestion(int questionId, String newQuestionValue) throws DaoException{
+		// System.out.println("Mettre à jour la question"); // Test
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		String query = "UPDATE Question "
+				+ "SET value = ? "
+				+ "WHERE id = ?;";
+		String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+		String answerErrorMessage = "Impossible de mettre à jour la question";
+		try{
+		    connexion = daoFactory.getConnection();
+		    // System.out.println(query); // Test
+		    preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+		    // System.out.println(newQuestionValue); // Test
+		    // System.out.println(questionId); // Test
+		    preparedStatement.setString(1, newQuestionValue);
+		    preparedStatement.setInt(2, questionId);
+		    int result = preparedStatement.executeUpdate();
+		    connexion.commit();
+            if(result == 0){
+            	throw new DaoException(answerErrorMessage);
+            }		    
+		} catch (SQLException e) {
+		    throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+		}
+		finally {
+		    try {
+		        if (connexion != null) {
+		            connexion.close();  
+		        }
+		    } catch (SQLException e) {
+		        throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+		    }
+		}
+	 }
 }
