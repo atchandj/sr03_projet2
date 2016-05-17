@@ -14,7 +14,7 @@ import dao.super_user.TopicsManagementDao;
 public class FormsManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String FORMS_MANAGEMENT_JSP = "/super_user/forms_management.jsp";
-	private static final String ADD_QUESTIONNAIRE_JSP = "/super_user/add_questionnaire.jsp";
+	private static final String ADD_QUESTIONNAIRE_JSP = "/super_user/questionnaire.jsp";
 
     private TopicsManagementDao topicsManagementDao;
 	

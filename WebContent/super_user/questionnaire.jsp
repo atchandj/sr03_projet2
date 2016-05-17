@@ -20,7 +20,7 @@
 					<div class="col-md-4 col-lg-offset-4 " >
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Ajout d'un questionnaire
+								Questionnaire
 							</div>
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
@@ -31,10 +31,6 @@
 									<label class="control-label" for="questionnaireName">Nom du questionnaire : </label>
 									<input type="text" id="questionnaireName" class="form-control" placeholder="Nom du questionnaire" name="questionnaireName" required/>
 								</div>
-								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
-									<label class="control-label" for="questionnaireState">Etat du questionnaire : </label>
-									<input type="text" id="questionnaireState" class="form-control" placeholder="Prénom" name="questionnaireState" value="Inactif" required readonly/>
-								</div>	
 								<input type="hidden" name="paction" value="add_questionnaire" />
 								<input type="submit" class="btn btn-default" value="Ajouter"/>
 								<c:if test="${ !empty errorMessage }">

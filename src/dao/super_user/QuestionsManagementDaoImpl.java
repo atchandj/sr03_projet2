@@ -50,12 +50,12 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             ResultSet result1 = preparedStatement1.executeQuery();
             result1.next();
             int questionnaireId = result1.getInt("id");
-            System.out.println("questionnaireId: " + questionnaireId);
+            // System.out.println("questionnaireId: " + questionnaireId);
             query2 = "SELECT * FROM( "
             		+ "SELECT NAQ.id AS questionId, NAQ.orderNumber AS questionOrderNumber, NAQ.value AS questionValue, NAQ.active AS activeQuestion, 0 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
             		+ "FROM NotActivableQuestion NAQ LEFT OUTER JOIN Answer A "
             		+ "ON NAQ.id = A.question "
-            		+ "AND NAQ.questionnaire = ? "
+            		+ "WHERE NAQ.questionnaire = ? "
             		+ "UNION ALL "
             		+ "SELECT AQ.id AS questionId, AQ.orderNumber AS questionOrderNumber, AQ.value AS questionValue, AQ.active AS activeQuestion, 1 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
             		+ "FROM ActivableQuestion AQ INNER JOIN Answer A "
@@ -101,6 +101,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             ResultSet result3 = preparedStatement3.executeQuery(); 
             ResultSet result4 = preparedStatement4.executeQuery();
             questionnaire = new Questionnaire(questionnaireId, questionnaireName);
+            // System.out.println("questionnaireId: " + questionnaire.getId());
             while (result2.next()) {            	
             	i += 1;          
             	// System.out.println("Nb of question: " + i); // Test
@@ -136,7 +137,9 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
                 	tmpQuestion.getAnswers().add(tmpAnswer);    
                 }            
             }
-            questionnaire.getQuestions().add(tmpQuestion);
+            if( i >= 1){
+            	questionnaire.getQuestions().add(tmpQuestion);
+            }            
         } catch (SQLException e) {
             throw new DaoException(databaseErrorMessage);
         }

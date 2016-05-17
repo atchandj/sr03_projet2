@@ -92,7 +92,9 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
                 	tmpTopic.getQuestionnaires().add(tmpQuestionnaire);    
                 }            
             }
-            topics.add(tmpTopic);
+            if(i >= 1){
+            	topics.add(tmpTopic);
+            }            
         } catch (SQLException e) {
             throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
         }
