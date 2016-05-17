@@ -15,6 +15,7 @@ public class QuestionsManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String QUESTIONNAIRES_MANAGEMENT_JSP = "/super_user/questionnaires_management.jsp";   
 	private static final String ANSWER_JSP = "/super_user/answer.jsp";
+	private static final String QUESTION_JSP = "/super_user/question.jsp";
 	
     private QuestionsManagementDao questionnairesManagementDao;
 	    
@@ -94,15 +95,22 @@ public class QuestionsManagement extends HttpServlet {
 				}
 				break;
 			case "add_answer":		
-				System.out.println("Ajouter une réponse"); // Test
+				// System.out.println("Ajouter une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				request.setAttribute("questionId", questionId);
-				this.getServletContext().getRequestDispatcher(ANSWER_JSP).forward(request, response);				
+				this.getServletContext().getRequestDispatcher(ANSWER_JSP).forward(request, response);
+				break;
+			case "add_question":
+				// System.out.println("Ajouter une question"); // Test
+				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
+				request.setAttribute("questionnaireId", questionnaireId);
+				this.getServletContext().getRequestDispatcher(QUESTION_JSP).forward(request, response);
+				break;
 			default:
 				break;
 			}
 		}
-		if(action == null || !action.equals("add_answer")){
+		if(action == null || ( !(action.equals("add_answer")) && !(action.equals("add_question")) ) ){
 			try {
 				request.setAttribute("questionnaire", this.questionnairesManagementDao.getQuestionnaire(topicName, questionnaireName));
 			} catch (DaoException e) {
@@ -116,16 +124,18 @@ public class QuestionsManagement extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String newAnswerValue = null;
+		String newQuestionValue = null;
 		String errorMessage = null;
 		int questionId = 0;
+		int questionnaireId = 0;
 		String action =  request.getParameter("paction");
 		if(action != null){
 			switch (action) {
 			case "add_answer":
-				System.out.println("Ajouter une réponse"); // Test
+				// System.out.println("Ajouter une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				newAnswerValue = request.getParameter("answserValue");
-				System.out.println(newAnswerValue);
+				// System.out.println(newAnswerValue);
 				try {
 					this.questionnairesManagementDao.addAnswer(questionId, newAnswerValue);
 				} catch (DaoException e) {
@@ -134,7 +144,16 @@ public class QuestionsManagement extends HttpServlet {
 				}
 				break;
 			case "add_question":
-				System.out.println("Ajouter une question"); // Test
+				// System.out.println("Ajouter une question"); // Test
+				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
+				newQuestionValue = request.getParameter("questionValue");
+				// System.out.println(newQuestionValue);
+				try {
+					this.questionnairesManagementDao.addQuestion(questionnaireId, newQuestionValue);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}				
 				break;				
 			default:
 				break;

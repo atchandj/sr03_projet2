@@ -260,4 +260,20 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE addQuesion(IN questionnaireId INT, IN questionValue  VARCHAR(255))
+BEGIN
+ 	DECLARE numberOfQuestions INT;
+	DECLARE questionOrderNumber INT;
+	START TRANSACTION;
+	SELECT COUNT(*) INTO numberOfQuestions
+	FROM Question
+	WHERE questionnaire = questionnaireId;
+	SET questionOrderNumber = numberOfQuestions + 1;
+	INSERT INTO Question(questionnaire, orderNumber, value, active)
+	VALUE(questionnaireId, questionOrderNumber, questionValue, FALSE);
+    COMMIT;
+END//
+DELIMITER ;
+
 -- -----------------------------------------------------------------------------------------------

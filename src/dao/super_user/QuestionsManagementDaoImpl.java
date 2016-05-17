@@ -60,7 +60,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             		+ "WHERE AQ.questionnaire = ? "
             		+ ")R "
             		+ "ORDER BY R.questionOrderNumber, R.answerOrderNumber;";
-            System.out.println(query2); // Test
+            // System.out.println(query2); // Test
             
             query3 = "SELECT * FROM( "
             		+ "SELECT NDQ.orderNumber AS questionOrderNumber, 0 AS deletableQuestion "
@@ -72,7 +72,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             		+ "WHERE DQ.questionnaire = ? "
             		+ ")R "
             		+ "ORDER BY R.questionOrderNumber;";
-            System.out.println(query3); // Test
+            // System.out.println(query3); // Test
             preparedStatement2 = (PreparedStatement) connexion.prepareStatement(query2);
             preparedStatement2.setInt(1, questionnaireId);
             preparedStatement2.setInt(2, questionnaireId);
@@ -81,7 +81,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             preparedStatement3.setInt(2, questionnaireId);
             ResultSet result2 = preparedStatement2.executeQuery();
             ResultSet result3 = preparedStatement3.executeQuery();  
-            questionnaire = new Questionnaire(questionnaireName);
+            questionnaire = new Questionnaire(questionnaireId, questionnaireName);
             while (result2.next()) {            	
             	i += 1;          
             	// System.out.println("Nb of question: " + i); // Test
@@ -288,6 +288,36 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             // System.out.println(answerValue); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setString(2, answerValue);
+            preparedStatement.executeUpdate();
+            connexion.commit();
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+            }
+        }
+    }
+    
+    public void addQuestion(int questionnaireId, String questionValue) throws DaoException{
+    	// System.out.println("Ajouter une question"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "CALL addQuesion(?, ?);";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            // System.out.println(questionnaireId); // Test
+            // System.out.println(questionValue); // Test
+            preparedStatement.setInt(1, questionnaireId);
+            preparedStatement.setString(2, questionValue);
             preparedStatement.executeUpdate();
             connexion.commit();
         } catch (SQLException e) {

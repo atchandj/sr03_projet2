@@ -38,6 +38,16 @@ public class Questionnaire {
 	}
 	
 	public Questionnaire(String name){
+		this.setId(0);
+		this.setName(name);
+		this.active = false;
+		this.questions = new ArrayList<Question>();	
+		this.activable = false;
+		this.deletable = false;
+	}
+	
+	public Questionnaire(int id, String name){
+		this.setId(id);
 		this.setName(name);
 		this.active = false;
 		this.questions = new ArrayList<Question>();	
@@ -46,6 +56,7 @@ public class Questionnaire {
 	}
 	
 	public Questionnaire(){
+		this.setId(0);
 		this.name = null;
 		this.active = false;
 		this.questions = new ArrayList<Question>();	

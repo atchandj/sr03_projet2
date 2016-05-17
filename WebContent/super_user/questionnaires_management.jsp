@@ -50,7 +50,7 @@
 										</c:forEach>
 									</ul>
 									<div class="panel-footer">
-										<a href="<c:url value="/super_user/questions_management?action=add_answer&question_id=${ question.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse </a>
+										<a href="<c:url value="/super_user/questions_management?action=add_answer&question_id=${ question.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse</a>
 									</div>
 								</div>
 							</div>
@@ -58,35 +58,7 @@
 					</div>
 					</div>
 				</c:forEach>
-				<form method="post" action="<c:url value="/super_user/forms_management"/>">
-					<div class="row">
-					<div class="col-md-6 col-md-offset-3">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title text-center">
-									Ajout d'une question
-								</h4>
-							</div>
-							<div class="panel-body">
-								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
-									<label class="control-label" for="newQuestionName">Nom de la question : </label>
-									<input type="text" id="newQuestionName" class="form-control" placeholder="Nom de la question" name="newQuestionName" autofocus required/>
-								</div>	
-								<input type="hidden" name="paction" value="add_question" />
-								<input type="hidden" name="questionnaire_id" value="${ question.questionnaireId }" />
-								<input type="submit" class="btn btn-default" value="Ajouter"/>
-								<c:if test="${ !empty errorMessage }">
-							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 
-										<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-										<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-										<span class="sr-only">Error:</span><c:out value="${ errorMessage }" />
-									</div>
-								</c:if>						
-							</div>
-						</div>
-					</div>
-					</div>					
-				</form>	
+				<h4><a href="<c:url value="/super_user/questions_management?action=add_question&questionnaire_id=${ questionnaire.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une question</a></h4>
 	    	</section>
 	    </c:if>
 	    </div>
