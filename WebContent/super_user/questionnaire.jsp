@@ -29,10 +29,13 @@
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="questionnaireName">Nom du questionnaire : </label>
-									<input type="text" id="questionnaireName" class="form-control" placeholder="Nom du questionnaire" name="questionnaireName" required/>
+									<input type="text" id="questionnaireName" class="form-control" placeholder="Nom du questionnaire" value="${ questionnaireName }" name="questionnaireName" required/>
 								</div>
-								<input type="hidden" name="paction" value="add_questionnaire" />
-								<input type="submit" class="btn btn-default" value="Ajouter"/>
+								<c:if test="${ !empty questionnaireName }">
+									<input type="hidden" name="oldQuestionnaireName" value="${ questionnaireName }" />
+								</c:if>
+								<input type="hidden" name="paction" value="${ paction }" />
+								<input type="submit" class="btn btn-default" value="Envoyer"/>
 								<c:if test="${ !empty errorMessage }">
 							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 
 										<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

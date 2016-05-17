@@ -41,7 +41,7 @@ public class FormsManagement extends HttpServlet {
 		if(action != null){
 			switch (action) {
 			case "delete_topic":
-				System.out.println("Supprimer un sujet"); // Test
+				// System.out.println("Supprimer un sujet"); // Test
 				topicName = request.getParameter("topic_name");
 				try {
 					this.topicsManagementDao.deleteTopic(topicName);
@@ -51,14 +51,15 @@ public class FormsManagement extends HttpServlet {
 				}
 				break;
 			case "add_questionnaire":
-				System.out.println("Ajouter un questionnaire"); // Test
+				// System.out.println("Ajouter un questionnaire"); // Test
 				topicName = request.getParameter("topic_name");
 				// System.out.println(topicName); // Test
 				request.setAttribute("topic_name", topicName);
+				request.setAttribute("paction", "add_questionnaire");
 				this.getServletContext().getRequestDispatcher(ADD_QUESTIONNAIRE_JSP).forward(request, response);
 				break;
 			case "delete_questionnaire":
-				System.out.println("Supprimer un questionnaire"); // Test
+				// System.out.println("Supprimer un questionnaire"); // Test
 				topicName = request.getParameter("topic_name");
 				questionnaireName = request.getParameter("questionnaire_name");
 				try {
@@ -71,7 +72,7 @@ public class FormsManagement extends HttpServlet {
 			case "activate_questionnaire":
 				topicName = request.getParameter("topic_name");
 				questionnaireName = request.getParameter("questionnaire_name");
-				System.out.println("Activer un questionnaire : " + topicName + " " + questionnaireName); // Test
+				// System.out.println("Activer un questionnaire : " + topicName + " " + questionnaireName); // Test
 				try {
 					this.topicsManagementDao.activateQuestionnaire(topicName, questionnaireName);
 				} catch (DaoException e) {
@@ -79,11 +80,22 @@ public class FormsManagement extends HttpServlet {
 					request.setAttribute("errorMessage", errorMessage);
 				}
 				break;
+			case "modify_questionnaire":
+				// System.out.println("Modifier un questionnaire"); // Test
+				topicName = request.getParameter("topic_name");
+				questionnaireName = request.getParameter("questionnaire_name");
+				// System.out.println(topicName); // Test
+				// System.out.println(questionnaireName); // Test
+				request.setAttribute("topic_name", topicName);
+				request.setAttribute("questionnaireName", questionnaireName);
+				request.setAttribute("paction", "modify_questionnaire");
+				this.getServletContext().getRequestDispatcher(ADD_QUESTIONNAIRE_JSP).forward(request, response);
+			break;
 			default:
 				break;
 			}
 		}
-		if(action == null || !action.equals("add_questionnaire")){
+		if(action == null || ( !action.equals("add_questionnaire")) && !action.equals("modify_questionnaire") ){
 			try {
 				request.setAttribute("topics", this.topicsManagementDao.getTopics());
 			} catch (DaoException e) {
@@ -98,6 +110,7 @@ public class FormsManagement extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String newTopicName = null;
 		String topicName = null;
+		String oldQuestionnaireName = null;
 		String questionnaireName = null;
 		String errorMessage = null;
 		String action =  request.getParameter("paction");
@@ -117,6 +130,20 @@ public class FormsManagement extends HttpServlet {
 				questionnaireName = request.getParameter("questionnaireName");
 				try {
 					this.topicsManagementDao.addQuestionnaire(topicName, questionnaireName);
+				} catch (DaoException e) {
+					errorMessage = e.getMessage();
+					request.setAttribute("errorMessage", errorMessage);
+				}
+				break;
+			case "modify_questionnaire":
+				topicName = request.getParameter("topicName");
+				oldQuestionnaireName = request.getParameter("oldQuestionnaireName");
+				questionnaireName = request.getParameter("questionnaireName");
+				// System.out.println("topicName: " + topicName);
+				// System.out.println("oldQuestionnaireName: " + oldQuestionnaireName);
+				// System.out.println("questionnaireName: " + questionnaireName);
+				try {
+					this.topicsManagementDao.updateQuestionnaire(topicName, oldQuestionnaireName, questionnaireName);
 				} catch (DaoException e) {
 					errorMessage = e.getMessage();
 					request.setAttribute("errorMessage", errorMessage);

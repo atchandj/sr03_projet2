@@ -42,6 +42,9 @@
 												<c:if test="${ questionnaire.activable == true }">
 													<a href="<c:url value="/super_user/forms_management?action=activate_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-success" role="button">Activer</a>
 												</c:if>
+												<c:if test="${ questionnaire.active == false }">
+													<a href="<c:url value="/super_user/forms_management?action=modify_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-warning" role="button">Modifier</a>
+												</c:if>
 												<c:if test="${ questionnaire.deletable == true }">
 													<a href="<c:url value="/super_user/forms_management?action=delete_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-danger" role="button">Supprimer</a>
 												</c:if>
