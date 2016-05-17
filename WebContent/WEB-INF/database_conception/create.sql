@@ -187,7 +187,7 @@ WHERE EXISTS (
 ) OR NOT EXISTS(
 	SELECT *
 	FROM Answer A
-	WHERE A.question = Q.id
+	WHERE A.question = Q.id AND A.t = 'GoodAnswer'
 ) OR Q.active = 1;
 
 CREATE VIEW ActivableQuestion 
@@ -201,7 +201,7 @@ WHERE NOT EXISTS (
 ) AND EXISTS(
 	SELECT *
 	FROM Answer A
-	WHERE A.question = Q.id
+	WHERE A.question = Q.id AND A.t = 'GoodAnswer'
 ) AND Q.active = 0;
 
 CREATE VIEW NotDeletableQuestion 
