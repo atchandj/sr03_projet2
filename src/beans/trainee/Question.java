@@ -11,6 +11,7 @@ public class Question {
 	private boolean activable;
 	private boolean deletable;
 	private int questionnaireId;
+	private boolean trueAnswerChangeable;
 	
 	public Question(int id, String value, int orderNumber, boolean active, ArrayList<Answer> answers, boolean activable, boolean deletable, int questionnaireId){
 		this.setId(id);
@@ -45,7 +46,7 @@ public class Question {
 		this.setQuestionnaireId(questionnaireId);
 	}
 	
-	public Question(String value, int orderNumber, boolean active, boolean activable, boolean deletable, int questionnaireId){
+	public Question(String value, int orderNumber, boolean active, boolean activable, boolean deletable, int questionnaireId, boolean trueAnswerChangeable){
 		this.setId(0);
 		this.setValue(value);
 		this.setOrderNumber(orderNumber);
@@ -54,6 +55,19 @@ public class Question {
 		this.setActivable(activable);
 		this.setDeletable(deletable);
 		this.setQuestionnaireId(questionnaireId);
+		this.setTrueAnswerChangeable(trueAnswerChangeable);
+	}
+	
+	public Question(int questionId, String value, int orderNumber, boolean active, boolean activable, boolean deletable, int questionnaireId, boolean trueAnswerChangeable){
+		this.setId(0);
+		this.setValue(value);
+		this.setOrderNumber(orderNumber);
+		this.setActive(active);
+		this.answers = new ArrayList<Answer>();
+		this.setActivable(activable);
+		this.setDeletable(deletable);
+		this.setQuestionnaireId(questionnaireId);
+		this.setTrueAnswerChangeable(trueAnswerChangeable);
 	}
 	
 	public Question(){
@@ -114,5 +128,11 @@ public class Question {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public boolean getTrueAnswerChangeable() {
+		return trueAnswerChangeable;
+	}
+	public void setTrueAnswerChangeable(boolean trueAnswerChangeable) {
+		this.trueAnswerChangeable = trueAnswerChangeable;
 	}
 }

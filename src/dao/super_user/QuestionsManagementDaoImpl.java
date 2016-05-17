@@ -17,6 +17,7 @@ import dao.DaoFactory;
 public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 	
 	private DaoFactory daoFactory;
+	private PreparedStatement preparedStatement4;
 	
     public QuestionsManagementDaoImpl(DaoFactory daoFactory){
         this.daoFactory = daoFactory;
@@ -27,15 +28,18 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
         PreparedStatement preparedStatement1 = null;
         PreparedStatement preparedStatement2 = null;
         PreparedStatement preparedStatement3 = null;
+        PreparedStatement preparedStatement4 = null;
         String query1 = "SELECT id "
         		+ "FROM Questionnaire "
         		+ "WHERE topic = ? AND name = ?;";
         String query2 = null;
         String query3 = null;
+        String query4 = null;
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         int i = 0;
         int previousQuestionOrderNumber = 0;
         boolean deletableQuestion = false;
+        boolean changeableTrueAnswerQuestion = false;
         Question tmpQuestion = null;
         Answer tmpAnswer = null;
         Questionnaire questionnaire = null;
@@ -72,6 +76,18 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             		+ "WHERE DQ.questionnaire = ? "
             		+ ")R "
             		+ "ORDER BY R.questionOrderNumber;";
+            
+            query4 = "SELECT * FROM( "
+            		+ "SELECT NCTAQ.orderNumber AS questionOrderNumber, 0 AS changeableTrueAnswerQuestion "
+            		+ "FROM NotChangeableTrueAnswerQuestion NCTAQ "
+            		+ "WHERE NCTAQ.questionnaire = ? "
+            		+ "UNION ALL "
+            		+ "SELECT CTAQ.orderNumber AS questionOrderNumber, 1 AS changeableTrueAnswerQuestion "
+            		+ "FROM ChangeableTrueAnswerQuestion CTAQ "
+            		+ "WHERE CTAQ.questionnaire = ? "
+            		+ ")R "
+            		+ "ORDER BY R.questionOrderNumber;";
+            
             // System.out.println(query3); // Test
             preparedStatement2 = (PreparedStatement) connexion.prepareStatement(query2);
             preparedStatement2.setInt(1, questionnaireId);
@@ -79,8 +95,12 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             preparedStatement3 = (PreparedStatement) connexion.prepareStatement(query3);
             preparedStatement3.setInt(1, questionnaireId);
             preparedStatement3.setInt(2, questionnaireId);
+            preparedStatement4 = (PreparedStatement) connexion.prepareStatement(query4);
+            preparedStatement4.setInt(1, questionnaireId);
+            preparedStatement4.setInt(2, questionnaireId);
             ResultSet result2 = preparedStatement2.executeQuery();
-            ResultSet result3 = preparedStatement3.executeQuery();  
+            ResultSet result3 = preparedStatement3.executeQuery(); 
+            ResultSet result4 = preparedStatement4.executeQuery();
             questionnaire = new Questionnaire(questionnaireId, questionnaireName);
             while (result2.next()) {            	
             	i += 1;          
@@ -97,13 +117,15 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             	// System.out.println(questionValue); // Test
                 if(previousQuestionOrderNumber != questionOrderNumber){
                 	result3.next();
+                	result4.next();
             		deletableQuestion = result3.getBoolean("deletableQuestion");
+            		changeableTrueAnswerQuestion = result4.getBoolean("changeableTrueAnswerQuestion");
                 	if(i != 1){
                 		questionnaire.getQuestions().add(tmpQuestion);
                 	}                	
                 	// System.out.println("act "+  activableQuestion); // Test
                 	// System.out.println("del "+  deletableQuestion); // Test
-                	tmpQuestion = new Question(questionId, questionValue, questionOrderNumber, activeQuestion, activableQuestion, deletableQuestion, questionnaireId);
+                	tmpQuestion = new Question(questionId, questionValue, questionOrderNumber, activeQuestion, activableQuestion, deletableQuestion, questionnaireId, changeableTrueAnswerQuestion);
                 	previousQuestionOrderNumber = questionOrderNumber;            		
                 }
                 if(answerType != null){

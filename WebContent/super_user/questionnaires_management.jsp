@@ -29,6 +29,7 @@
 								<div class="panel-heading">
 								<h4 class="panel-title">
 									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />"><c:out value="${ question.value }" /></a> 
+									${ question.trueAnswerChangeable }	
 									<c:if test="${question.activable}">
 										<a href="<c:url value="/super_user/questions_management?action=activate_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
 									</c:if> 

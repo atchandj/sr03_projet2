@@ -224,6 +224,26 @@ WHERE NOT EXISTS (
 	WHERE A.question = Q.id AND A.active = 1
 ) AND Q.active = 0;
 
+CREATE VIEW NotChangeableTrueAnswerQuestion 
+AS  
+SELECT * 
+FROM Question Q
+WHERE EXISTS (
+	SELECT *
+	FROM Answer A
+	WHERE A.question = Q.id AND A.active = 1 AND A.t = 'GoodAnswer'
+);
+
+CREATE VIEW ChangeableTrueAnswerQuestion
+AS  
+SELECT * 
+FROM Question Q
+WHERE NOT EXISTS (
+	SELECT *
+	FROM Answer A
+	WHERE A.question = Q.id AND A.active = 1 AND A.t = 'GoodAnswer'
+);
+
 -- -----------------------------------------------------------------------------------------------
 
 DELIMITER //
