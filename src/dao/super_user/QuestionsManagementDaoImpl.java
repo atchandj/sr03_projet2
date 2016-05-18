@@ -538,21 +538,53 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 	 }
 	
 	public void exchangeQuestionsOrder(int questionnaireId, int question1OrderNumber, int question2OrderNumber) throws DaoException{
-    	System.out.println("Echange d'ordre de questions"); // Test
+    	// System.out.println("Echange d'ordre de questions"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "CALL changeQuestionsOrder(?, ?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            System.out.println(query); // Test
+            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            System.out.println(questionnaireId); // Test
-            System.out.println(question1OrderNumber); // Test
-            System.out.println(question2OrderNumber); // Test
+            // System.out.println(questionnaireId); // Test
+            // System.out.println(question1OrderNumber); // Test
+            // System.out.println(question2OrderNumber); // Test
             preparedStatement.setInt(1, questionnaireId);
             preparedStatement.setInt(2, question1OrderNumber);
             preparedStatement.setInt(3, question2OrderNumber);
+            preparedStatement.executeUpdate();
+            connexion.commit();
+        } catch (SQLException e) {
+            throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
+            }
+        }		
+	}
+	
+	public void exchangeAnswersOrder(int questionId, int answer1OrderNumber, int answer2OrderNumber) throws DaoException{
+    	// System.out.println("Echange d'ordre de réponses"); // Test
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = "CALL changeAnswersOrder(?, ?, ?);";
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            // System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            // System.out.println(questionId); // Test
+            // System.out.println(answer1OrderNumber); // Test
+            // System.out.println(answer2OrderNumber); // Test
+            preparedStatement.setInt(1, questionId);
+            preparedStatement.setInt(2, answer1OrderNumber);
+            preparedStatement.setInt(3, answer2OrderNumber);
             preparedStatement.executeUpdate();
             connexion.commit();
         } catch (SQLException e) {
