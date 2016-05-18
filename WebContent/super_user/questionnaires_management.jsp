@@ -76,7 +76,7 @@
 							">
 								<div class="panel-heading">
 								<h4 class="panel-title">
-									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />"><c:out value="${ question.value }" /></a> 
+									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />">${ status.count }. <c:out value="${ question.value }" /></a> 
 									<c:if test="${question.activable}">
 										<a href="<c:url value="/super_user/questions_management?action=activate_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
 									</c:if> 
@@ -90,14 +90,14 @@
 								</div>
 								<div id="${status.index}" class="panel-collapse collapse">
 									<ul class="list-group">
-										<c:forEach var="answer" items="${ question.answers }">
+										<c:forEach var="answer" items="${ question.answers }" varStatus="status">
 											<li class="list-group-item 
 												<c:choose>
 													<c:when test="${ answer.active == true }">list-group-item-success</c:when>
 													<c:otherwise>list-group-item-danger</c:otherwise>
 												</c:choose>
 											" >
-												<c:out value="${ answer.value }" />
+												${ status.count }) <c:out value="${ answer.value }" />
 												<c:choose>
 													<c:when test="${ answer['class'] == 'class beans.trainee.GoodAnswer' }"><span class="label label-success">V</span></c:when>
 													<c:otherwise><span class="label label-danger">F</span></c:otherwise>
@@ -148,19 +148,25 @@
 														<input type="submit" class="btn btn-default" value="Echanger"/>				
 													</div>
 												</div>
-											</form>	
+											</form>
 										</li>
 									</ul>
-									<div class="panel-footer">
-										<a href="<c:url value="/super_user/questions_management?action=add_answer&question_id=${ question.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse</a>
-									</div>
+									<c:if test="${question.active == false}">
+										<div class="panel-footer">
+											<h5>
+												<a href="<c:url value="/super_user/questions_management?action=add_answer&question_id=${ question.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse</a>
+											</h5>
+										</div>
+									</c:if>
 								</div>
 							</div>
 						</div>
 					</div>
 					</div>
 				</c:forEach>
-				<h4><a href="<c:url value="/super_user/questions_management?action=add_question&questionnaire_id=${ questionnaire.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une question</a></h4>
+				<c:if test="${questionnaire.active == false}">
+					<h4><a href="<c:url value="/super_user/questions_management?action=add_question&questionnaire_id=${ questionnaire.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une question</a></h4>
+	    		</c:if>
 	    	</section>
 	    </c:if>
 	    </div>

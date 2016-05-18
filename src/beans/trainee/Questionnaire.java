@@ -55,6 +55,15 @@ public class Questionnaire {
 		this.deletable = false;
 	}
 	
+	public Questionnaire(int id, String name, boolean active){
+		this.setId(id);
+		this.setName(name);
+		this.active = active;
+		this.questions = new ArrayList<Question>();	
+		this.activable = false;
+		this.deletable = false;
+	}
+	
 	public Questionnaire(){
 		this.setId(0);
 		this.name = null;

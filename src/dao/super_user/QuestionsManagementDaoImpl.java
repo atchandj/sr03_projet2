@@ -28,9 +28,9 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
         PreparedStatement preparedStatement2 = null;
         PreparedStatement preparedStatement3 = null;
         PreparedStatement preparedStatement4 = null;
-        String query1 = "SELECT id "
-        		+ "FROM Questionnaire "
-        		+ "WHERE topic = ? AND name = ?;";
+        String query1 = "SELECT Q.id AS id, Q.active AS active "
+        		+ "FROM Questionnaire Q "
+        		+ "WHERE Q.topic = ? AND Q.name = ?;";
         String query2 = null;
         String query3 = null;
         String query4 = null;
@@ -50,6 +50,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             ResultSet result1 = preparedStatement1.executeQuery();
             result1.next();
             int questionnaireId = result1.getInt("id");
+            boolean questionnaireActive = result1.getBoolean("active");
             // System.out.println("questionnaireId: " + questionnaireId);
             query2 = "SELECT * FROM( "
             		+ "SELECT NAQ.id AS questionId, NAQ.orderNumber AS questionOrderNumber, NAQ.value AS questionValue, NAQ.active AS activeQuestion, 0 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
@@ -100,7 +101,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             ResultSet result2 = preparedStatement2.executeQuery();
             ResultSet result3 = preparedStatement3.executeQuery(); 
             ResultSet result4 = preparedStatement4.executeQuery();
-            questionnaire = new Questionnaire(questionnaireId, questionnaireName);
+            questionnaire = new Questionnaire(questionnaireId, questionnaireName, questionnaireActive);
             // System.out.println("questionnaireId: " + questionnaire.getId());
             while (result2.next()) {            	
             	i += 1;          
@@ -312,7 +313,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             // System.out.println(answerValue); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setString(2, answerValue);
-            preparedStatement.executeUpdate();
+            int result = preparedStatement.executeUpdate();
             connexion.commit();
         } catch (SQLException e) {
             throw new DaoException(databaseErrorMessage + ": " + e.getMessage());

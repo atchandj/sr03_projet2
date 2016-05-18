@@ -264,34 +264,46 @@ CREATE PROCEDURE addAnswer(IN questionId INT, IN answerValue VARCHAR(255))
 BEGIN
  	DECLARE numberOfAnswers INT;
 	DECLARE answerOrderNumber INT;
+	DECLARE numberOfActiveQuestions INT;
 	START TRANSACTION;
-	SELECT COUNT(*) INTO numberOfAnswers
-	FROM Answer
-	WHERE question = questionId;
-	SET answerOrderNumber = numberOfAnswers + 1;
-	IF numberOfAnswers = 0 THEN
-		INSERT INTO Answer(question, orderNumber, value, active, t)
-		VALUE(questionId, answerOrderNumber, answerValue, FALSE, 'GoodAnswer');
-	ELSE
-		INSERT INTO Answer(question, orderNumber, value, active, t)
-		VALUE(questionId, answerOrderNumber, answerValue, FALSE, 'BadAnswer');
+	SELECT COUNT(*) INTO numberOfActiveQuestions
+	FROM Question Q
+	WHERE Q.id = questionId AND Q.active = TRUE;
+	IF numberOfActiveQuestions = 0 THEN
+		SELECT COUNT(*) INTO numberOfAnswers
+		FROM Answer
+		WHERE question = questionId;
+		SET answerOrderNumber = numberOfAnswers + 1;
+		IF numberOfAnswers = 0 THEN
+			INSERT INTO Answer(question, orderNumber, value, active, t)
+			VALUE(questionId, answerOrderNumber, answerValue, FALSE, 'GoodAnswer');
+		ELSE
+			INSERT INTO Answer(question, orderNumber, value, active, t)
+			VALUE(questionId, answerOrderNumber, answerValue, FALSE, 'BadAnswer');
+		END IF;
 	END IF;
     COMMIT;
 END//
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE addQuesion(IN questionnaireId INT, IN questionValue  VARCHAR(255))
+CREATE PROCEDURE addQuesion(IN questionnaireId INT, IN questionValue VARCHAR(255))
 BEGIN
  	DECLARE numberOfQuestions INT;
 	DECLARE questionOrderNumber INT;
+	DECLARE numberOfActiveQuestionnaires INT;
 	START TRANSACTION;
-	SELECT COUNT(*) INTO numberOfQuestions
-	FROM Question
-	WHERE questionnaire = questionnaireId;
-	SET questionOrderNumber = numberOfQuestions + 1;
-	INSERT INTO Question(questionnaire, orderNumber, value, active)
-	VALUE(questionnaireId, questionOrderNumber, questionValue, FALSE);
+	SELECT COUNT(*) INTO numberOfActiveQuestionnaires
+	FROM Questionnaire Q
+	WHERE Q.id = questionnaireId AND Q.active = TRUE;
+	IF numberOfActiveQuestionnaires = 0 THEN	
+		SELECT COUNT(*) INTO numberOfQuestions
+		FROM Question
+		WHERE questionnaire = questionnaireId;
+		SET questionOrderNumber = numberOfQuestions + 1;
+		INSERT INTO Question(questionnaire, orderNumber, value, active)
+		VALUE(questionnaireId, questionOrderNumber, questionValue, FALSE);
+	END IF;
     COMMIT;
 END//
 DELIMITER ;

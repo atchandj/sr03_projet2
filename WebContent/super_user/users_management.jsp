@@ -131,7 +131,9 @@
 			        </div>
 			        </div>
 		        </c:if>
-		        <p><a href="<c:url value="/super_user/users_management?action=add"/>">Ajouter un utilisateur</a></p>
+		        <h4>
+		        	<a href="<c:url value="/super_user/users_management?action=add"/>">Ajouter un utilisateur</a>
+		        </h4>
 	    	</section>
 	    </c:if>
 	    </div>
