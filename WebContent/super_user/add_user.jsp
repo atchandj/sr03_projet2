@@ -25,23 +25,23 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="email">E-mail de l'utilisateur : </label>
-									<input type="email" id="email" class="form-control" placeholder="E-mail" name="email" autofocus required/>
+									<input type="email" id="email" class="form-control" placeholder="E-mail" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" autofocus required/>
 								</div>		
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="password">Mot de passe de l'utilisateur : </label>
-									<input type="password" id="password" class="form-control" placeholder="Mot de passe" name="password" required/>
+									<input type="password" id="password" class="form-control" minlength="6" placeholder="Mot de passe" pattern=".{6,}" name="password" required/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="surname">Nom de famille : </label>
-									<input type="text" id="surname" class="form-control" placeholder="Nom de famille" name="surname" required/>
+									<input type="text" id="surname" class="form-control" placeholder="Nom de famille" pattern="[A-Za-z]+" name="surname" required/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="name">Prénom de l'utilisateur : </label>
-									<input type="text" id="name" class="form-control" placeholder="Prénom" name="name" required/>
+									<input type="text" id="name" class="form-control" placeholder="Prénom" pattern="[A-Za-z]+" name="name" required/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="phone">Téléphone de l'utilisateur : </label>
-									<input type="tel" id="phone" class="form-control" placeholder="Téléphone" name="phone" required/>
+									<input type="tel" id="phone" class="form-control" placeholder="Téléphone" pattern="[0-9]{10}" name="phone" required/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="company">Entreprise de l'utilisateur : </label>
