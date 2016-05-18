@@ -71,6 +71,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
             }
             topics.add(tmpTopic);
         } catch (SQLException e) {
+        	e.printStackTrace();
             throw new DaoException(databaseErrorMessage);
         }
         finally {
@@ -79,6 +80,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
                     connexion.close();  
                 }
             } catch (SQLException e) {
+            	e.printStackTrace();
                 throw new DaoException(databaseErrorMessage);
             }
         }
@@ -98,7 +100,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
             query = "SELECT Q.id as questionId, Q.questionnaire as questionnaireId, Q.value as questionValue, Q.active as questionActive, Q.orderNumber as questionOrderNumber "
             		+ "FROM question Q INNER JOIN questionnaire UQ "
             		+ "ON Q.questionnaire = UQ.id "
-            		+ "WHERE UQ.id = ? AND Q.active = TRUE "
+            		+ "WHERE UQ.id = ? AND Q.active = TRUE AND UQ.active = TRUE "
             		+ "ORDER By questionOrderNumber ASC ;";
              //System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
@@ -122,6 +124,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
                 questions.add(tmpQuestion);
             }	            
         } catch (SQLException e) {
+        	e.printStackTrace();
             throw new DaoException(databaseErrorMessage);
         }
         finally {
@@ -130,6 +133,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
                     connexion.close();  
                 }
             } catch (SQLException e) {
+            	e.printStackTrace();
                 throw new DaoException(databaseErrorMessage);
             }
         }
@@ -148,8 +152,8 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
             query = "SELECT A.id as answerId, A.value as answerValue, A.active answerActive, A.orderNumber as answerOrderNumber, A.t as answerType  "
             		+ "FROM Answer A INNER JOIN question Q "
             		+ "ON Q.id = A.question "
-            		+ "WHERE A.question = ? AND A.active = TRUE"
-            		+ "ORDER BY A.orderNumber;";
+            		+ "WHERE A.question = ? AND A.active = TRUE AND Q.active = TRUE "
+            		+ "ORDER BY A.orderNumber ASC;";
             		
             //System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
@@ -169,6 +173,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
                 }
             }	            
         } catch (SQLException e) {
+        	e.printStackTrace();
             throw new DaoException(databaseErrorMessage);
         }
         finally {
@@ -177,6 +182,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
                     connexion.close();  
                 }
             } catch (SQLException e) {
+            	e.printStackTrace();
                 throw new DaoException(databaseErrorMessage);
             }
         }
