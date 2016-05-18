@@ -41,7 +41,7 @@ public class SurveyList extends HttpServlet {
 		DaoFactory daoFactory;
 		try {
 			daoFactory = DaoFactory.getInstance();
-			this.questionnairesListDao = daoFactory.getTopicsListDao();
+			this.questionnairesListDao = daoFactory.getQuestionnairesListDao();
 		} catch (DAOConfigurationException e) {
 			e.printStackTrace();
 		} 

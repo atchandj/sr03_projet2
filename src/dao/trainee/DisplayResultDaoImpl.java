@@ -13,6 +13,7 @@ import beans.trainee.Answer;
 import beans.trainee.Attempt;
 import beans.trainee.BadAnswer;
 import beans.trainee.GoodAnswer;
+import beans.trainee.Question;
 import dao.DaoException;
 import dao.DaoFactory;
 
@@ -188,5 +189,61 @@ public class DisplayResultDaoImpl implements DisplayResultDao {
             }
         }
         return answers;
+	}
+    
+    @Override
+    public List<Question> getQuestions(int idAttempt) throws DaoException {
+        List<Question> questions = new ArrayList<Question>();
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        String query = null;
+        Question tmpQuestion = null;
+        String databaseErrorMessage = "Impossible de communiquer avec la base de données";
+        try{
+            connexion = daoFactory.getConnection();
+            query = "SELECT Q.id as questionId, Q.questionnaire as questionnaireId, Q.value as questionValue, Q.active as questionActive, Q.orderNumber as questionOrderNumber "
+            		+ "FROM ("
+            		+ "SELECT A.id as answerId, A.question as questionId, A.value as answerValue, A.active answerActive, A.orderNumber as answerOrderNumber, A.t as answerType "
+            		+ "FROM ( "
+            		+ "SELECT ATP.id as attemptId, AA.answer as answerId "
+            		+ "FROM attemptanswer AA INNER JOIN attempt ATP ON AA.attempt = ATP.id "
+            		+ "WHERE ATP.id = ?)R1 INNER JOIN answer A ON A.id = R1.answerId)R2, question Q "
+            		+ "WHERE Q.id = R2.questionId;";
+             //System.out.println(query); // Test
+            preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
+            preparedStatement.setInt(1, idAttempt);
+            ResultSet result = preparedStatement.executeQuery();            
+            while (result.next()) {
+            	tmpQuestion = new Question();
+            	
+            	int questionId = result.getInt("questionId");
+                String questionValue = result.getString("questionValue");
+                boolean questionActive = result.getBoolean("questionActive");
+                int questionOrderNumber = result.getInt("questionOrderNumber");
+                int questionnaireId = result.getInt("questionnaireId");
+                
+                tmpQuestion.setId(questionId);
+                tmpQuestion.setValue(questionValue);
+                tmpQuestion.setOrderNumber(questionOrderNumber);
+                tmpQuestion.setActive(questionActive);
+                tmpQuestion.setQuestionnaireId(questionnaireId);
+                tmpQuestion.setAnswers(this.daoFactory.getQuestionnairesListDao().getAnswer(questionId));;
+                questions.add(tmpQuestion);
+            }	            
+        } catch (SQLException e) {
+        	e.printStackTrace();
+            throw new DaoException(databaseErrorMessage);
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+            	e.printStackTrace();
+                throw new DaoException(databaseErrorMessage);
+            }
+        }
+        return questions;
 	}
 }

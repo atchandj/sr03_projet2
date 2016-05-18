@@ -109,7 +109,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
             while (result.next()) {
             	tmpQuestion = new Question();
             	
-            	int questionId = Integer.parseInt(result.getString("questionId"));
+            	int questionId = result.getInt("questionId");
                 String questionValue = result.getString("questionValue");
                 boolean questionActive = result.getBoolean("questionActive");
                 int questionOrderNumber = result.getInt("questionOrderNumber");

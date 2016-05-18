@@ -21,7 +21,6 @@ public class DisplayResult extends HttpServlet {
 	private static final String DISPLAY_RESULT_JSP = "/trainee/display_result.jsp";
 	private static final String DETAIL_ATTEMPT_JSP = "/trainee/detail_attempt.jsp";
 	private DisplayResultDao displayResultDao;
-	private QuestionnairesListDao questionnairesListDao;
     
     public DisplayResult() {
         super();
@@ -32,7 +31,6 @@ public class DisplayResult extends HttpServlet {
 		try {
 			daoFactory = DaoFactory.getInstance();
 			this.displayResultDao = daoFactory.getDisplayResultDao();
-			this.questionnairesListDao = daoFactory.getTopicsListDao();
 		} catch (DAOConfigurationException e) {
 			e.printStackTrace();
 		} 
@@ -52,7 +50,7 @@ public class DisplayResult extends HttpServlet {
 				Attempt attempt = this.displayResultDao.getAttempt(trainee.getId(), attemptId);
 				attempt.setAttemptedAnswers(this.displayResultDao.getAttemptedAnswers(attemptId));
 				request.setAttribute("attempt", attempt);
-				request.setAttribute("questions", this.questionnairesListDao.getQuestions(attempt.getQuestionnaireId()));
+				request.setAttribute("questions", this.displayResultDao.getQuestions(attempt.getId()));
 				this.getServletContext().getRequestDispatcher(DETAIL_ATTEMPT_JSP).forward(request, response);
 			} catch (Exception e1) {
 				request.setAttribute("errorMessage", e1.getMessage());

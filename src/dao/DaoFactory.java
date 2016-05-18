@@ -86,7 +86,7 @@ public class DaoFactory {
         return new UsersManagementDaoImpl(this);
     }
     
-    public QuestionnairesListDao getTopicsListDao() {
+    public QuestionnairesListDao getQuestionnairesListDao() {
         return new QuestionnairesListDaoImpl(this);
     }
     
