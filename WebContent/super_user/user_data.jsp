@@ -17,7 +17,6 @@
 			<div class="row">
 			<h1>Informations sur un utilisateur</h1>
 			<h2>Données personnelles</h2>
-			<div role="tabpanel" class="tab-pane active">
 				<form method="post" action="<c:url value="/super_user/user_data"/>">				
 					<div class="col-md-6 col-md-offset-3 " >
 						<div class="panel panel-default">
@@ -65,7 +64,6 @@
 						</div>
 					</div>				
 				</form>
-			</div>
 			</div> 
 			<c:if test="${ type == 'Stagiaire' }">
 				<h2>Parcours</h2>		

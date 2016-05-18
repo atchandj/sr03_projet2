@@ -14,15 +14,12 @@
 			<jsp:param name="superUserHome" value="superUserHome" />
 		</jsp:include>
 		<div class="container-fluid">
-	    <c:if test="${ !empty sessionScope.superUser }">
-	        <section>
-		        <p>Vous êtes l'administrateur : ${ sessionScope.superUser.name } ${ sessionScope.superUser.surname } !</p>
-		    	<p>Mail : <c:out value="${sessionScope.superUser.email}" /></p>
-		    	<p>Phone : <c:out value="${sessionScope.superUser.phone}" /></p>
-		    	<p>Company : <c:out value="${sessionScope.superUser.company}" /></p>
-		    	<p>Data de création : <c:out value="${sessionScope.superUser.accountCreation}" /></p>
-		    	<p>Etat : <c:out value="${sessionScope.superUser.accountStatus}" /></p>
-	    	</section>
+	    <c:if test="${ !empty sessionScope.superUser }">			
+			<h1>Vous </h1>
+			<h2>Données personnelles</h2>
+			<c:set var="user" value="${ sessionScope.superUser }" scope="request" />
+			<c:set var="type" value="Administrateur" scope="request" />
+			<jsp:include page="../WEB-INF/user.jsp" />
 	    </c:if>
 	    </div>
 	    <%@ include file="/footer.jsp" %>
