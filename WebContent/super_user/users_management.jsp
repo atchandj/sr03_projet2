@@ -8,7 +8,9 @@
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
 	</head>
-	<body>
+	<body>	
+		<c:set var="usersDataUrl" value="/super_user/user_data" scope="request" />
+		<c:set var="usersManagementUrl" value="/super_user/users_management" scope="request" />
 		<%@ include file="/header.jsp" %>   
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="usersManagement" value="usersManagement" />
@@ -47,7 +49,12 @@
 						</thead>
 				        <c:forEach var="superUser" items="${ superUsers }">
 				        	<tbody>
-					        	<tr class="clickable-row" data-href="<c:url value="/super_user/user_data?action=consult&type=super_user&email=${ superUser.email }"/>" title="Cliquer pour me modifier ou me consulter">
+								<c:url value="${ usersDataUrl }" var="url1">
+									<c:param name="action" value="consult" />
+									<c:param name="type" value="super_user" />
+									<c:param name="email" value="${ superUser.email }" />
+								</c:url>
+					        	<tr class="clickable-row" data-href="${ url1 }" title="Cliquer pour me modifier ou me consulter">
 					        		<td><c:out value="${ superUser.surname }" /></td>
 					        		<td><c:out value="${ superUser.name }" /></td>
 					        		<td><c:out value="${ superUser.email }" /></td>
@@ -58,14 +65,31 @@
 						        	<td>
 			        					<c:choose>
 											<c:when test="${ superUser.accountStatus == 'Le compte est activé' }">
-												<a href="<c:url value="/super_user/users_management?action=modify_status&email=${ superUser.email }&user_type=super_user&activer=false"/>">Désactiver</a>
+												<c:url value="${ usersManagementUrl }" var="url2">
+													<c:param name="action" value="modify_status" />
+													<c:param name="user_type" value="super_user" />
+													<c:param name="activer" value="false" />
+													<c:param name="email" value="${ superUser.email }" />
+												</c:url>
+												<a href="${ url2 }">Désactiver</a>
 											</c:when>
 											<c:otherwise>	
-												<a href="<c:url value="/super_user/users_management?action=modify_status&email=${ superUser.email }&user_type=super_user&activer=true"/>">Activer</a>			
+												<c:url value="${ usersManagementUrl }" var="url3">
+													<c:param name="action" value="modify_status" />
+													<c:param name="user_type" value="super_user" />
+													<c:param name="activer" value="true" />
+													<c:param name="email" value="${ superUser.email }" />
+												</c:url>
+												<a href="${ url3 }">Activer</a>			
 											</c:otherwise>
 										</c:choose>		        		
 					        		</td>
-					        		<td><a href="<c:url value="/super_user/users_management?action=delete&email=${ superUser.email }&user_type=super_user"/>">Supprimer</a></td> 
+									<c:url value="${ usersManagementUrl }" var="url4">
+										<c:param name="action" value="delete" />
+										<c:param name="user_type" value="super_user" />
+										<c:param name="email" value="${ superUser.email }" />
+									</c:url>
+					        		<td><a href="${ url4 }">Supprimer</a></td> 
 					        	</tr>
 				        	</tbody>
 				        </c:forEach>						
@@ -105,7 +129,12 @@
 						</thead>
 				        <c:forEach var="trainee" items="${ trainees }">
 				        	<tbody>
-					        	<tr class="clickable-row" data-href="<c:url value="/super_user/user_data?action=consult&type=trainee&email=${ trainee.email }"/>" title="Cliquer pour me modifier ou me consulter">
+								<c:url value="${ usersDataUrl }" var="url5">
+									<c:param name="action" value="consult" />
+									<c:param name="type" value="trainee" />
+									<c:param name="email" value="${ trainee.email }" />
+								</c:url>
+					        	<tr class="clickable-row" data-href="${ url5 }" title="Cliquer pour me modifier ou me consulter">
 					        		<td><c:out value="${ trainee.surname }" /></td>
 					        		<td><c:out value="${ trainee.name }" /></td>
 					        		<td><c:out value="${ trainee.email }" /></td>
@@ -116,14 +145,31 @@
 					        		<td>
 			        					<c:choose>
 											<c:when test="${ trainee.accountStatus == 'Le compte est activé' }">
-												<a href="<c:url value="/super_user/users_management?action=modify_status&email=${ trainee.email }&user_type=trainee&activer=false"/>">Désactiver</a>
+												<c:url value="${ usersManagementUrl }" var="url6">
+													<c:param name="action" value="modify_status" />
+													<c:param name="user_type" value="trainee" />
+													<c:param name="activer" value="false" />
+													<c:param name="email" value="${ trainee.email }" />
+												</c:url>
+												<a href="${ url6 }">Désactiver</a>
 											</c:when>
-											<c:otherwise>	
-												<a href="<c:url value="/super_user/users_management?action=modify_status&email=${ trainee.email }&user_type=trainee&activer=true"/>">Activer</a>			
+											<c:otherwise>
+												<c:url value="${ usersManagementUrl }" var="url7">
+													<c:param name="action" value="modify_status" />
+													<c:param name="user_type" value="trainee" />
+													<c:param name="activer" value="true" />
+													<c:param name="email" value="${ trainee.email }" />
+												</c:url>
+												<a href="${ url7 }">Activer</a>			
 											</c:otherwise>
 										</c:choose>			        		
 					        		</td>
-					        		<td><a href="<c:url value="/super_user/users_management?action=delete&email=${ trainee.email }&user_type=trainee"/>">Supprimer</a></td> 
+									<c:url value="${ usersManagementUrl }" var="url8">
+										<c:param name="action" value="delete" />
+										<c:param name="user_type" value="trainee" />
+										<c:param name="email" value="${ trainee.email }" />
+									</c:url>
+					        		<td><a href="${ url8 }">Supprimer</a></td> 
 					        	</tr>
 				        	</tbody>
 				        </c:forEach>						
@@ -132,7 +178,10 @@
 			        </div>
 		        </c:if>
 		        <h4>
-		        	<a href="<c:url value="/super_user/users_management?action=add"/>">Ajouter un utilisateur</a>
+					<c:url value="${ usersManagementUrl }" var="url9">
+						<c:param name="action" value="add" />
+					</c:url>
+		        	<a href="${ url9 }">Ajouter un utilisateur</a>
 		        </h4>
 	    	</section>
 	    </c:if>

@@ -29,7 +29,7 @@ VALUES
 
 INSERT INTO Questionnaire (topic, name, active)
 VALUES
-("JavaScript", "Boucle and Condition", FALSE),
+("JavaScript", "Boucle & Condition", FALSE),
 ("JEE", "Servlet", FALSE);
 
 -- ========== Question ===========================================================================
@@ -37,7 +37,7 @@ VALUES
 INSERT INTO Question (questionnaire, orderNumber, value, active)
 VALUES
 (1, 1, "Qu'est qu'une servlet ?", FALSE),
-(1, 2, "Quelle est la particularité d'une servlet ?", TRUE);
+(1, 2, "Quelle est la particularité d'une servlet ?", FALSE);
 
 -- ========== Answer ===========================================================================
 INSERT INTO Answer(question, orderNumber, value, active, t)

@@ -9,6 +9,8 @@
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
 	</head>
 	<body>
+		<c:set var="formsUrl" value="/super_user/forms_management" scope="request" />
+		<c:set var="questionsUrl" value="/super_user/questions_management" scope="request" />
 		<%@ include file="/header.jsp" %>   
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="formsManagement" value="formsManagement" />
@@ -25,9 +27,17 @@
 								<div class="panel-heading">
 								<h4 class="panel-title">
 									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />"><c:out value="${ topic.name }" /></a> 
-									<a href="<c:url value="/super_user/forms_management?action=modify_topic&topic_name=${ topic.name }"/>" class="btn btn-warning" role="button">Modifier</a>
+									<c:url value="${ formsUrl }" var="url1">
+										<c:param name="action" value="modify_topic" />
+										<c:param name="topic_name" value="${ topic.name }" />
+									</c:url>
+									<a href="${ url1 }" class="btn btn-warning" role="button">Modifier</a>
 									<c:if test="${empty topic.questionnaires}">
-										<a href="<c:url value="/super_user/forms_management?action=delete_topic&topic_name=${ topic.name }"/>" class="btn btn-danger" role="button">Supprimer</a>
+										<c:url value="${ formsUrl }" var="url2">
+											<c:param name="action" value="delete_topic" />
+											<c:param name="topic_name" value="${ topic.name }" />
+										</c:url>
+										<a href="${ url2 }" class="btn btn-danger" role="button">Supprimer</a>
 									</c:if> 
 								</h4>
 								</div>
@@ -40,21 +50,44 @@
 													<c:otherwise>list-group-item-danger</c:otherwise>
 												</c:choose>
 											" >
-												<a href="<c:url value="/super_user/questions_management?topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }" />" title="Cliquez pour me consulter"><c:out value="${ questionnaire.name }" /></a>
+												<c:url value="${ questionsUrl }" var="url3">
+													<c:param name="questionnaire_name" value="${ questionnaire.name }" />
+													<c:param name="topic_name" value="${ topic.name }" />
+												</c:url>
+												<a href="${ url3 }" title="Cliquez pour me consulter"><c:out value="${ questionnaire.name }" /></a>
 												<c:if test="${ questionnaire.activable == true }">
-													<a href="<c:url value="/super_user/forms_management?action=activate_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-success" role="button">Activer</a>
+													<c:url value="${ formsUrl }" var="url4">
+														<c:param name="action" value="activate_questionnaire" />
+														<c:param name="questionnaire_name" value="${ questionnaire.name }" />
+														<c:param name="topic_name" value="${ topic.name }" />
+													</c:url>
+													<a href="${ url4 }" class="btn btn-success" role="button">Activer</a>
 												</c:if>
 												<c:if test="${ questionnaire.active == false }">
-													<a href="<c:url value="/super_user/forms_management?action=modify_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-warning" role="button">Modifier</a>
+													<c:url value="${ formsUrl }" var="url5">
+														<c:param name="action" value="modify_questionnaire" />
+														<c:param name="questionnaire_name" value="${ questionnaire.name }" />
+														<c:param name="topic_name" value="${ topic.name }" />
+													</c:url>
+													<a href="${ url5 }" class="btn btn-warning" role="button">Modifier</a>
 												</c:if>
 												<c:if test="${ questionnaire.deletable == true }">
-													<a href="<c:url value="/super_user/forms_management?action=delete_questionnaire&topic_name=${ topic.name }&questionnaire_name=${ questionnaire.name }"/>" class="btn btn-danger" role="button">Supprimer</a>
+													<c:url value="${ formsUrl }" var="url6">
+														<c:param name="action" value="delete_questionnaire" />
+														<c:param name="questionnaire_name" value="${ questionnaire.name }" />
+														<c:param name="topic_name" value="${ topic.name }" />
+													</c:url>
+													<a href="${ url6 }" class="btn btn-danger" role="button">Supprimer</a>
 												</c:if>
 											</li>
 										</c:forEach>
 									</ul>
 									<div class="panel-footer">
-										<a href="<c:url value="/super_user/forms_management?action=add_questionnaire&topic_name=${ topic.name }"/>" title="Cliquez si vous souhaitez en ajouter un">Ajouter un questionnaire </a>
+										<c:url value="${ formsUrl }" var="url7">
+											<c:param name="action" value="add_questionnaire" />
+											<c:param name="topic_name" value="${ topic.name }" />
+										</c:url>
+										<a href="${ url7 }" title="Cliquez si vous souhaitez en ajouter un">Ajouter un questionnaire </a>
 									</div>
 								</div>
 							</div>
@@ -62,7 +95,10 @@
 					</div>
 					</div>
 				</c:forEach>
-				<h4><a href="<c:url value="/super_user/forms_management?action=add_topic"/>" title="Cliquez si vous souhaitez en ajouter un">Ajouter un sujet</a></h4>
+				<c:url value="${ formsUrl }" var="url8">
+					<c:param name="action" value="add_topic" />
+				</c:url>
+				<h4><a href="${ url8 }" title="Cliquez si vous souhaitez en ajouter un">Ajouter un sujet</a></h4>
 	    	</section>
 	    </c:if>
 	    </div>

@@ -9,6 +9,7 @@
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
 	</head>
 	<body>
+		<c:set var="questionsUrl" value="/super_user/questions_management" scope="request" />
 		<%@ include file="/header.jsp" %>   
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="formsManagement" value="formsManagement" />
@@ -78,13 +79,34 @@
 								<h4 class="panel-title">
 									<a data-toggle="collapse" href="#<c:out value="${ status.index }" />">${ status.count }. <c:out value="${ question.value }" /></a> 
 									<c:if test="${question.activable}">
-										<a href="<c:url value="/super_user/questions_management?action=activate_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
+										<c:url value="${ questionsUrl }" var="url1">
+											<c:param name="action" value="activate_question" />
+											<c:param name="questionnaire_id" value="${ question.questionnaireId }" />
+											<c:param name="question_order_number" value="${ question.orderNumber }" />
+											<c:param name="topic_name" value="${ topicName }" />
+											<c:param name="questionnaire_name" value="${ questionnaireName }" />
+										</c:url>
+										<a href="${ url1 }" class="btn btn-success" role="button">Activer</a>
 									</c:if> 
 									<c:if test="${question.active == false}">
-										<a href="<c:url value="/super_user/questions_management?action=modify_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Modifier</a>
+										<c:url value="${ questionsUrl }" var="url2">
+											<c:param name="action" value="modify_question" />
+											<c:param name="questionnaire_id" value="${ question.questionnaireId }" />
+											<c:param name="question_order_number" value="${ question.orderNumber }" />
+											<c:param name="topic_name" value="${ topicName }" />
+											<c:param name="questionnaire_name" value="${ questionnaireName }" />
+										</c:url>
+										<a href="${ url2 }" class="btn btn-warning" role="button">Modifier</a>
 									</c:if>
 									<c:if test="${question.deletable}">
-										<a href="<c:url value="/super_user/questions_management?action=delete_question&questionnaire_id=${ question.questionnaireId }&question_order_number=${ question.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-danger" role="button">Supprimer</a>
+										<c:url value="${ questionsUrl }" var="url3">
+											<c:param name="action" value="delete_question" />
+											<c:param name="questionnaire_id" value="${ question.questionnaireId }" />
+											<c:param name="question_order_number" value="${ question.orderNumber }" />
+											<c:param name="topic_name" value="${ topicName }" />
+											<c:param name="questionnaire_name" value="${ questionnaireName }" />
+										</c:url>
+										<a href="${ url3 }" class="btn btn-danger" role="button">Supprimer</a>
 									</c:if> 
 								</h4>
 								</div>
@@ -103,12 +125,40 @@
 													<c:otherwise><span class="label label-danger">F</span></c:otherwise>
 												</c:choose>	
 												<c:if test="${ question.trueAnswerChangeable and answer['class'] == 'class beans.trainee.BadAnswer' and answer.active == false }">
-													<a href="<c:url value="/super_user/questions_management?action=set_true_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-primary" role="button">Bonne réponse</a>
+													<c:url value="${ questionsUrl }" var="url4">
+														<c:param name="action" value="set_true_answer" />
+														<c:param name="question_id" value="${ question.id }" />
+														<c:param name="answer_order_number" value="${ answer.orderNumber }" />
+														<c:param name="topic_name" value="${ topicName }" />
+														<c:param name="questionnaire_name" value="${ questionnaireName }" />
+													</c:url>
+													<a href="${ url4 }" class="btn btn-primary" role="button">Bonne réponse</a>
 												</c:if>										
 												<c:if test="${ answer.active == false }">
-													<a href="<c:url value="/super_user/questions_management?action=activate_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-success" role="button">Activer</a>
-													<a href="<c:url value="/super_user/questions_management?action=modify_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-warning" role="button">Modifier</a>
-													<a href="<c:url value="/super_user/questions_management?action=delete_answer&question_id=${ question.id }&answer_order_number=${ answer.orderNumber }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" class="btn btn-danger" role="button">Supprimer</a>
+													<c:url value="${ questionsUrl }" var="url5">
+														<c:param name="action" value="activate_answer" />
+														<c:param name="question_id" value="${ question.id }" />
+														<c:param name="answer_order_number" value="${ answer.orderNumber }" />
+														<c:param name="topic_name" value="${ topicName }" />
+														<c:param name="questionnaire_name" value="${ questionnaireName }" />
+													</c:url>
+													<a href="${ url5 }" class="btn btn-success" role="button">Activer</a>
+													<c:url value="${ questionsUrl }" var="url6">
+														<c:param name="action" value="modify_answer" />
+														<c:param name="question_id" value="${ question.id }" />
+														<c:param name="answer_order_number" value="${ answer.orderNumber }" />
+														<c:param name="topic_name" value="${ topicName }" />
+														<c:param name="questionnaire_name" value="${ questionnaireName }" />
+													</c:url>
+													<a href="${ url6 }" class="btn btn-warning" role="button">Modifier</a>
+													<c:url value="${ questionsUrl }" var="url7">
+														<c:param name="action" value="delete_answer" />
+														<c:param name="question_id" value="${ question.id }" />
+														<c:param name="answer_order_number" value="${ answer.orderNumber }" />
+														<c:param name="topic_name" value="${ topicName }" />
+														<c:param name="questionnaire_name" value="${ questionnaireName }" />
+													</c:url>
+													<a href="${ url7 }" class="btn btn-danger" role="button">Supprimer</a>
 												</c:if>
 											</li>
 										</c:forEach>
@@ -154,7 +204,13 @@
 									<c:if test="${question.active == false}">
 										<div class="panel-footer">
 											<h5>
-												<a href="<c:url value="/super_user/questions_management?action=add_answer&question_id=${ question.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse</a>
+												<c:url value="${ questionsUrl }" var="url8">
+													<c:param name="action" value="add_answer" />
+													<c:param name="question_id" value="${ question.id }" />
+													<c:param name="topic_name" value="${ topicName }" />
+													<c:param name="questionnaire_name" value="${ questionnaireName }" />
+												</c:url>
+												<a href="${ url8 }" title="Cliquez si vous souhaitez en ajouter une">Ajouter une réponse</a>
 											</h5>
 										</div>
 									</c:if>
@@ -165,7 +221,13 @@
 					</div>
 				</c:forEach>
 				<c:if test="${questionnaire.active == false}">
-					<h4><a href="<c:url value="/super_user/questions_management?action=add_question&questionnaire_id=${ questionnaire.id }&topic_name=${ topicName }&questionnaire_name=${ questionnaireName }"/>" title="Cliquez si vous souhaitez en ajouter une">Ajouter une question</a></h4>
+					<c:url value="${ questionsUrl }" var="url9">
+						<c:param name="action" value="add_question" />
+						<c:param name="questionnaire_id" value="${ questionnaire.id }" />
+						<c:param name="topic_name" value="${ topicName }" />
+						<c:param name="questionnaire_name" value="${ questionnaireName }" />
+					</c:url>
+					<h4><a href="${ url9 }" title="Cliquez si vous souhaitez en ajouter une">Ajouter une question</a></h4>
 	    		</c:if>
 	    	</section>
 	    </c:if>

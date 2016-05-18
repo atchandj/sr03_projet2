@@ -313,7 +313,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             // System.out.println(answerValue); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setString(2, answerValue);
-            int result = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             connexion.commit();
         } catch (SQLException e) {
             throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
