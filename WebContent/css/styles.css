@@ -49,3 +49,7 @@ thead{
     color: #bdbdbd;
     margin-bottom: 0px;
 }
+
+li {
+    list-style-type: none;
+}

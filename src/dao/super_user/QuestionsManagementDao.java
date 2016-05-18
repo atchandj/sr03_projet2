@@ -18,4 +18,5 @@ public interface QuestionsManagementDao {
 	 void updateAnswer(int questionId, int answerOrderNumber, String answerValue) throws DaoException;
 	 Question getQuestion(int questionnaireId, int questionOrderNumber) throws DaoException;
 	 void updateQuestion(int questionId, String newQuestionValue) throws DaoException;
+	 void exchangeQuestionsOrder(int questionnaireId, int question1OrderNumber, int question2OrderNumber) throws DaoException;
 }

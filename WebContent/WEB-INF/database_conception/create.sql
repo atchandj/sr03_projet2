@@ -260,7 +260,7 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE addAnswer(IN questionId INT, IN answerValue  VARCHAR(255))
+CREATE PROCEDURE addAnswer(IN questionId INT, IN answerValue VARCHAR(255))
 BEGIN
  	DECLARE numberOfAnswers INT;
 	DECLARE answerOrderNumber INT;
@@ -315,6 +315,52 @@ BEGIN
 		UPDATE Answer
 		SET t = 'GoodAnswer'
 		WHERE question = questionID AND orderNumber = answerOrderNumber;
+    END IF;
+    COMMIT;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE changeQuestionsOrder(IN questionnaireId INT, IN question1OrderNumber INT, IN question2OrderNumber INT)
+BEGIN
+	DECLARE numberOfNotChangeableQuestions INT;
+	START TRANSACTION;
+	SELECT COUNT(*) INTO numberOfNotChangeableQuestions
+	FROM Question Q
+	WHERE Q.questionnaire = questionnaireId AND (Q.orderNumber = question1OrderNumber OR Q.orderNumber = question2OrderNumber) AND Q.active=TRUE;
+	IF (numberOfNotChangeableQuestions = 0) THEN
+		UPDATE Question 
+		SET orderNumber = 100000
+		WHERE questionnaire = questionnaireId AND orderNumber = question1OrderNumber;
+		UPDATE Question 
+		SET orderNumber = question1OrderNumber
+		WHERE questionnaire = questionnaireId AND orderNumber = question2OrderNumber;
+		UPDATE Question 
+		SET orderNumber = question2OrderNumber
+		WHERE questionnaire = questionnaireId AND orderNumber = 100000;
+    END IF;
+    COMMIT;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE changeAnswersOrder(IN questionId INT, IN answer1OrderNumber INT, IN answer2OrderNumber INT)
+BEGIN
+	DECLARE numberOfNotChangeableAnswers INT;
+	START TRANSACTION;
+	SELECT COUNT(*) INTO numberOfNotChangeableAnswers
+	FROM Answer A
+	WHERE A.question = questionId AND (A.orderNumber = answer1OrderNumber OR A.orderNumber = answer2OrderNumber) AND A.active=TRUE;
+	IF (numberOfNotChangeableAnswers = 0) THEN
+		UPDATE Answer 
+		SET orderNumber = 100000
+		WHERE question = questionId AND orderNumber = answer1OrderNumber;
+		UPDATE Answer 
+		SET orderNumber = answer1OrderNumber
+		WHERE question = questionId AND orderNumber = answer2OrderNumber;
+		UPDATE Answer 
+		SET orderNumber = answer2OrderNumber
+		WHERE question = questionId AND orderNumber = 100000;
     END IF;
     COMMIT;
 END//

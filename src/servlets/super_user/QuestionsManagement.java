@@ -169,6 +169,8 @@ public class QuestionsManagement extends HttpServlet {
 		int questionId = 0;
 		int questionnaireId = 0;
 		int answerOrderNumber = 0;
+		int question1OrderNumber = 0;
+		int question2OrderNumber = 0;
 		String action =  request.getParameter("paction");
 		if(action != null){
 			switch (action) {
@@ -223,7 +225,27 @@ public class QuestionsManagement extends HttpServlet {
 					errorMessage = e.getMessage();
 					request.setAttribute("errorMessage", errorMessage);
 				}
-				break;				
+				break;
+			case "exchange_questions_order":
+				System.out.println("Echange d'ordre de questions"); // Test
+				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
+				if(request.getParameter("question1OrderNumber") != null && request.getParameter("question2OrderNumber") != null){
+					question1OrderNumber = Integer.parseInt(request.getParameter("question1OrderNumber"));
+					question2OrderNumber = Integer.parseInt(request.getParameter("question2OrderNumber"));
+					try {
+						this.questionnairesManagementDao.exchangeQuestionsOrder(questionnaireId, question1OrderNumber, question2OrderNumber);
+					} catch (DaoException e) {
+						errorMessage = e.getMessage();
+						request.setAttribute("errorMessage", errorMessage);
+					}
+				}
+				break;
+			case "exchange_answers_order":
+				System.out.println("Echange d'ordre de réponses"); // Test
+				/*
+				 
+				 */
+				break;
 			default:
 				break;
 			}
