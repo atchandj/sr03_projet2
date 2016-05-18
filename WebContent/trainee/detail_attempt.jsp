@@ -7,7 +7,7 @@
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
-		<script src="<c:url value="trainee.js"/>"></script>
+		<script src="<c:url value="/script.js"/>"></script>
 	</head>
 	<body>
 		<%@ include file="/header.jsp" %>   
@@ -31,6 +31,9 @@
 							  <dt>Durée</dt>
 							  <dd><c:out value="${ attempt.durationInSeconds }" /> sec</dd>
 							</dl>
+							<c:if test="${ questions.size() > 10 }">
+								<a class="btn btn-default" href="<c:url value="/trainee/display_result" />" role="button">Retour</a>
+							</c:if>
 							<c:forEach var="question" items="${ questions }" >
 								<ul class="list-group">
 									<li class="list-group-item">
@@ -58,7 +61,7 @@
 									
 								</ul>
 							</c:forEach>
-							<a class="btn btn-default" href="<c:url value="/trainee/display_result" />" role="button">Retour aux résultats</a>
+							<a class="btn btn-default" href="<c:url value="/trainee/display_result" />" role="button">Retour</a>
 						</div>
 					</div>
 				</div>

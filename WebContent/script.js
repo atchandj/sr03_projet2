@@ -3,7 +3,7 @@ $(document).ready(function() {
 		$('form input')[0].checked =  true ;
 	}
 	else{
-		$('#surveyList').DataTable();
+		$('#dataTable').DataTable();
 	}
     
 } );

@@ -8,7 +8,7 @@
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link rel="stylesheet" type="text/css" href="<c:url value="/DataTables/datatables.min.css"/>"/>
 		<script type="text/javascript" src="<c:url value="/DataTables/datatables.min.js"/>"></script>
-		<script src="<c:url value="trainee.js"/>"></script>
+		<script src="<c:url value="/script.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
 	</head>
 	<body>
@@ -29,7 +29,7 @@
 							<span class="sr-only">Error:</span><c:out value="${ errorMessage }" />
 						</div>
 					</c:if>
-					<table class="table table-bordered" id="surveyList">
+					<table class="table table-bordered" id="dataTable">
 						<thead>
 				            <tr>
 				                <th>Thème</th>

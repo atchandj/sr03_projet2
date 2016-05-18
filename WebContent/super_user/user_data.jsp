@@ -7,6 +7,9 @@
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="<c:url value="/DataTables/datatables.min.css"/>"/>
+		<script type="text/javascript" src="<c:url value="/DataTables/datatables.min.js"/>"></script>
+		<script src="<c:url value="/script.js"/>"></script>
 	</head>
 	<body>
 		<%@ include file="/header.jsp" %>
@@ -51,7 +54,8 @@
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">								
 									<label class="control-label" for="status">Statut du compte de l'utilisateur: </label>
 									<input type="text" id="status" class="form-control" placeholder="Statut de l'utilisateur" name="status" value="${user.accountStatus}" required readonly/>
-								</div>		
+								</div>
+								<a class="btn btn-default" href="<c:url value="/super_user/users_management" />" role="button">Retour</a>		
 								<input type="submit" class="btn btn-default" value="Modifier"/>
 								<c:if test="${ !empty errorMessage }">
 							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 
@@ -67,36 +71,31 @@
 			</div> 
 			<c:if test="${ type == 'Stagiaire' }">
 				<h2>Parcours</h2>		
-				<c:set var="previousTopic" value="" scope="page" />
-				<c:forEach var="attempt" items="${ attempts }" varStatus="status">	
-					<c:if test="${ previousTopic != attempt.topicName }">
-						<h3><c:out value="${ attempt.topicName }"/></h3>
-						<c:set var="previousTopic" value="${ attempt.topicName }" scope="page" />		
-					</c:if>
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3">
-							<div class="panel panel-default text-center">
-								<div class="panel-heading">
-									<h4><c:out value="${ attempt.questionnaireName }"/></h4>
-								</div>
-								<div class="panel-body">
-									<dl>
-									  <dt>Score (S) :</dt>
-									  <dd><c:out value="${ attempt.score }"/></dd>
-									  <dt>Début :</dt>
-									  <dd><c:out value="${ attempt.begining }"/></dd>
-									  <dt>Fin :</dt>
-									  <dd><c:out value="${ attempt.end }"/></dd>
-									  <dt>Durée en secondes (D) :</dt>
-									  <dd><c:out value="${ attempt.durationInSeconds }"/></dd>
-									  <dt>Score divisé par la durée multiplié par 100 ((S/D)*100) :</dt>
-									  <dd><c:out value="${ attempt.scoreDivByDurationTimes100 }"/> </dd>
-								  	</dl>
-							  	</div>
-					  		</div>
-				  		</div>
-			  		</div>
-	 			</c:forEach>
+				<table class="table table-bordered" id="dataTable">
+				<thead>
+		            <tr>
+		                <th>Thème</th>
+		                <th>Questionnaire</th>
+		                <th>Score</th>
+		                <th>Début</th>
+		                <th>Fin</th>
+		                <th>Durée en secondes</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+	                <c:forEach var="attempt" items="${ attempts }" varStatus="status">
+	                	<tr>
+	                		<td>${ attempt.topicName }</td>
+	                		<td>${ attempt.questionnaireName }</td>
+	                		<td>${ attempt.score }</td>
+	                		<td>${ attempt.begining }</td>
+	                		<td>${ attempt.end }</td>
+	                		<td>${ attempt.durationInSeconds }</td>
+	                	</tr>
+	                </c:forEach>
+		        </tbody>	
+			</table>
+		</div>
 			</c:if>
 		</div>		
 	    <%@ include file="/footer.jsp" %>		
