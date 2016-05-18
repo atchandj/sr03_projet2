@@ -149,7 +149,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            query = "SELECT A.id as answerId, A.value as answerValue, A.active answerActive, A.orderNumber as answerOrderNumber, A.t as answerType  "
+            query = "SELECT A.id as answerId, A.question as questionId, A.value as answerValue, A.active answerActive, A.orderNumber as answerOrderNumber, A.t as answerType  "
             		+ "FROM Answer A INNER JOIN question Q "
             		+ "ON Q.id = A.question "
             		+ "WHERE A.question = ? AND A.active = TRUE AND Q.active = TRUE "
@@ -163,13 +163,14 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
                 String answerValue = result.getString("answerValue");
                 boolean answerActive = result.getBoolean("answerActive");
                 int answerOrderNumber = result.getInt("answerOrderNumber"),
-                	answerId = result.getInt("answerId");
+                	answerId = result.getInt("answerId"),
+                	questionId = result.getInt("questionId");
                 
                 if(result.getString("answerType").equals("GoodAnswer")){
-                	answers.add(new GoodAnswer(answerId, answerOrderNumber, answerValue, answerActive));
+                	answers.add(new GoodAnswer(answerId,questionId, answerOrderNumber, answerValue, answerActive));
                 }
                 else{
-                	answers.add(new BadAnswer(answerId, answerOrderNumber, answerValue, answerActive));
+                	answers.add(new BadAnswer(answerId, questionId, answerOrderNumber, answerValue, answerActive));
                 }
             }	            
         } catch (SQLException e) {
@@ -207,7 +208,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
             preparedStatement.setInt(3, attempt.getScore());
             preparedStatement.setString(4, attempt.getBeginingSql());
             preparedStatement.setString(5, attempt.getEndSql());
-            int result = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();
             if(valeursAutoGenerees.next()){
             	int attemptId = valeursAutoGenerees.getInt( 1 );
@@ -219,7 +220,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
             		preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
 	            	preparedStatement.setInt(1, attemptId);
 		            preparedStatement.setInt(2, a.getId());
-		            result = preparedStatement.executeUpdate();
+		            preparedStatement.executeUpdate();
             	}
             }
             connexion.commit();

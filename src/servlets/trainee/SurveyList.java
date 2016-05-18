@@ -48,15 +48,15 @@ public class SurveyList extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action =  request.getParameter("action");
+		String stringQuestionnaireId =  request.getParameter("questionnaireId");
 		HttpSession session = request.getSession();
 		
-		if(action != null){
+		if(stringQuestionnaireId != null){
 			
 			try {
-				if(request.getParameter("questionnaire") == null)
-					throw new Exception("Questionnaire introuvable");
-				int idQuestionnaire = Integer.parseInt(request.getParameter("questionnaire"));
+				if(stringQuestionnaireId.matches("[-+]?\\d+(\\.\\d+)?") != true)
+					throw new Exception("L'identifiant du questionnaire n'est pas un nombre valide.");
+				int idQuestionnaire = Integer.parseInt(stringQuestionnaireId);
 				Attempt attempt = new Attempt();
 				attempt.setQuestionnaireId(idQuestionnaire);
 				List<Question> questions = new ArrayList<Question>();

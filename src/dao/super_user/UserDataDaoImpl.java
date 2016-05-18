@@ -209,7 +209,7 @@ public class UserDataDaoImpl implements UserDataDao {
         String query = null;
         try{
             connexion = daoFactory.getConnection();
-            query = "SELECT Top.name AS topicName, Q.name AS questionnaireName, A.score, A.beginning, A.end, "
+            query = "SELECT A.id as attemptId, Top.name AS topicName, Q.name AS questionnaireName, A.score, A.beginning, A.end, "
             		+ "TIMESTAMPDIFF(SECOND, A.beginning, A.end) AS durationInSeconds, "
             		+ "(A.score/(TIMESTAMPDIFF(SECOND, A.beginning, A.end)))*100 AS scoreDivByDurationTimes100 "
             		+ "FROM Trainee Tr, Attempt A, Questionnaire Q, Topic Top "
@@ -220,6 +220,7 @@ public class UserDataDaoImpl implements UserDataDao {
             preparedStatement.setString(1, traineeEMail);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
+            	int attemptId = result.getInt("attemptId");
             	String topicName = result.getString("topicName");
                 String questionnaireName = result.getString("questionnaireName");
                 int score = result.getInt("score");
@@ -228,7 +229,7 @@ public class UserDataDaoImpl implements UserDataDao {
                 int durationInSeconds = result.getInt("durationInSeconds");
                 double scoreDivByDurationTimes100 = result.getDouble("scoreDivByDurationTimes100");
 
-                Attempt tmpAttempt= new Attempt(topicName, questionnaireName,score, beginning, end, durationInSeconds, scoreDivByDurationTimes100);
+                Attempt tmpAttempt= new Attempt(attemptId, topicName, questionnaireName,score, beginning, end, durationInSeconds, scoreDivByDurationTimes100);
                                 
                 attemptsOfATrainee.add(tmpAttempt);
             }

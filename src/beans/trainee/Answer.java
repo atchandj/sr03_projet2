@@ -5,9 +5,11 @@ public class Answer {
 	private int orderNumber;
 	private String value;
 	private boolean active;
+	private int questionId;
 	
-	public Answer(int id, int orderNumber, String value, boolean active){
+	public Answer(int id, int questionId, int orderNumber, String value, boolean active){
 		this.setId(id);
+		this.setQuestionId(questionId);
 		this.setOrderNumber(orderNumber);
 		this.setValue(value);
 		this.setActive(active);
@@ -57,5 +59,13 @@ public class Answer {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
 	}	
 }

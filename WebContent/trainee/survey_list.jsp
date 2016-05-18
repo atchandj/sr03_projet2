@@ -8,7 +8,7 @@
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link rel="stylesheet" type="text/css" href="<c:url value="/DataTables/datatables.min.css"/>"/>
 		<script type="text/javascript" src="<c:url value="/DataTables/datatables.min.js"/>"></script>
-		<script src="<c:url value="surveyList.js"/>"></script>
+		<script src="<c:url value="trainee.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
 	</head>
 	<body>
@@ -44,7 +44,7 @@
 				                	<tr>
 				                		<td>${ topic.name }</td>
 				                		<td>${ questionnaire.name }</td>
-				                		<td> <a href="<c:url value="/trainee/survey_list?action=launchSurvey&questionnaire=${ questionnaire.id }" />"> Lancer un parcours </a> </td>
+				                		<td> <a href="<c:url value="/trainee/survey_list?questionnaireId=${ questionnaire.id }" />"> Lancer un parcours </a> </td>
 				                	</tr>
 				                </c:forEach>
 					        

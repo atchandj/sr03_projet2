@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Attempt {
+	private int id;
 	private String topicName;
 	private String questionnaireName;
 	private int questionnaireId;
@@ -21,8 +22,9 @@ public class Attempt {
 	private double scoreDivByDurationTimes100;
 	private ArrayList<Answer> attemptedAnswers;
 
-    public Attempt(String topicName, String questionnaireName, int score, Timestamp begining, Timestamp end, int durationInSeconds, double scoreDivByDurationTimes100){
-        this.setTopicName(topicName);
+    public Attempt(int id, String topicName, String questionnaireName, int score, Timestamp begining, Timestamp end, int durationInSeconds, double scoreDivByDurationTimes100){
+        this.setId(id);
+    	this.setTopicName(topicName);
         this.setQuestionnaireName(questionnaireName);
         this.setScore(score);
         this.setBegining(begining);
@@ -32,6 +34,7 @@ public class Attempt {
     }
     
     public Attempt(){
+    	this.setId(0);
         this.topicName = null;
         this.questionnaireName = null;
         this.score = 0;
@@ -133,7 +136,7 @@ public class Attempt {
 		ArrayList<Answer> answers = q.getAnswers();
 		
 		for(Answer attemptedAnswer : this.attemptedAnswers){
-			if(answers.contains(attemptedAnswer)){
+			if(attemptedAnswer.getQuestionId() == q.getId()){
 				if(attemptedAnswer.getClass() == GoodAnswer.class){
 					answerList.put("trueAnswer", attemptedAnswer);
 				}
@@ -149,7 +152,14 @@ public class Attempt {
 				break;
 			}
 		}
-		System.out.println(answerList);
 		return answerList;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
