@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -16,7 +17,7 @@ import org.apache.commons.mail.SimpleEmail;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-import beans.EmailAccount;
+import beans.TemporaryUser;
 import beans.super_user.SuperUser;
 import beans.trainee.Trainee;
 import dao.DAOConfigurationException;
@@ -32,7 +33,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
 	private static final int SMTP_PORT = 465;
 	
 	private DaoFactory daoFactory;
-    private EmailAccount emailAccount;
+    private TemporaryUser emailAccount;
 
     public UsersManagementDaoImpl(DaoFactory daoFactory) throws DAOConfigurationException {
         this.daoFactory = daoFactory;
@@ -55,7 +56,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         } catch ( IOException e ) {
             throw new DAOConfigurationException( "Impossible de charger le fichier properties " + FILE_PROPERTIES + ".");
         }
-        this.emailAccount = new EmailAccount(login, password);
+        this.emailAccount = new TemporaryUser(login, password);
     }
     
     @Override
@@ -80,8 +81,8 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
                 boolean accountStatus = result.getBoolean("accountStatus");
 
                 tmpTrainee.setEmail(email);
-                tmpTrainee.setSurname(surname);
-                tmpTrainee.setName(name);
+                tmpTrainee.setSurname(surname.toUpperCase());
+                tmpTrainee.setName(name.substring(0, 1).toUpperCase() + name.substring(1));
                 tmpTrainee.setPhone(phone);
                 tmpTrainee.setCompany(company);
                 tmpTrainee.setAccountCreation(accountCreation);
@@ -132,8 +133,8 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
                 boolean accountStatus = result.getBoolean("accountStatus");
 
                 tmpSuperUser.setEmail(email);
-                tmpSuperUser.setSurname(surname);
-                tmpSuperUser.setName(name);
+                tmpSuperUser.setSurname(surname.toUpperCase());
+                tmpSuperUser.setName(name.substring(0, 1).toUpperCase() + name.substring(1));
                 tmpSuperUser.setPhone(phone);
                 tmpSuperUser.setCompany(company);
                 tmpSuperUser.setAccountCreation(accountCreation);
@@ -346,16 +347,25 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;
+        String surname = trainee.getSurname();
+        String name = trainee.getName();
+        String phone = trainee.getPhone();
+        String company = trainee.getCompany();
+        String email = trainee.getEmail();
+        String password = trainee.getPassword();
+        if(!Pattern.matches("^[a-zA-Z]+$", surname) || !Pattern.matches("^[a-zA-Z]+$", name) || !Pattern.matches("^[0-9]{10}$", phone) || !Pattern.matches("^.+$", company) || !Pattern.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", email) ||  !Pattern.matches("^.{6,}$", password)){
+        	throw new DaoException("Veuillez saisir des données cohérentes.");
+        }  
         try{
             connexion = daoFactory.getConnection();
             // System.out.println("INSERT INTO Trainee (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("INSERT INTO Trainee (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);");
-            preparedStatement.setString(1, trainee.getEmail());
-            preparedStatement.setString(2, trainee.getSurname());
-            preparedStatement.setString(3, trainee.getName());
-            preparedStatement.setString(4, trainee.getPassword());
-            preparedStatement.setString(5, trainee.getPhone());
-            preparedStatement.setString(6, trainee.getCompany());
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, surname.toLowerCase());
+            preparedStatement.setString(3, name.toLowerCase());
+            preparedStatement.setString(4, password);
+            preparedStatement.setString(5, phone);
+            preparedStatement.setString(6, company);
             preparedStatement.setBoolean(7, trainee.isActive());
             int result = preparedStatement.executeUpdate();
             connexion.commit();
@@ -396,16 +406,25 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;
+        String surname = superUser.getSurname();
+        String name = superUser.getName();
+        String phone = superUser.getPhone();
+        String company = superUser.getCompany();
+        String email = superUser.getEmail();
+        String password = superUser.getPassword();
+        if(!Pattern.matches("^[a-zA-Z]+$", surname) || !Pattern.matches("^[a-zA-Z]+$", name) || !Pattern.matches("^[0-9]{10}$", phone) || !Pattern.matches("^.+$", company) || !Pattern.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", email) ||  !Pattern.matches("^.{6,}$", password)){
+        	throw new DaoException("Veuillez saisir des données cohérentes.");
+        }  
         try{
             connexion = daoFactory.getConnection();
             // System.out.println("INSERT INTO SuperUser (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("INSERT INTO SuperUser (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);");
-            preparedStatement.setString(1, superUser.getEmail());
-            preparedStatement.setString(2, superUser.getSurname());
-            preparedStatement.setString(3, superUser.getName());
-            preparedStatement.setString(4, superUser.getPassword());
-            preparedStatement.setString(5, superUser.getPhone());
-            preparedStatement.setString(6, superUser.getCompany());
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, surname.toLowerCase());
+            preparedStatement.setString(3, name.toLowerCase());
+            preparedStatement.setString(4, password);
+            preparedStatement.setString(5, phone);
+            preparedStatement.setString(6, company);
             preparedStatement.setBoolean(7, superUser.isActive());
             int result = preparedStatement.executeUpdate();
             connexion.commit();
@@ -444,12 +463,12 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
 		Email simpleEmail = new SimpleEmail();
 		simpleEmail.setHostName(HOST_NAME);
 		simpleEmail.setSmtpPort(SMTP_PORT);    	
-		simpleEmail.setAuthentication(this.emailAccount.getLogin(), this.emailAccount.getPassword());
+		simpleEmail.setAuthentication(this.emailAccount.getEmail(), this.emailAccount.getPassword());
 		simpleEmail.setDebug(true);
 		simpleEmail.setSSLOnConnect(true);
 		simpleEmail.setStartTLSEnabled(true);
 		try {
-			simpleEmail.setFrom(this.emailAccount.getLogin());
+			simpleEmail.setFrom(this.emailAccount.getEmail());
 			simpleEmail.setSubject(subject);
 			simpleEmail.setMsg(message);
 			simpleEmail.addTo(email);

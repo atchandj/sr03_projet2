@@ -42,8 +42,8 @@ public class UserDaoImpl implements UserDao {
                 
                 trainee.setId(id);
                 trainee.setEmail(email);
-                trainee.setSurname(surname);
-                trainee.setName(name);
+                trainee.setSurname(surname.toUpperCase());
+                trainee.setName(name.substring(0, 1).toUpperCase() + name.substring(1));
                 trainee.setPhone(phone);
                 trainee.setCompany(company);
                 trainee.setAccountCreation(accountCreation);
@@ -90,8 +90,8 @@ public class UserDaoImpl implements UserDao {
                 
                 superUser.setId(id);
                 superUser.setEmail(email);
-                superUser.setSurname(surname);
-                superUser.setName(name);
+                superUser.setSurname(surname.toUpperCase());
+                superUser.setName(name.substring(0, 1).toUpperCase() + name.substring(1));
                 superUser.setPhone(phone);
                 superUser.setCompany(company);
                 superUser.setAccountCreation(accountCreation);

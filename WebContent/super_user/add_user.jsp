@@ -29,7 +29,7 @@
 								</div>		
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="password">Mot de passe de l'utilisateur : </label>
-									<input type="password" id="password" class="form-control" minlength="6" placeholder="Mot de passe" pattern=".{6,}" name="password" required/>
+									<input type="password" id="password" class="form-control" placeholder="Mot de passe" pattern=".{6,}" name="password" required/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="surname">Nom de famille : </label>
@@ -45,7 +45,7 @@
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="company">Entreprise de l'utilisateur : </label>
-									<input type="password" id="company" class="form-control" placeholder="Entreprise" name="company" required/>
+									<input type="text" id="company" class="form-control" placeholder="Entreprise" name="company" required/>
 								</div>		
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="type">Type d'utilisateur : </label>

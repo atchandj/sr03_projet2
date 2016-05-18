@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -30,8 +31,7 @@ public class UserDataDaoImpl implements UserDataDao {
         Trainee trainee = new Trainee();
         
         try{
-            connexion = daoFactory.getConnection();
-       	
+            connexion = daoFactory.getConnection();       	
             preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT surname, name, phone, company, accountCreation, accountStatus FROM Trainee WHERE email= ?;");
             preparedStatement.setString(1, email);
             ResultSet result = preparedStatement.executeQuery();         
@@ -44,8 +44,8 @@ public class UserDataDaoImpl implements UserDataDao {
                 boolean accountStatus = result.getBoolean("accountStatus");
 
                 trainee.setEmail(email);
-                trainee.setSurname(surname);
-                trainee.setName(name);
+                trainee.setSurname(surname.toUpperCase());
+                trainee.setName(name.substring(0, 1).toUpperCase() + name.substring(1));
                 trainee.setPhone(phone);
                 trainee.setCompany(company);
                 trainee.setAccountCreation(accountCreation);
@@ -72,11 +72,9 @@ public class UserDataDaoImpl implements UserDataDao {
     public SuperUser getSuperUser(String email) throws DaoException{
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
-        SuperUser superUser = new SuperUser();
-        
+        SuperUser superUser = new SuperUser();        
         try{
-            connexion = daoFactory.getConnection();
-       	
+            connexion = daoFactory.getConnection();       	
             preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT surname, name, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email=?;");
             preparedStatement.setString(1, email);
             ResultSet result = preparedStatement.executeQuery();         
@@ -89,8 +87,8 @@ public class UserDataDaoImpl implements UserDataDao {
                 boolean accountStatus = result.getBoolean("accountStatus");
                 
                 superUser.setEmail(email);
-                superUser.setSurname(surname);
-                superUser.setName(name);
+                superUser.setSurname(surname.toUpperCase());
+                superUser.setName(name.substring(0, 1).toUpperCase() + name.substring(1));
                 superUser.setPhone(phone);
                 superUser.setCompany(company);
                 superUser.setAccountCreation(accountCreation);
@@ -119,18 +117,25 @@ public class UserDataDaoImpl implements UserDataDao {
     	// System.out.println("Mettre à jour stagiaire"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
+        String surname = trainee.getSurname();
+        String name = trainee.getName();
+        String phone = trainee.getPhone();
+        String company = trainee.getCompany();
+        String email = trainee.getEmail();
+        if(!Pattern.matches("^[a-zA-Z]+$", surname) || !Pattern.matches("^[a-zA-Z]+$", name) || !Pattern.matches("^[0-9]{10}$", phone) || !Pattern.matches("^.+$", company) || !Pattern.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", email)){
+        	throw new DaoException("Veuillez saisir des données cohérentes.");
+        }        
         try{
+        	System.out.println(email);
             connexion = daoFactory.getConnection();
             // System.out.println("UPDATE Trainee SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE Trainee SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;");
-            
             // System.out.println(trainee.getName());
-            
-            preparedStatement.setString(1, trainee.getSurname());
-            preparedStatement.setString(2, trainee.getName());
-            preparedStatement.setString(3, trainee.getPhone());
-            preparedStatement.setString(4, trainee.getCompany());
-            preparedStatement.setString(5, trainee.getEmail());
+            preparedStatement.setString(1, surname.toLowerCase());
+            preparedStatement.setString(2, name.toLowerCase());
+            preparedStatement.setString(3, phone);
+            preparedStatement.setString(4, company);
+            preparedStatement.setString(5, email);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
             // System.out.println(result); // Test
@@ -157,15 +162,24 @@ public class UserDataDaoImpl implements UserDataDao {
     	// System.out.println("Mettre à jour administrateur"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
+        String surname = superUser.getSurname();
+        String name = superUser.getName();
+        String phone = superUser.getPhone();
+        String company = superUser.getCompany();
+        String email = superUser.getEmail();
+        if(!Pattern.matches("^[a-zA-Z]+$", surname) || !Pattern.matches("^[a-zA-Z]+$", name) || !Pattern.matches("^[0-9]{10}$", phone) || !Pattern.matches("^.+$", company) || !Pattern.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", email)){
+        	throw new DaoException("Veuillez saisir des données cohérentes.");
+        }  
         try{
+    		System.out.println(email);
             connexion = daoFactory.getConnection();
             // System.out.println("UPDATE SuperUser SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE SuperUser SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;");
-            preparedStatement.setString(1, superUser.getSurname());
-            preparedStatement.setString(2, superUser.getName());
-            preparedStatement.setString(3, superUser.getPhone());
-            preparedStatement.setString(4, superUser.getCompany());
-            preparedStatement.setString(5, superUser.getEmail());
+            preparedStatement.setString(1, surname.toLowerCase());
+            preparedStatement.setString(2, name.toLowerCase());
+            preparedStatement.setString(3, phone);
+            preparedStatement.setString(4, company);
+            preparedStatement.setString(5, email);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
             System.out.println(result); // Test
