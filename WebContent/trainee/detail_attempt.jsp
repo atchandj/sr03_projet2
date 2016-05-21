@@ -12,7 +12,7 @@
 	<body>
 		<%@ include file="/header.jsp" %>   
 		<jsp:include page="./menu.jsp" >
-			<jsp:param name="surveyList" value="surveyList" />
+			<jsp:param name="displayResult" value="displayResult" />
 		</jsp:include>
 		
 		<div class="container-fluid">

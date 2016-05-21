@@ -39,7 +39,7 @@ public class DisplayResultDaoImpl implements DisplayResultDao {
             		+ "(R1.score/(TIMESTAMPDIFF(SECOND, R1.beginning, R1.end)))*100 AS scoreDivByDurationTimes100 "
             		+ "FROM Trainee Tr,"
             		+ "(SELECT A.id as attemptId, A.trainee as traineeId, A.score, A.beginning, A.end, A.questionnaire as questionnaireId, UQ.topic as topicName "
-            		+ "FROM ATTEMPT A INNER JOIN Questionnaire UQ "
+            		+ "FROM Attempt A INNER JOIN Questionnaire UQ "
             		+ "ON UQ.id = A.questionnaire)R1 "
             		+ "LEFT OUTER JOIN ("
             		+ "SELECT UQ.topic as topicName , UQ.id as questionnaireId, UQ.name as questionnaireName "
@@ -96,7 +96,7 @@ public class DisplayResultDaoImpl implements DisplayResultDao {
             		+ "(R1.score/(TIMESTAMPDIFF(SECOND, R1.beginning, R1.end)))*100 AS scoreDivByDurationTimes100 "
             		+ "FROM Trainee Tr,"
             		+ "(SELECT A.id as attemptId, A.trainee as traineeId, A.score, A.beginning, A.end, A.questionnaire as questionnaireId, UQ.topic as topicName "
-            		+ "FROM ATTEMPT A INNER JOIN Questionnaire UQ "
+            		+ "FROM Attempt A INNER JOIN Questionnaire UQ "
             		+ "ON UQ.id = A.questionnaire)R1 "
             		+ "LEFT OUTER JOIN ("
             		+ "SELECT UQ.topic as topicName , UQ.id as questionnaireId, UQ.name as questionnaireName "
@@ -156,7 +156,7 @@ public class DisplayResultDaoImpl implements DisplayResultDao {
             		+ "FROM AttemptAnswer AA INNER JOIN Attempt ATP "
             		+ "ON AA.attempt = ATP.id "
             		+ "WHERE ATP.id = ?)R1 "
-            		+ "INNER JOIN answer A ON A.id = R1.answerId;";
+            		+ "INNER JOIN Answer A ON A.id = R1.answerId;";
             
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setInt(1, attemptId);
@@ -206,8 +206,8 @@ public class DisplayResultDaoImpl implements DisplayResultDao {
             		+ "SELECT A.id as answerId, A.question as questionId, A.value as answerValue, A.active answerActive, A.orderNumber as answerOrderNumber, A.t as answerType "
             		+ "FROM ( "
             		+ "SELECT ATP.id as attemptId, AA.answer as answerId "
-            		+ "FROM AttemptAnswer AA INNER JOIN attempt ATP ON AA.attempt = ATP.id "
-            		+ "WHERE ATP.id = ?)R1 INNER JOIN answer A ON A.id = R1.answerId)R2, question Q "
+            		+ "FROM AttemptAnswer AA INNER JOIN Attempt ATP ON AA.attempt = ATP.id "
+            		+ "WHERE ATP.id = ?)R1 INNER JOIN Answer A ON A.id = R1.answerId)R2, Question Q "
             		+ "WHERE Q.id = R2.questionId;";
              
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
