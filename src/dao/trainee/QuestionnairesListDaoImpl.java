@@ -46,7 +46,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
             		+ "WHERE UQ.id IS NOT NULL AND UQ.active = TRUE"
             		+ ")R "
             		+ "ORDER BY R.topicName, R.questionnaireName;";
-            // System.out.println(query); // Test
+            
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             ResultSet result = preparedStatement.executeQuery();            
             while (result.next()) {
@@ -98,11 +98,10 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
         try{
             connexion = daoFactory.getConnection();
             query = "SELECT Q.id as questionId, Q.questionnaire as questionnaireId, Q.value as questionValue, Q.active as questionActive, Q.orderNumber as questionOrderNumber "
-            		+ "FROM question Q INNER JOIN questionnaire UQ "
+            		+ "FROM Question Q INNER JOIN Questionnaire UQ "
             		+ "ON Q.questionnaire = UQ.id "
             		+ "WHERE UQ.id = ? AND Q.active = TRUE AND UQ.active = TRUE "
-            		+ "ORDER By questionOrderNumber ASC ;";
-             //System.out.println(query); // Test
+            		+ "ORDER By Q.orderNumber ASC ;";
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setInt(1, idQuestionnaire);
             ResultSet result = preparedStatement.executeQuery();            
@@ -150,12 +149,11 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
         try{
             connexion = daoFactory.getConnection();
             query = "SELECT A.id as answerId, A.question as questionId, A.value as answerValue, A.active answerActive, A.orderNumber as answerOrderNumber, A.t as answerType  "
-            		+ "FROM Answer A INNER JOIN question Q "
+            		+ "FROM Answer A INNER JOIN Question Q "
             		+ "ON Q.id = A.question "
             		+ "WHERE A.question = ? AND A.active = TRUE AND Q.active = TRUE "
             		+ "ORDER BY A.orderNumber ASC;";
             		
-            //System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setInt(1, idQuestion);
             ResultSet result = preparedStatement.executeQuery();            
@@ -192,13 +190,12 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
      
     @Override
     public void addAttempt(Trainee trainee, Attempt attempt) throws DaoException {
-    	 System.out.println("Ajouter un parcours"); // Test
+    	 System.out.println("Ajouter un parcours");
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            //System.out.println("INSERT INTO Attempt (trainee, questionnaire, score, beginning, end) VALUES (?, ?, ?, ?, ?);"); // Test
             String query = "INSERT INTO Attempt "
             		+ "(trainee, questionnaire, score, beginning, end) "
             		+ "VALUES (?, ?, ?, ?, ?);";
@@ -212,7 +209,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
             ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();
             if(valeursAutoGenerees.next()){
             	int attemptId = valeursAutoGenerees.getInt( 1 );
-            	query = "INSERT INTO attemptAnswer "
+            	query = "INSERT INTO AttemptAnswer "
             			+ "(attempt, answer) "
             			+ "VALUES (?, ?);";
             	for(Answer a : attempt.getAttemptedAnswers())
