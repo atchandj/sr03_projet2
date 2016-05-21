@@ -41,7 +41,6 @@
 		                <th>Début</th>
 		                <th>Fin</th>
 		                <th>Durée en secondes</th>
-		                <th> Action </th>
 		            </tr>
 		        </thead>
 		        <tbody>
@@ -55,8 +54,7 @@
 	                		<td>${ attempt.score }</td>
 	                		<td>${ attempt.begining }</td>
 	                		<td>${ attempt.end }</td>
-	                		<td>${ attempt.durationInSeconds }</td>
-	                		<td> <a href=${ url }> Détail du parcours </a> </td> 
+	                		<td>${ attempt.durationInSeconds }</td> 
 	                	</tr>
 	                </c:forEach>
 		        </tbody>	
