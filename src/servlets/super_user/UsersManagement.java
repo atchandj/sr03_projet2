@@ -108,14 +108,16 @@ public class UsersManagement extends HttpServlet {
 				break;
 			}
 		}
-		try {
-			request.setAttribute("superUsers", this.usersManagementDao.getSuperUsers(superUser));
-			request.setAttribute("trainees", this.usersManagementDao.getTrainees());
-		} catch (DaoException e) {
-			errorMessage = e.getMessage();
-			request.setAttribute("errorMessage", errorMessage);
+		if(action == null || ( !(action.equals("add") ) ) ){
+			try {
+				request.setAttribute("superUsers", this.usersManagementDao.getSuperUsers(superUser));
+				request.setAttribute("trainees", this.usersManagementDao.getTrainees());
+			} catch (DaoException e) {
+				errorMessage = e.getMessage();
+				request.setAttribute("errorMessage", errorMessage);
+			}
+			this.getServletContext().getRequestDispatcher(USERS_MANAGEMENT_JSP).forward(request, response);
 		}
-		this.getServletContext().getRequestDispatcher(USERS_MANAGEMENT_JSP).forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -160,9 +160,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     	// System.out.println("Supprimer question"); // Test
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
-        String query = "DELETE FROM Question "
-        		+ "WHERE questionnaire = ? AND orderNumber = ?;";
-        String questionErrorMessage = "Impossible de supprimer la question.";
+        String query = "CALL deleteQuestion(?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
@@ -172,13 +170,8 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             // System.out.println(questionOrderNumber); // Test
             preparedStatement.setInt(1, questionnaireId);
             preparedStatement.setInt(2, questionOrderNumber);
-            int result = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
-            if(result == 0){
-            	// System.out.println(questionErrorMessage); // Test
-            	throw new DaoException(questionErrorMessage);
-            }
         } catch (SQLException e) {
             throw new DaoException(databaseErrorMessage + ": " + e.getMessage());
         }

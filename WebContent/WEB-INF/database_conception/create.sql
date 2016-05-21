@@ -244,6 +244,19 @@ WHERE NOT EXISTS (
 	WHERE A.question = Q.id AND A.active = 1 AND A.t = 'GoodAnswer'
 );
 
+DELIMITER //
+CREATE PROCEDURE deleteQuestion(IN questionnaireId INT, IN questionOrderNumber INT)
+BEGIN
+	START TRANSACTION;
+    DELETE FROM Question
+	WHERE questionnaire = questionnaireId AND orderNumber = questionOrderNumber;
+    UPDATE Question
+    SET orderNumber = orderNumber - 1
+    WHERE orderNumber > questionOrderNumber AND questionnaire = questionnaireId;
+    COMMIT;
+END//
+DELIMITER ;
+
 -- -----------------------------------------------------------------------------------------------
 
 DELIMITER //
