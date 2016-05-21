@@ -36,8 +36,8 @@ VALUES
 
 INSERT INTO Question (questionnaire, orderNumber, value, active)
 VALUES
-(1, 1, "Qu'est qu'une servlet ?", FALSE),
-(1, 2, "Quelle est la particularité d'une servlet ?", FALSE);
+(1, 1, "Qu'est qu'une servlet ?", TRUE),
+(1, 2, "Quelle est la particularité d'une servlet ?", TRUE);
 
 -- ========== Answer ===========================================================================
 INSERT INTO Answer(question, orderNumber, value, active, t)

@@ -7,9 +7,9 @@
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="<c:url value="/DataTables/datatables.min.css"/>"/>
-		<script type="text/javascript" src="<c:url value="/DataTables/datatables.min.js"/>"></script>
-		<script src="<c:url value="/script.js"/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value="/datatables/datatables.min.css"/>"/>
+		<script type="text/javascript" src="<c:url value="/datatables/datatables.min.js"/>"></script>
+		<script src="<c:url value="/js/script.js"/>"></script>
 	</head>
 	<body>
 		<%@ include file="/header.jsp" %>
@@ -68,34 +68,34 @@
 						</div>
 					</div>				
 				</form>
-			</div> 
+			</div>
 			<c:if test="${ type == 'Stagiaire' }">
 				<h2>Parcours</h2>		
-				<table class="table table-bordered" id="dataTable">
-				<thead>
-		            <tr>
-		                <th>Thème</th>
-		                <th>Questionnaire</th>
-		                <th>Score</th>
-		                <th>Début</th>
-		                <th>Fin</th>
-		                <th>Durée en secondes</th>
-		            </tr>
-		        </thead>
-		        <tbody>
-	                <c:forEach var="attempt" items="${ attempts }" varStatus="status">
-	                	<tr>
-	                		<td>${ attempt.topicName }</td>
-	                		<td>${ attempt.questionnaireName }</td>
-	                		<td>${ attempt.score }</td>
-	                		<td>${ attempt.begining }</td>
-	                		<td>${ attempt.end }</td>
-	                		<td>${ attempt.durationInSeconds }</td>
-	                	</tr>
-	                </c:forEach>
-		        </tbody>	
-			</table>
-		</c:if>
+				<table class="table table-bordered dataTable">
+					<thead>
+			            <tr>
+			                <th>Thème</th>
+			                <th>Questionnaire</th>
+			                <th>Score</th>
+			                <th>Début</th>
+			                <th>Fin</th>
+			                <th>Durée en secondes</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+		                <c:forEach var="attempt" items="${ attempts }" varStatus="status">
+		                	<tr>
+		                		<td>${ attempt.topicName }</td>
+		                		<td>${ attempt.questionnaireName }</td>
+		                		<td>${ attempt.score }</td>
+		                		<td>${ attempt.begining }</td>
+		                		<td>${ attempt.end }</td>
+		                		<td>${ attempt.durationInSeconds }</td>
+		                	</tr>
+		                </c:forEach>
+			        </tbody>	
+				</table>
+			</c:if>
 		</div>		
 	    <%@ include file="/footer.jsp" %>		
 	</body>

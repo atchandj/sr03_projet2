@@ -6,6 +6,8 @@
 		<script src="<c:url value="/js/jquery-2.2.2.min.js"/>"></script>
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value="/datatables/datatables.min.css"/>"/>
+		<script type="text/javascript" src="<c:url value="/datatables/datatables.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
 	</head>
 	<body>	
@@ -22,7 +24,7 @@
 					<div class="row">
 					<h1>Administrateur</h1>					
 					<div class="table-responsive"> 
-					<table class="table table-hover table-bordered">
+					<table class="table table-hover table-bordered dataTable">
 			        	<colgroup>
 				            <col class="col-md-2">
 				            <col class="col-md-2">
@@ -102,7 +104,7 @@
     				<div class="row">
     				<h1>Stagiaire</h1>
 					<div class="table-responsive"> 
-					<table class="table table-hover table-bordered">
+					<table class="table table-hover table-bordered dataTable">
 			        	<colgroup>
 				            <col class="col-md-2">
 				            <col class="col-md-2">

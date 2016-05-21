@@ -7,7 +7,7 @@
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
-		<script src="<c:url value="/script.js"/>"></script>
+		<script src="<c:url value="/js/script.js"/>"></script>
 	</head>
 	<body>
 		<%@ include file="/header.jsp" %>   
@@ -28,10 +28,10 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="question"><c:out value="${ question.value }" /> </label>
-									<c:forEach var="answer" items="${ question.answers }" >
+									<c:forEach var="answer" items="${ question.answers }" varStatus="status">
 										<div class="radio">
 										  <label>
-										    <input type="radio" name="answerId" value="<c:out value="${answer.id }" />">
+										    <input type="radio" name="answerId" value="<c:out value="${answer.id }" />" <c:if test="${status.first }">checked</c:if>>
 										    	<c:out value="${answer.value }" />
 										  </label>
 										</div>

@@ -6,9 +6,9 @@
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="<c:url value="/DataTables/datatables.min.css"/>"/>
-		<script type="text/javascript" src="<c:url value="/DataTables/datatables.min.js"/>"></script>
-		<script src="<c:url value="/script.js"/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value="/datatables/datatables.min.css"/>"/>
+		<script type="text/javascript" src="<c:url value="/datatables/datatables.min.js"/>"></script>
+		<script src="<c:url value="/js/script.js"/>"></script>
 		<title>Résultat obtenu</title>
 	</head>
 	<body>
@@ -31,7 +31,7 @@
 				
 				</section>
 			</c:if>		
-			<table class="table table-bordered" id="dataTable">
+			<table class="table table-bordered dataTable" >
 				<thead>
 		            <tr>
 		                <th>Thème</th>

@@ -7,7 +7,7 @@
 		<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
 		<script src="<c:url value="/bootstrap/js/bootstrap.min.js"/>"></script>
 		<link href="<c:url value="/css/styles.css"/>" rel="stylesheet">
-		<script src="<c:url value="/script.js"/>"></script>
+		<script src="<c:url value="/js/script.js"/>"></script>
 	</head>
 	<body>
 		<%@ include file="/header.jsp" %>   
