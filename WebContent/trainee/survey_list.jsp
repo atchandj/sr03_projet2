@@ -30,31 +30,33 @@
 							<span class="sr-only">Error:</span><c:out value="${ errorMessage }" />
 						</div>
 					</c:if>
-					<table class="table table-bordered dataTable">
+					<div class="row">
+					<div class="col-md-8 col-lg-offset-2" > 
+					<table class="table table-hover table-bordered dataTable">
 						<thead>
 				            <tr>
+				                <th>#</th>
 				                <th>Thème</th>
 				                <th>Questionnaire</th>
-				                <th> Action </th>
 				            </tr>
 				        </thead>
 				        <tbody>
-				        <c:forEach var="topic" items="${ topics }" varStatus="status">
-					        
-				                <c:forEach var="questionnaire" items="${ topic.questionnaires }">
-				                	<c:url value="${ questionnaireUrl }" var="url5">
+					        <c:forEach var="topic" items="${ topics }" varStatus="status">
+								<c:forEach var="questionnaire" items="${ topic.questionnaires }">
+									<c:url value="${ questionnaireUrl }" var="url">
 										<c:param name="questionnaireId" value="${ questionnaire.id }" />
 									</c:url>
-				                	<tr class="clickable-row" data-href="${ url5 }" title="Cliquer pour lancer un parcours">
-				                		<td>${ topic.name }</td>
-				                		<td>${ questionnaire.name }</td>
-				                		<td> <a href="${ url5 }"> Lancer un parcours </a> </td>
-				                	</tr>
-				                </c:forEach>
-					        
-				        </c:forEach>
+									<tr class="clickable-row" data-href="${ url }" title="Cliquer pour lancer un parcours">
+										<td>${ status.count }</td>
+										<td>${ topic.name }</td>
+										<td>${ questionnaire.name }</td>
+									</tr>
+								</c:forEach>
+							</c:forEach>
 				        </tbody>	
 					</table>
+					</div>
+					</div>
 	    	</section>
 			</c:if>
 		</div>

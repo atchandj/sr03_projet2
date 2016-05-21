@@ -12,6 +12,7 @@
 		<title>Résultat obtenu</title>
 	</head>
 	<body>
+		<c:set var="attemptUrl" value="/trainee/display_result" scope="request" />
 		<%@ include file="/header.jsp" %>   
 		<jsp:include page="./menu.jsp" >
 			<jsp:param name="displayResult" value="displayResult" />
@@ -31,7 +32,7 @@
 				
 				</section>
 			</c:if>		
-			<table class="table table-bordered dataTable" >
+			<table class="table table-hover table-bordered dataTable" >
 				<thead>
 		            <tr>
 		                <th>Thème</th>
@@ -45,14 +46,17 @@
 		        </thead>
 		        <tbody>
 	                <c:forEach var="attempt" items="${ attempts }" varStatus="status">
-	                	<tr>
+	                	<c:url value="${ attemptUrl }" var="url">
+							<c:param name="attemptId" value="${ attempt.id }" />
+						</c:url>
+	                	<tr class="clickable-row" data-href="${ url }" title="Cliquer pour voir les détails du parcours">
 	                		<td>${ attempt.topicName }</td>
 	                		<td>${ attempt.questionnaireName }</td>
 	                		<td>${ attempt.score }</td>
 	                		<td>${ attempt.begining }</td>
 	                		<td>${ attempt.end }</td>
 	                		<td>${ attempt.durationInSeconds }</td>
-	                		<td> <a href="<c:url value="/trainee/display_result?attemptId=${ attempt.id }" />"> Détail du parcours </a> </td> 
+	                		<td> <a href=${ url }> Détail du parcours </a> </td> 
 	                	</tr>
 	                </c:forEach>
 		        </tbody>	
