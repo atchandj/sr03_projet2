@@ -95,8 +95,7 @@
 	                </c:forEach>
 		        </tbody>	
 			</table>
-		</div>
-			</c:if>
+		</c:if>
 		</div>		
 	    <%@ include file="/footer.jsp" %>		
 	</body>
