@@ -190,8 +190,7 @@ public class QuestionnairesListDaoImpl implements QuestionnairesListDao {
      
     @Override
     public void addAttempt(Trainee trainee, Attempt attempt) throws DaoException {
-    	 System.out.println("Ajouter un parcours");
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{

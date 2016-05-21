@@ -50,14 +50,10 @@ public class UsersManagement extends HttpServlet {
 		if(action != null){
 			switch (action) {
 			case "delete":	
-				// System.out.println("Supprimer"); // Test
 				userType =  request.getParameter("user_type");
 				userEmail =  request.getParameter("email");	
-				// System.out.println(userType); // Test
-				// System.out.println(userEmail); // Test
 				if(userType.equals("super_user")){
 					try {
-						// System.out.println("Supprimer admin"); // Test
 						this.usersManagementDao.dropSuperSuper(userEmail);
 					} catch (DaoException e) {
 						errorMessage = e.getMessage();
@@ -65,7 +61,6 @@ public class UsersManagement extends HttpServlet {
 					}
 				}else if(userType.equals("trainee")){				
 					try {
-						// System.out.println("Supprimer stagiaire"); // Test
 						this.usersManagementDao.dropTrainee(userEmail);
 					} catch (DaoException e) {
 						errorMessage = e.getMessage();
@@ -74,19 +69,13 @@ public class UsersManagement extends HttpServlet {
 				}
 				break;
 			case "modify_status":
-				// System.out.println("Modification de status"); // Test
 				userType = request.getParameter("user_type");
 				userEmail = request.getParameter("email");	
 				activate = request.getParameter("activer");
 				activateBool = Boolean.valueOf(activate);
 				
-				// System.out.println(userType); // Test
-				// System.out.println(userEmail); // Test
-				// System.out.println(activate); // Test
-				// System.out.println(activateBool); // Test
 				if(userType.equals("super_user")){
 					try {
-						// System.out.println("Modifier statut admin"); // Test
 						this.usersManagementDao.modifyStatusSuperUser(userEmail, activateBool);
 					} catch (DaoException e) {
 						errorMessage = e.getMessage();
@@ -94,7 +83,6 @@ public class UsersManagement extends HttpServlet {
 					}
 				}else if(userType.equals("trainee")){				
 					try {
-						// System.out.println("Modifier statut  stagiaire"); // Test
 						this.usersManagementDao.modifyStatusTrainee(userEmail, activateBool);
 					} catch (DaoException e) {
 						errorMessage = e.getMessage();
@@ -145,7 +133,6 @@ public class UsersManagement extends HttpServlet {
 			newSuperUser.setCompany(company);
 			newSuperUser.setAccountStatus(accountStatus.equals("active")?true:false);
 			try {
-				// System.out.println("Ajouter administrateur"); // Test
 				this.usersManagementDao.addSuperUser(newSuperUser);
 			} catch (DaoException e) {
 				errorMessage = e.getMessage();
@@ -161,7 +148,6 @@ public class UsersManagement extends HttpServlet {
 			newTrainee.setCompany(company);
 			newTrainee.setAccountStatus(accountStatus.equals("active")?true:false);
 			try {
-				// System.out.println("Ajouter stagiaire"); // Test
 				this.usersManagementDao.addTrainee(newTrainee);
 			} catch (DaoException e) {
 				errorMessage = e.getMessage();

@@ -51,7 +51,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             result1.next();
             int questionnaireId = result1.getInt("id");
             boolean questionnaireActive = result1.getBoolean("active");
-            // System.out.println("questionnaireId: " + questionnaireId);
+            
             query2 = "SELECT * FROM( "
             		+ "SELECT NAQ.id AS questionId, NAQ.orderNumber AS questionOrderNumber, NAQ.value AS questionValue, NAQ.active AS activeQuestion, 0 AS activableQuestion, A.orderNumber AS answerOrderNumber, A.value AS answserValue, A.active AS activeAnswer, A.t AS answerType "
             		+ "FROM NotActivableQuestion NAQ LEFT OUTER JOIN Answer A "
@@ -64,7 +64,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             		+ "WHERE AQ.questionnaire = ? "
             		+ ")R "
             		+ "ORDER BY R.questionOrderNumber, R.answerOrderNumber;";
-            // System.out.println(query2); // Test
+            
             
             query3 = "SELECT * FROM( "
             		+ "SELECT NDQ.orderNumber AS questionOrderNumber, 0 AS deletableQuestion "
@@ -88,7 +88,6 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             		+ ")R "
             		+ "ORDER BY R.questionOrderNumber;";
             
-            // System.out.println(query3); // Test
             preparedStatement2 = (PreparedStatement) connexion.prepareStatement(query2);
             preparedStatement2.setInt(1, questionnaireId);
             preparedStatement2.setInt(2, questionnaireId);
@@ -102,10 +101,9 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             ResultSet result3 = preparedStatement3.executeQuery(); 
             ResultSet result4 = preparedStatement4.executeQuery();
             questionnaire = new Questionnaire(questionnaireId, questionnaireName, questionnaireActive);
-            // System.out.println("questionnaireId: " + questionnaire.getId());
+            
             while (result2.next()) {            	
             	i += 1;          
-            	// System.out.println("Nb of question: " + i); // Test
             	int questionId = result2.getInt("questionId");
             	int questionOrderNumber = result2.getInt("questionOrderNumber");
             	String questionValue = result2.getString("questionValue");
@@ -115,7 +113,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
             	String answserValue = result2.getString("answserValue");
             	boolean activeAnswer = result2.getBoolean("activeAnswer");
             	String answerType = result2.getString("answerType");
-            	// System.out.println(questionValue); // Test
+            	
                 if(previousQuestionOrderNumber != questionOrderNumber){
                 	result3.next();
                 	result4.next();
@@ -124,8 +122,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
                 	if(i != 1){
                 		questionnaire.getQuestions().add(tmpQuestion);
                 	}                	
-                	// System.out.println("act "+  activableQuestion); // Test
-                	// System.out.println("del "+  deletableQuestion); // Test
+                	
                 	tmpQuestion = new Question(questionId, questionValue, questionOrderNumber, activeQuestion, activableQuestion, deletableQuestion, questionnaireId, changeableTrueAnswerQuestion);
                 	previousQuestionOrderNumber = questionOrderNumber;            		
                 }
@@ -157,17 +154,14 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     }
     
     public void deleteQuestion(int questionnaireId, int questionOrderNumber) throws DaoException{
-    	// System.out.println("Supprimer question"); // Test
+    	
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "CALL deleteQuestion(?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionnaireId); // Test
-            // System.out.println(questionOrderNumber); // Test
             preparedStatement.setInt(1, questionnaireId);
             preparedStatement.setInt(2, questionOrderNumber);
             preparedStatement.executeUpdate();
@@ -187,7 +181,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     }
     
     public void activateQuestion(int questionnaireId, int questionOrderNumber) throws DaoException{
-    	// System.out.println("Activer la question"); // Test
+    	
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "UPDATE Question "
@@ -197,17 +191,12 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionnaireId); // Test
-            // System.out.println(questionOrderNumber); // Test
             preparedStatement.setInt(1, questionnaireId);
             preparedStatement.setInt(2, questionOrderNumber);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println(questionErrorMessage); // Test
             	throw new DaoException(questionErrorMessage);
             }
         } catch (SQLException e) {
@@ -225,8 +214,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     }    
     
     public void activateAnswer(int questionId, int answerOrderNumber) throws DaoException{
-    	// System.out.println("Activer la réponse"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "UPDATE Answer "
         		+ "SET active = TRUE "
@@ -235,17 +223,12 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionId); // Test
-            // System.out.println(answerOrderNumber); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setInt(2, answerOrderNumber);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println(answerErrorMessage); // Test
             	throw new DaoException(answerErrorMessage);
             }
         } catch (SQLException e) {
@@ -263,17 +246,13 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     }
     
     public void deleteAnswer(int questionId, int answerOrderNumber) throws DaoException{
-    	// System.out.println("Supprimer la réponse"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "CALL deleteAnswer(?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionId); // Test
-            // System.out.println(answerOrderNumber); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setInt(2, answerOrderNumber);
             preparedStatement.executeUpdate();
@@ -293,17 +272,13 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     }
     
     public void addAnswer(int questionId, String answerValue) throws DaoException{
-    	// System.out.println("Ajouter une réponse"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "CALL addAnswer(?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionId); // Test
-            // System.out.println(answerValue); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setString(2, answerValue);
             preparedStatement.executeUpdate();
@@ -323,17 +298,13 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     }
     
     public void addQuestion(int questionnaireId, String questionValue) throws DaoException{
-    	// System.out.println("Ajouter une question"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "CALL addQuesion(?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionnaireId); // Test
-            // System.out.println(questionValue); // Test
             preparedStatement.setInt(1, questionnaireId);
             preparedStatement.setString(2, questionValue);
             preparedStatement.executeUpdate();
@@ -353,17 +324,13 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     }
     
     public void setTrueAnswer(int questionId, int answerOrderNumber) throws DaoException{
-    	// System.out.println("Changer de réponse vraie"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "CALL changeTrueAnswerOfAQuestion(?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionId); // Test
-            // System.out.println(answerOrderNumber); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setInt(2, answerOrderNumber);
             preparedStatement.executeUpdate();
@@ -420,7 +387,6 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
     }
     
 	public void updateAnswer(int questionId, int answerOrderNumber, String answerValue) throws DaoException{
-		// System.out.println("Mettre à jour la réponse"); // Test
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		String query = "UPDATE Answer "
@@ -430,10 +396,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 		String answerErrorMessage = "Impossible de mettre à jour la réponse";
 		try{
 		    connexion = daoFactory.getConnection();
-		    // System.out.println(query); // Test
 		    preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-		    // System.out.println(questionId); // Test
-		    // System.out.println(answerOrderNumber); // Test
 		    preparedStatement.setString(1, answerValue);
 		    preparedStatement.setInt(2, questionId);
 		    preparedStatement.setInt(3, answerOrderNumber);
@@ -496,7 +459,6 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 	}
 	
 	public void updateQuestion(int questionId, String newQuestionValue) throws DaoException{
-		// System.out.println("Mettre à jour la question"); // Test
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		String query = "UPDATE Question "
@@ -506,10 +468,7 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 		String answerErrorMessage = "Impossible de mettre à jour la question";
 		try{
 		    connexion = daoFactory.getConnection();
-		    // System.out.println(query); // Test
 		    preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-		    // System.out.println(newQuestionValue); // Test
-		    // System.out.println(questionId); // Test
 		    preparedStatement.setString(1, newQuestionValue);
 		    preparedStatement.setInt(2, questionId);
 		    int result = preparedStatement.executeUpdate();
@@ -532,18 +491,13 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 	 }
 	
 	public void exchangeQuestionsOrder(int questionnaireId, int question1OrderNumber, int question2OrderNumber) throws DaoException{
-    	// System.out.println("Echange d'ordre de questions"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "CALL changeQuestionsOrder(?, ?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionnaireId); // Test
-            // System.out.println(question1OrderNumber); // Test
-            // System.out.println(question2OrderNumber); // Test
             preparedStatement.setInt(1, questionnaireId);
             preparedStatement.setInt(2, question1OrderNumber);
             preparedStatement.setInt(3, question2OrderNumber);
@@ -564,18 +518,13 @@ public class QuestionsManagementDaoImpl implements QuestionsManagementDao {
 	}
 	
 	public void exchangeAnswersOrder(int questionId, int answer1OrderNumber, int answer2OrderNumber) throws DaoException{
-    	// System.out.println("Echange d'ordre de réponses"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "CALL changeAnswersOrder(?, ?, ?);";
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-            // System.out.println(questionId); // Test
-            // System.out.println(answer1OrderNumber); // Test
-            // System.out.println(answer2OrderNumber); // Test
             preparedStatement.setInt(1, questionId);
             preparedStatement.setInt(2, answer1OrderNumber);
             preparedStatement.setInt(3, answer2OrderNumber);

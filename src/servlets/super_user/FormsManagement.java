@@ -42,7 +42,6 @@ public class FormsManagement extends HttpServlet {
 		if(action != null){
 			switch (action) {
 			case "delete_topic":
-				// System.out.println("Supprimer un sujet"); // Test
 				topicName = request.getParameter("topic_name");
 				try {
 					this.topicsManagementDao.deleteTopic(topicName);
@@ -52,15 +51,12 @@ public class FormsManagement extends HttpServlet {
 				}
 				break;
 			case "add_questionnaire":
-				// System.out.println("Ajouter un questionnaire"); // Test
 				topicName = request.getParameter("topic_name");
-				// System.out.println(topicName); // Test
 				request.setAttribute("topic_name", topicName);
 				request.setAttribute("paction", "add_questionnaire");
 				this.getServletContext().getRequestDispatcher(QUESTIONNAIRE_JSP).forward(request, response);
 				break;
 			case "delete_questionnaire":
-				// System.out.println("Supprimer un questionnaire"); // Test
 				topicName = request.getParameter("topic_name");
 				questionnaireName = request.getParameter("questionnaire_name");
 				try {
@@ -73,7 +69,6 @@ public class FormsManagement extends HttpServlet {
 			case "activate_questionnaire":
 				topicName = request.getParameter("topic_name");
 				questionnaireName = request.getParameter("questionnaire_name");
-				// System.out.println("Activer un questionnaire : " + topicName + " " + questionnaireName); // Test
 				try {
 					this.topicsManagementDao.activateQuestionnaire(topicName, questionnaireName);
 				} catch (DaoException e) {
@@ -82,23 +77,18 @@ public class FormsManagement extends HttpServlet {
 				}
 				break;
 			case "modify_questionnaire":
-				// System.out.println("Modifier un questionnaire"); // Test
 				topicName = request.getParameter("topic_name");
 				questionnaireName = request.getParameter("questionnaire_name");
-				// System.out.println(topicName); // Test
-				// System.out.println(questionnaireName); // Test
 				request.setAttribute("topic_name", topicName);
 				request.setAttribute("questionnaireName", questionnaireName);
 				request.setAttribute("paction", "modify_questionnaire");
 				this.getServletContext().getRequestDispatcher(QUESTIONNAIRE_JSP).forward(request, response);
 			break;
 			case "add_topic":
-				// System.out.println("Ajouter un sujet"); // Test
 				request.setAttribute("paction", "add_topic");
 				this.getServletContext().getRequestDispatcher(TOPIC_JSP).forward(request, response);
 				break;
 			case "modify_topic":
-				// System.out.println("Modifier un sujet"); // Test
 				topicName = request.getParameter("topic_name");
 				request.setAttribute("paction", "modify_topic");
 				request.setAttribute("topic_name", topicName);
@@ -142,8 +132,6 @@ public class FormsManagement extends HttpServlet {
 			case "modify_topic":
 				newTopicName = request.getParameter("newTopicName");
 				oldTopicName = request.getParameter("oldTopicName");
-				// System.out.println("oldTopicName: " + oldTopicName);
-				// System.out.println("newTopicName: " + newTopicName);
 				try {
 					this.topicsManagementDao.updateTopic(oldTopicName, newTopicName);;
 				} catch (DaoException e) {
@@ -165,9 +153,6 @@ public class FormsManagement extends HttpServlet {
 				topicName = request.getParameter("topicName");
 				oldQuestionnaireName = request.getParameter("oldQuestionnaireName");
 				questionnaireName = request.getParameter("questionnaireName");
-				// System.out.println("topicName: " + topicName);
-				// System.out.println("oldQuestionnaireName: " + oldQuestionnaireName);
-				// System.out.println("questionnaireName: " + questionnaireName);
 				try {
 					this.topicsManagementDao.updateQuestionnaire(topicName, oldQuestionnaireName, questionnaireName);
 				} catch (DaoException e) {

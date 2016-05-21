@@ -66,7 +66,6 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         PreparedStatement preparedStatement = null;
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
             preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM Trainee;");
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
@@ -87,10 +86,6 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
                 tmpTrainee.setCompany(company);
                 tmpTrainee.setAccountCreation(accountCreation);
                 tmpTrainee.setAccountStatus(accountStatus);
-                
-                // System.out.println(tmpTrainee.getEmail()); // Test
-                // System.out.println(tmpTrainee.getSurname()); // Test
-                // System.out.println(tmpTrainee.getName()); // Test
                 
                 trainees.add(tmpTrainee);
             }
@@ -117,7 +112,6 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         String superUserEmail = superUser.getEmail();        
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email <> ?;");
             preparedStatement = (PreparedStatement) connexion.prepareStatement("SELECT email, surname, name, phone, company, accountCreation, accountStatus FROM SuperUser WHERE email <> ?;");
             preparedStatement.setString(1, superUserEmail);
             ResultSet result = preparedStatement.executeQuery();
@@ -140,10 +134,6 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
                 tmpSuperUser.setAccountCreation(accountCreation);
                 tmpSuperUser.setAccountStatus(accountStatus);
                 
-                // System.out.println(tmpSuperUser.getEmail()); // Test
-                // System.out.println(tmpSuperUser.getSurname()); // Test
-                // System.out.println(tmpSuperUser.getName()); // Test
-                
                 superUsers.add(tmpSuperUser);
             }
         } catch (SQLException e) {
@@ -163,20 +153,16 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     
     @Override
 	public void dropTrainee(String email) throws DaoException{
-    	// System.out.println("Supprimer stagiaire"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("DELETE FROM Trainee WHERE email =  ?;"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("DELETE FROM Trainee WHERE email =  ?;");
             preparedStatement.setString(1, email);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println("Stagiaire à supprimer inconnu."); // Test
             	throw new DaoException("Stagiaire à supprimer inconnu.");
             }else{
         		message = "Bonjour Madame, Monsieur,\n\nNous avons le regret de vous annoncer que votre compte stagiaire " + 
@@ -200,20 +186,16 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     
     @Override
 	public void dropSuperSuper(String email) throws DaoException{
-    	// System.out.println("Supprimer administrateur");
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("DELETE FROM SuperUser WHERE email =  ?;");
             preparedStatement = (PreparedStatement) connexion.prepareStatement("DELETE FROM SuperUser WHERE email =  ?;");
             preparedStatement.setString(1, email);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result);
             if(result == 0){
-            	// System.out.println("Administrateur à supprimer inconnu.");
             	throw new DaoException("Administrateur à supprimer inconnu.");
             }else{
         		message = "Bonjour Madame, Monsieur,\n\nNous avons le regret de vous annoncer que votre compte administrateur " + 
@@ -237,8 +219,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     
     @Override
 	public void modifyStatusTrainee(String email, boolean validate) throws DaoException{
-    	// System.out.println("Modifier stagiaire"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;
         String word1 = null;
@@ -246,15 +227,12 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         String subject = null;
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("UPDATE Trainee SET accountStatus = ? WHERE email = ?;"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE Trainee SET accountStatus = ? WHERE email = ?;");
             preparedStatement.setBoolean(1, validate);
             preparedStatement.setString(2, email);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println("Stagiaire à modifier inconnu."); // Test
             	throw new DaoException("Stagiaire à modifier inconnu.");
             }else{
         		if(validate){
@@ -290,8 +268,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     
     @Override
 	public void modifyStatusSuperUser(String email, boolean validate) throws DaoException{
-    	// System.out.println("Modifier administrateur"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;
         String word1 = null;
@@ -299,15 +276,12 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         String subject = null;
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("UPDATE SuperUser SET accountStatus = ? WHERE email = ?;"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE SuperUser SET accountStatus = ? WHERE email = ?;");
             preparedStatement.setBoolean(1, validate);
             preparedStatement.setString(2, email);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println("Administrateur à modifier inconnu."); // Test
             	throw new DaoException("Administrateur à modifier inconnu.");
             }else{
         		if(validate){
@@ -343,8 +317,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     
     @Override
     public void addTrainee(Trainee trainee) throws DaoException {
-    	// System.out.println("Ajouter stagiaire"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;
         String surname = trainee.getSurname();
@@ -358,7 +331,6 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         }  
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("INSERT INTO Trainee (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("INSERT INTO Trainee (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);");
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, surname.toLowerCase());
@@ -369,9 +341,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             preparedStatement.setBoolean(7, trainee.isActive());
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println("Stagiaire impossible à ajouter."); // Test
             	throw new DaoException("Stagiaire impossible à ajouter.");
             }else{
         		message = "Bonjour Madame, Monsieur,\n\nUn compte stagiaire vient d'être créé en votre nom sur le site d'évaluation des stagiaires. " +
@@ -402,8 +372,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
     
     @Override
     public void addSuperUser(SuperUser superUser) throws DaoException {
-    	// System.out.println("Ajouter administrateur"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String message = null;
         String surname = superUser.getSurname();
@@ -417,7 +386,6 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
         }  
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println("INSERT INTO SuperUser (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("INSERT INTO SuperUser (email, surname, name, password, phone, company, accountCreation, accountStatus) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);");
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, surname.toLowerCase());
@@ -428,9 +396,7 @@ public class UsersManagementDaoImpl implements UsersManagementDao{
             preparedStatement.setBoolean(7, superUser.isActive());
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println("Administrateur impossible à ajouter."); // Test
             	throw new DaoException("Administrateur impossible à ajouter.");
             }else{
         		message = "Bonjour Madame, Monsieur,\n\nUn compte administrateur vient d'être créé en votre nom sur le site d'évaluation des stagiaires. " +

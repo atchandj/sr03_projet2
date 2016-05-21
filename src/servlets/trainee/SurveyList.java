@@ -105,7 +105,6 @@ public class SurveyList extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		Attempt attempt = (Attempt) session.getAttribute(ATT_SESSION_ATTEMPT); //We recover the session variable for an attempt
 		@SuppressWarnings("unchecked")
@@ -145,7 +144,6 @@ public class SurveyList extends HttpServlet {
 				request.setAttribute("questions", questions);
 				request.setAttribute("attempt", attempt);				
 				attempt.setAnswersUnique();
-				System.out.println(attempt.getAttemptedAnswers());
 				try {
 					this.questionnairesListDao.addAttempt(trainee, attempt);
 					session.removeAttribute(ATT_SESSION_ATTEMPT);

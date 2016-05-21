@@ -116,7 +116,8 @@ public class Attempt {
 		this.attemptedAnswers = attemptedAnswers;
 	}
 	
-	public void setAnswersUnique() { //To delete doublon
+	//To delete doublon
+	public void setAnswersUnique() { 
 		Set<Answer> hs = new HashSet<>();
 		hs.addAll(this.attemptedAnswers);
 		this.attemptedAnswers.clear();

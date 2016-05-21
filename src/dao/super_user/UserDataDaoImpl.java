@@ -114,8 +114,7 @@ public class UserDataDaoImpl implements UserDataDao {
     
     @Override
 	public void updateTrainee(Trainee trainee) throws DaoException{
-    	// System.out.println("Mettre à jour stagiaire"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String surname = trainee.getSurname();
         String name = trainee.getName();
@@ -126,11 +125,8 @@ public class UserDataDaoImpl implements UserDataDao {
         	throw new DaoException("Veuillez saisir des données cohérentes.");
         }        
         try{
-        	System.out.println(email);
             connexion = daoFactory.getConnection();
-            // System.out.println("UPDATE Trainee SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;"); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE Trainee SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;");
-            // System.out.println(trainee.getName());
             preparedStatement.setString(1, surname.toLowerCase());
             preparedStatement.setString(2, name.toLowerCase());
             preparedStatement.setString(3, phone);
@@ -138,9 +134,7 @@ public class UserDataDaoImpl implements UserDataDao {
             preparedStatement.setString(5, email);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println("Stagiaire à mettre à jour inconnu."); // Test
             	throw new DaoException("Stagiaire à mettre à jour inconnu.");
             }
         } catch (SQLException e) {
@@ -159,8 +153,7 @@ public class UserDataDaoImpl implements UserDataDao {
     
     @Override
 	public void updateSuperUser(SuperUser superUser) throws DaoException{
-    	// System.out.println("Mettre à jour administrateur"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String surname = superUser.getSurname();
         String name = superUser.getName();
@@ -171,9 +164,7 @@ public class UserDataDaoImpl implements UserDataDao {
         	throw new DaoException("Veuillez saisir des données cohérentes.");
         }  
         try{
-    		System.out.println(email);
-            connexion = daoFactory.getConnection();
-            // System.out.println("UPDATE SuperUser SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;"); // Test
+    		connexion = daoFactory.getConnection();
             preparedStatement = (PreparedStatement) connexion.prepareStatement("UPDATE SuperUser SET surname = ?, name = ?, phone = ?, company = ? WHERE email = ?;");
             preparedStatement.setString(1, surname.toLowerCase());
             preparedStatement.setString(2, name.toLowerCase());
@@ -182,9 +173,7 @@ public class UserDataDaoImpl implements UserDataDao {
             preparedStatement.setString(5, email);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println("Administrateur à mettre à jour inconnu."); // Test
             	throw new DaoException("Administrateur à mettre à jour inconnu.");
             }
         } catch (SQLException e) {
@@ -215,7 +204,6 @@ public class UserDataDaoImpl implements UserDataDao {
             		+ "FROM Trainee Tr, Attempt A, Questionnaire Q, Topic Top "
             		+ "WHERE Tr.id = A.Trainee AND A.questionnaire = Q.id AND Q.topic= Top.name AND Tr.email = ? "
             		+ "ORDER BY topicName, A.beginning;";
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setString(1, traineeEMail);
             ResultSet result = preparedStatement.executeQuery();

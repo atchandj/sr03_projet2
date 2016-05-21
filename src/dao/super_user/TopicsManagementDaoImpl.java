@@ -50,7 +50,6 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
             		+ "WHERE UQ.id IS NULL"
             		+ ")R "
             		+ "ORDER BY R.topicName, R.questionnaireName;";
-            // System.out.println(query); // Test
             query2 = "SELECT * FROM( "
             		+ "SELECT NDQ.id as questionnaireId, T.name AS topicName, NDQ.name AS questionnaireName, 0 AS deletableQuestionnaire "
             		+ "FROM Topic T INNER JOIN NotDeletableQuestionnaire NDQ "
@@ -120,14 +119,11 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setString(1, newTopicName);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println(topicErrorMessage); // Test
             	throw new DaoException(topicErrorMessage);
             }
         } catch (SQLException e) {
@@ -154,15 +150,12 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setString(1, topicName);
             preparedStatement.setString(2, questionnaireName);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println(topicErrorMessage); // Test
             	throw new DaoException(topicErrorMessage);
             }
         } catch (SQLException e) {
@@ -181,8 +174,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
     
     @Override
 	public void activateQuestionnaire(String topicName, String questionnaireName) throws DaoException{
-    	// System.out.println("Activer questionnaire"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "UPDATE Questionnaire "
         		+ "SET active = 1 "
@@ -191,15 +183,12 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setString(1, topicName);
             preparedStatement.setString(2, questionnaireName);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println(questionnaireErrorMessage); // Test
             	throw new DaoException(questionnaireErrorMessage);
             }
         } catch (SQLException e) {
@@ -218,8 +207,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
 	
     @Override
 	public void deleteTopic(String topicName) throws DaoException{
-    	// System.out.println("Supprimer sujet"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "DELETE FROM Topic "
         		+ "WHERE name = ?;";
@@ -227,14 +215,11 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setString(1, topicName);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println(topicErrorMessage); // Test
             	throw new DaoException(topicErrorMessage);
             }
         } catch (SQLException e) {
@@ -253,8 +238,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
 	
     @Override
 	public void deleteQuestionnaire(String topicName, String questionnaireName) throws DaoException{
-    	// System.out.println("Supprimer questionnaire"); // Test
-        Connection connexion = null;
+    	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         String query = "DELETE FROM Questionnaire "
         		+ "WHERE topic = ? AND name = ?;";
@@ -262,17 +246,12 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
         String databaseErrorMessage = "Impossible de communiquer avec la base de données";
         try{
             connexion = daoFactory.getConnection();
-            // System.out.println(query); // Test
             preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
             preparedStatement.setString(1, topicName);
             preparedStatement.setString(2, questionnaireName);
-            // System.out.println(topicName);
-            // System.out.println(questionnaireName);
             int result = preparedStatement.executeUpdate();
             connexion.commit();
-            // System.out.println(result); // Test
             if(result == 0){
-            	// System.out.println(questionnaireErrorMessage); // Test
             	throw new DaoException(questionnaireErrorMessage);
             }
         } catch (SQLException e) {
@@ -290,7 +269,6 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
 	}	
     
     public void updateTopic(String oldTopicName, String newTopicName) throws DaoException{
-		// System.out.println("Mettre à jour le sujet"); // Test
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		String query = "UPDATE Topic "
@@ -300,10 +278,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
 		String topicErrorMessage = "Impossible de mettre à jour le sujet";
 		try{
 		    connexion = daoFactory.getConnection();
-		    // System.out.println(query); // Test
 		    preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-		    // System.out.println(newTopicName); // Test
-		    // System.out.println(oldTopicName); // Test
 		    preparedStatement.setString(1, newTopicName);
 		    preparedStatement.setString(2, oldTopicName);
 		    int result = preparedStatement.executeUpdate();
@@ -326,7 +301,6 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
     }
     
 	public void updateQuestionnaire(String topicName, String oldQuestionnaireName, String newQuestionnaireName) throws DaoException{
-		// System.out.println("Mettre à jour le questionnaire"); // Test
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		String query = "UPDATE Questionnaire "
@@ -336,11 +310,7 @@ public class TopicsManagementDaoImpl implements TopicsManagementDao {
 		String questionnaireErrorMessage = "Impossible de mettre à jour le questionnaire";
 		try{
 		    connexion = daoFactory.getConnection();
-		    // System.out.println(query); // Test
 		    preparedStatement = (PreparedStatement) connexion.prepareStatement(query);
-		    // System.out.println(newQuestionnaireName); // Test
-		    // System.out.println(topicName); // Test
-		    // System.out.println(oldQuestionnaireName); // Test
 		    preparedStatement.setString(1, newQuestionnaireName);
 		    preparedStatement.setString(2, topicName);
 		    preparedStatement.setString(3, oldQuestionnaireName);

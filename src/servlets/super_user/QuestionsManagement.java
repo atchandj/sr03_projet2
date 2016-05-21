@@ -47,50 +47,42 @@ public class QuestionsManagement extends HttpServlet {
 		if(action != null){
 			switch (action) {
 			case "delete_question":
-				// System.out.println("Supprimer une question"); // Test
 				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
 				questionOrderNumber = Integer.parseInt(request.getParameter("question_order_number"));
 				try {
 					this.questionnairesManagementDao.deleteQuestion(questionnaireId, questionOrderNumber);
 				} catch (DaoException e) {
 					errorMessage = e.getMessage();
-					// System.out.println(errorMessage); // Test
 					request.setAttribute("errorMessage", errorMessage);
 				}
 				break;
 			case "activate_question":
-				// System.out.println("Activer une question"); // Test
 				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
 				questionOrderNumber = Integer.parseInt(request.getParameter("question_order_number"));
 				try {
 					this.questionnairesManagementDao.activateQuestion(questionnaireId, questionOrderNumber);
 				} catch (DaoException e) {
 					errorMessage = e.getMessage();
-					// System.out.println(errorMessage); // Test
 					request.setAttribute("errorMessage", errorMessage);
 				}				
 				break;
 			case "delete_answer":
-				// System.out.println("Supprimer une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
 				try {
 					this.questionnairesManagementDao.deleteAnswer(questionId, answerOrderNumber);
 				} catch (DaoException e) {
 					errorMessage = e.getMessage();
-					// System.out.println(errorMessage); // Test
 					request.setAttribute("errorMessage", errorMessage);
 				}
 				break;
 			case "activate_answer":
-				// System.out.println("Activer une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
 				try {
 					this.questionnairesManagementDao.activateAnswer(questionId, answerOrderNumber);
 				} catch (DaoException e) {
 					errorMessage = e.getMessage();
-					// System.out.println(errorMessage); // Test
 					request.setAttribute("errorMessage", errorMessage);
 				}
 				break;
@@ -101,19 +93,16 @@ public class QuestionsManagement extends HttpServlet {
 					this.questionnairesManagementDao.setTrueAnswer(questionId, answerOrderNumber);
 				} catch (DaoException e) {
 					errorMessage = e.getMessage();
-					// System.out.println(errorMessage); // Test
 					request.setAttribute("errorMessage", errorMessage);
 				}
 				break;				
 			case "add_answer":		
-				// System.out.println("Ajouter une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				request.setAttribute("paction", "add_answer");
 				request.setAttribute("questionId", questionId);
 				this.getServletContext().getRequestDispatcher(ANSWER_JSP).forward(request, response);
 				break;
 			case "modify_answer":		
-				// System.out.println("Modifier une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
 				request.setAttribute("paction", "modify_answer");
@@ -127,14 +116,12 @@ public class QuestionsManagement extends HttpServlet {
 				this.getServletContext().getRequestDispatcher(ANSWER_JSP).forward(request, response);
 				break;
 			case "add_question":
-				// System.out.println("Ajouter une question"); // Test
 				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
 				request.setAttribute("questionnaireId", questionnaireId);
 				request.setAttribute("paction", "add_question");
 				this.getServletContext().getRequestDispatcher(QUESTION_JSP).forward(request, response);
 				break;
 			case "modify_question":
-				// System.out.println("Ajouter une question"); // Test
 				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
 				questionOrderNumber = Integer.parseInt(request.getParameter("question_order_number"));
 				request.setAttribute("paction", "modify_question");
@@ -177,10 +164,8 @@ public class QuestionsManagement extends HttpServlet {
 		if(action != null){
 			switch (action) {
 			case "add_answer":
-				// System.out.println("Ajouter une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				newAnswerValue = request.getParameter("answserValue");
-				// System.out.println(newAnswerValue);
 				try {
 					this.questionnairesManagementDao.addAnswer(questionId, newAnswerValue);
 				} catch (DaoException e) {
@@ -189,14 +174,9 @@ public class QuestionsManagement extends HttpServlet {
 				}
 				break;
 			case "modify_answer":
-				// System.out.println("Modifier une réponse"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				newAnswerValue = request.getParameter("answserValue");
 				answerOrderNumber = Integer.parseInt(request.getParameter("answer_order_number"));
-				System.out.println(questionId);
-				System.out.println(newAnswerValue);
-				System.out.println(answerOrderNumber);
-				// System.out.println(newAnswerValue);
 				try {
 					this.questionnairesManagementDao.updateAnswer(questionId, answerOrderNumber, newAnswerValue);
 				} catch (DaoException e) {
@@ -205,10 +185,8 @@ public class QuestionsManagement extends HttpServlet {
 				}
 				break;
 			case "add_question":
-				// System.out.println("Ajouter une question"); // Test
 				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
 				newQuestionValue = request.getParameter("questionValue");
-				// System.out.println(newQuestionValue);
 				try {
 					this.questionnairesManagementDao.addQuestion(questionnaireId, newQuestionValue);
 				} catch (DaoException e) {
@@ -217,10 +195,8 @@ public class QuestionsManagement extends HttpServlet {
 				}				
 				break;			
 			case "modify_question":
-				// System.out.println("Modifier une question"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				newQuestionValue = request.getParameter("questionValue");
-				// System.out.println(newQuestionValue);
 				try {
 					this.questionnairesManagementDao.updateQuestion(questionId, newQuestionValue);
 				} catch (DaoException e) {
@@ -229,7 +205,6 @@ public class QuestionsManagement extends HttpServlet {
 				}
 				break;
 			case "exchange_questions_order":
-				// System.out.println("Echange d'ordre de questions"); // Test
 				questionnaireId = Integer.parseInt(request.getParameter("questionnaire_id"));
 				if(request.getParameter("question1OrderNumber") != null && request.getParameter("question2OrderNumber") != null){
 					question1OrderNumber = Integer.parseInt(request.getParameter("question1OrderNumber"));
@@ -243,7 +218,6 @@ public class QuestionsManagement extends HttpServlet {
 				}
 				break;
 			case "exchange_answers_order":
-				// System.out.println("Echange d'ordre de réponses"); // Test
 				questionId = Integer.parseInt(request.getParameter("question_id"));
 				if(request.getParameter("answer1OrderNumber") != null && request.getParameter("answer2OrderNumber") != null){
 					answer1OrderNumber = Integer.parseInt(request.getParameter("answer1OrderNumber"));
