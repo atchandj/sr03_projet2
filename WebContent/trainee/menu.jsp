@@ -16,7 +16,7 @@
 				<li <c:if test="${ !empty param.displayResult }">class="active"</c:if>><a href="<c:url value="/trainee/display_result"/>" title="Vers les résultats obtenus"><span class="glyphicon glyphicon-education"></span> Résultats obtenus</a></li> 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<c:url value="/deconnection"/>" title="Vers le formulaire de connexion"><span class="glyphicon glyphicon-log-out"></span>Me déconnecter</a></li>
+				<li><a href="<c:url value="/deconnection"/>" title="Vers le formulaire de connexion"><span class="glyphicon glyphicon-log-out"></span> Me déconnecter</a></li>
 			</ul>
 		</div>
 	</div>
