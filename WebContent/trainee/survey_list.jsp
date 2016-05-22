@@ -47,9 +47,9 @@
 										<c:param name="questionnaireId" value="${ questionnaire.id }" />
 									</c:url>
 									<tr class="clickable-row" data-href="${ url }" title="Cliquer pour lancer un parcours">
-										<td>${ status.count }</td>
-										<td>${ topic.name }</td>
-										<td>${ questionnaire.name }</td>
+										<td><c:out value="${ status.count }"/></td>
+										<td><c:out value="${ topic.name }"/></td>
+										<td><c:out value="${ questionnaire.name }"/></td>
 									</tr>
 								</c:forEach>
 							</c:forEach>

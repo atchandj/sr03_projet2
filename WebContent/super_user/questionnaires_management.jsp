@@ -33,7 +33,7 @@
 						 			<select class="form-control" id="question1OrderNumber" name="question1OrderNumber">
 										<c:forEach var="question" items="${ questionnaire.questions }" varStatus="status">	
 											<c:if test="${question.active == false}">
-												<option value="${ question.orderNumber }">${ question.value }</option>
+												<option value="<c:out value="${ question.orderNumber }"/>"> <c:out value="${ question.value }"/></option>
 											</c:if>
 			  							</c:forEach>
 					 				</select>
@@ -43,7 +43,7 @@
 						 			<select class="form-control" id="question2OrderNumber" name="question2OrderNumber">
 										<c:forEach var="question" items="${ questionnaire.questions }" varStatus="status">	
 											<c:if test="${question.active == false}">
-												<option value="${ question.orderNumber }">${ question.value }</option>
+												<option value="<c:out value="${ question.orderNumber }"/>"> <c:out value="${ question.value }"/></option>
 											</c:if>
 			  							</c:forEach>
 					 				</select>

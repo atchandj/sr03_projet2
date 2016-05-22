@@ -41,7 +41,7 @@
 											<c:out value="${question.value }" />
 										</a>									
 									</li>
-									<div class="panel-collapse collapse" id="collapse<c:out value="${question.id }"/>">
+									<div class="panel-collapse collapse" id="collapse<c:out value="${question.id }"/>" >
 										<li class="list-group-item">
 											<c:forEach var="answer" items="${ attempt.compareAnswer(question) }" >
 												<c:choose>

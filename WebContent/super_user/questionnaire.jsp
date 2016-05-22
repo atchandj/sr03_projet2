@@ -24,14 +24,14 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="topicName">Nom du sujet : </label>
-									<input type="text" id="topicName" class="form-control" placeholder="Nom du sujet" name="topicName" value="${ topic_name }" autofocus required readonly/>
+									<input type="text" id="topicName" class="form-control" placeholder="Nom du sujet" name="topicName" value="<c:out value="${ topic_name }"/>" autofocus required readonly/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="questionnaireName">Nom du questionnaire : </label>
-									<input type="text" id="questionnaireName" class="form-control" placeholder="Nom du questionnaire" value="${ questionnaireName }" name="questionnaireName" required/>
+									<input type="text" id="questionnaireName" class="form-control" placeholder="Nom du questionnaire" value="<c:out value="${ questionnaireName }"/>" name="questionnaireName" required/>
 								</div>
 								<c:if test="${ !empty questionnaireName }">
-									<input type="hidden" name="oldQuestionnaireName" value="${ questionnaireName }" />
+									<input type="hidden" name="oldQuestionnaireName" value="<c:out value="${ questionnaireName }"/>" />
 								</c:if>
 								<input type="hidden" name="paction" value="${ paction }" />
 								<input type="submit" class="btn btn-default" value="Envoyer"/>

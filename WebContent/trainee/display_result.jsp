@@ -49,12 +49,12 @@
 							<c:param name="attemptId" value="${ attempt.id }" />
 						</c:url>
 	                	<tr class="clickable-row" data-href="${ url }" title="Cliquer pour voir les détails du parcours">
-	                		<td>${ attempt.topicName }</td>
-	                		<td>${ attempt.questionnaireName }</td>
-	                		<td>${ attempt.score }</td>
-	                		<td>${ attempt.begining }</td>
-	                		<td>${ attempt.end }</td>
-	                		<td>${ attempt.durationInSeconds }</td> 
+	                		<td><c:out value="${ attempt.topicName }"/></td>
+	                		<td><c:out value="${ attempt.questionnaireName }"/></td>
+	                		<td><c:out value="${ attempt.score }"/></td>
+	                		<td><c:out value="${ attempt.begining }"/></td>
+	                		<td><c:out value="${ attempt.end }"/></td>
+	                		<td><c:out value="${ attempt.durationInSeconds }"/></td> 
 	                	</tr>
 	                </c:forEach>
 		        </tbody>	

@@ -24,15 +24,15 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="answserValue">Réponse :</label>
-									<input type="text" id="answserValue" class="form-control" placeholder="Réponse" name="answserValue" value="${ answer.value }" autofocus required/>
+									<input type="text" id="answserValue" class="form-control" placeholder="Réponse" name="answserValue" value="<c:out value="${ answer.value }"/>" autofocus required/>
 								</div>
 								<c:if test="${ !empty answer }">
-									<input type="hidden" name="answer_order_number" value="${ answer.orderNumber }" />
+									<input type="hidden" name="answer_order_number" value="<c:out value="${ answer.orderNumber }"/>" />
 								</c:if>
-								<input type="hidden" name="paction" value="${ paction }" />
-								<input type="hidden" name="topic_name" value="${ topicName }" />
-								<input type="hidden" name="questionnaire_name" value="${ questionnaireName }" />
-								<input type="hidden" name="question_id" value="${ questionId }" />
+								<input type="hidden" name="paction" value="<c:out value="${ paction }"/>" />
+								<input type="hidden" name="topic_name" value="<c:out value="${ topicName }"/>" />
+								<input type="hidden" name="questionnaire_name" value="<c:out value="${ questionnaireName }"/>" />
+								<input type="hidden" name="question_id" value="<c:out value="${ questionId }"/>" />
 								<input type="submit" class="btn btn-default" value="Envoyer"/>
 								<c:if test="${ !empty errorMessage }">
 							  	    <div id="subErrorMsg" class="alert alert-danger" role="alert"> 

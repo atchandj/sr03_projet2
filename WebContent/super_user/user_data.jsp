@@ -29,31 +29,31 @@
 							<div class="panel-body">
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="email">E-mail de l'utilisateur : </label>
-									<input type="email" id="email" class="form-control" placeholder="E-mail" name="email" value="${user.email}" autofocus required readonly/>
+									<input type="email" id="email" class="form-control" placeholder="E-mail" name="email" value="<c:out value="${user.email}"/>" autofocus required readonly/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="surname">Nom de famille : </label>
-									<input type="text" id="surname" class="form-control" placeholder="Nom de famille" name="surname" value="${user.surname}" required/>
+									<input type="text" id="surname" class="form-control" placeholder="Nom de famille" name="surname" value="<c:out value="${user.surname}"/>" required/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="name">Prénom de l'utilisateur : </label>
-									<input type="text" id="name" class="form-control" placeholder="Prénom" name="name" value="${user.name}" required/>
+									<input type="text" id="name" class="form-control" placeholder="Prénom" name="name" value="<c:out value="${user.name}"/>" required/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="phone">Téléphone de l'utilisateur : </label>
-									<input type="tel" id="phone" class="form-control" placeholder="Téléphone" name="phone" value="${user.phone}" required/>
+									<input type="tel" id="phone" class="form-control" placeholder="Téléphone" name="phone" value="<c:out value="${user.phone}"/>" required/>
 								</div>
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="company">Entreprise de l'utilisateur : </label>
-									<input type="text" id="company" class="form-control" placeholder="Entreprise" name="company" value="${user.company}" required/>
+									<input type="text" id="company" class="form-control" placeholder="Entreprise" name="company" value="<c:out value="${user.company}"/>" required/>
 								</div>		
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 									<label class="control-label" for="type">Type d'utilisateur : </label>
-									<input type="text" id="type" class="form-control" placeholder="Type d'utilisateur" name="type" value="${type}" required readonly/>
+									<input type="text" id="type" class="form-control" placeholder="Type d'utilisateur" name="type" value="<c:out value="${type}"/>" required readonly/>
 								</div>	
 								<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">								
 									<label class="control-label" for="status">Statut du compte de l'utilisateur: </label>
-									<input type="text" id="status" class="form-control" placeholder="Statut de l'utilisateur" name="status" value="${user.accountStatus}" required readonly/>
+									<input type="text" id="status" class="form-control" placeholder="Statut de l'utilisateur" name="status" value"=<c:out value="${user.accountStatus}"/>" required readonly/>
 								</div>
 								<a class="btn btn-default" href="<c:url value="/super_user/users_management" />" role="button">Retour</a>		
 								<input type="submit" class="btn btn-default" value="Modifier"/>

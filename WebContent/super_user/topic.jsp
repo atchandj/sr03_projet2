@@ -26,7 +26,7 @@
 						<div class="panel-body">
 							<div class="form-group <c:if test="${ !empty errorMessage }"><c:out value="has-error" /></c:if>">
 								<label class="control-label" for="newTopicName">Nom du sujet : </label>
-								<input type="text" id="newTopicName" class="form-control" placeholder="Nom du sujet" name="newTopicName" value="${ topic_name }" autofocus required/>
+								<input type="text" id="newTopicName" class="form-control" placeholder="Nom du sujet" name="newTopicName" value="<c:out value="${ topic_name }"/>" autofocus required/>
 							</div>
 							<c:if test="${ !empty topic_name }">
 								<input type="hidden" name="oldTopicName" value="${ topic_name }" />
